@@ -57,3 +57,15 @@ principles page + "what we know" list (which absorbed the earlier
 - Analytics: none for now (revisit when there's traffic).
 - OG image / favicon styling → post-moodboard.
 - Real manifesto / what-we-know copy → Naman.
+
+## Decisions locked after moodboards (2026-07-06)
+
+- **Direction: 01b "The Declaration, annotated"** — printed proof + the
+  author's pen. Bare, human, subtly imperfect (37signals / sive.rs /
+  paulgraham.com energy), with color. Pen layer waits on Naman's real
+  handwritten assets (docs/future-changes.md).
+- **Type: Young Serif (display) + Instrument Sans (body) + Spline Sans Mono
+  (labels)** — option 5 on moodboards/01b-fonts.html, chosen by Naman.
+- **Palette: warm paper #F7F6F1, print ink #1A1917, pen cobalt #1D3FE8,
+  quiet #8B8A83, rule #E2E1D9** + paper grain.
+- The drawn + mark is the identity glyph (wordmark, links, bullets).
