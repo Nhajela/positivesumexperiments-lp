@@ -26,6 +26,12 @@ Naman will send handwritten and handmade assets. When they arrive:
 
 ## Content & structure
 
+- [ ] Reinstate the "what we know" page (ever-growing list) when there are
+      entries to publish
+- [ ] Reinstate the public /ai page (sive.rs/ai-shaped) once Naman writes it —
+      the operating policy stays live in docs/ai-policy.md meanwhile
+- [ ] Experiments section on home (removed at launch; Happy Mornings Club
+      returns when Naman wants it listed)
 - [ ] Per-experiment pages with live state (day X/30, alive/concluded)
 - [ ] Anchors/permalinks for each "what we know" entry
 - [ ] RSS feed once there's a stream of entries

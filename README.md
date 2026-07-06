@@ -24,17 +24,17 @@ pnpm build      # production build
 
 | Route | Source | What it is |
 | --- | --- | --- |
-| `/` | `src/app/page.tsx` | The umbrella brand + experiments |
-| `/manifesto` | `src/app/manifesto/page.mdx` | Guiding principles |
-| `/what-we-know` | `src/app/what-we-know/page.mdx` | Ever-growing list of fundamentals |
+| `/` | `src/app/page.tsx` | The venture, in one assertion |
+| `/core` | `src/app/core/page.mdx` | The core — Naman's guiding principles |
 
 Site identity (name, canonical URL, description) lives in `src/lib/site.ts` —
 metadata, sitemap, robots, and JSON-LD all read from it.
 
-## Adding a "What we know" entry
+## Editing the Core
 
-Append a `## heading` + body section to `src/app/what-we-know/page.mdx`.
-That's the whole workflow — the page is plain MDX.
+`src/app/core/page.mdx` is plain MDX — edit it directly. All reader-facing
+prose is Naman's, written by hand (sources logged in `writing/`); see
+`docs/ai-policy.md`.
 
 ## SEO
 

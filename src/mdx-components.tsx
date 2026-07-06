@@ -24,14 +24,29 @@ const components: MDXComponents = {
   p: (props) => (
     <p className="text-body-m max-w-[62ch] mb-s3 text-ink/85" {...props} />
   ),
-  ul: (props) => <ul className="mb-s3 space-y-s1" {...props} />,
+  // + bullets on unordered lists only; ordered lists keep their numbers
+  // (pen-cobalt markers) so sequences stay sequences.
+  ul: (props) => (
+    <ul
+      className="mb-s3 space-y-s1 [&>li]:relative [&>li]:pl-s3 [&>li]:before:content-['+'] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:font-bold [&>li]:before:text-pen"
+      {...props}
+    />
+  ),
   ol: (props) => (
-    <ol className="mb-s3 list-decimal pl-s3 space-y-s1" {...props} />
+    <ol
+      className="mb-s3 list-decimal pl-s3 space-y-s1 marker:font-mono marker:text-[14px] marker:text-pen"
+      {...props}
+    />
   ),
   li: (props) => (
-    <li
-      className="max-w-[60ch] text-body-m text-ink/85 pl-s3 relative before:content-['+'] before:absolute before:left-0 before:font-bold before:text-pen"
+    <li className="max-w-[60ch] text-body-m text-ink/85" {...props} />
+  ),
+  img: (props) => (
+    // biome-ignore lint/performance/noImgElement: static export-friendly plain img for hand-drawn diagrams
+    <img
+      className="my-s4 h-auto max-w-full mix-blend-multiply"
       {...props}
+      alt={props.alt ?? ""}
     />
   ),
   blockquote: (props) => (

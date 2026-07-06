@@ -55,11 +55,7 @@ export const metadata: Metadata = {
   },
 };
 
-const navLinks = [
-  { href: "/manifesto", label: "Manifesto" },
-  { href: "/what-we-know", label: "What we know" },
-  { href: "/ai", label: "AI" },
-];
+const navLinks = [{ href: "/core", label: "Core" }];
 
 export default function RootLayout({
   children,
@@ -117,9 +113,6 @@ export default function RootLayout({
               <a href="mailto:hey@namanhajela.com" className="hover:text-pen">
                 hey@namanhajela.com
               </a>
-              <Link href="/ai" className="hover:text-pen">
-                /ai
-              </Link>
             </span>
           </div>
         </footer>
