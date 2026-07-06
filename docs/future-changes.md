@@ -26,6 +26,8 @@ Naman will send handwritten and handmade assets. When they arrive:
 
 ## Content & structure
 
+- [ ] Core: add a value for compounding and playing long-term games with
+      long-term people (Naman writes it; not drafted yet)
 - [ ] Reinstate the "what we know" page (ever-growing list) when there are
       entries to publish
 - [ ] Reinstate the public /ai page (sive.rs/ai-shaped) once Naman writes it —
