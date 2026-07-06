@@ -22,7 +22,6 @@ Naman will send handwritten and handmade assets. When they arrive:
 - [ ] Real OG image designed from the final identity (currently a plain
       wordmark placeholder in `src/app/opengraph-image.tsx`)
 - [ ] Favicon from the final mark
-- [ ] Custom 404 in the same voice
 
 ## Content & structure
 
