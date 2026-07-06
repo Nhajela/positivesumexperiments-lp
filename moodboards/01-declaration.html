@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 01 — The Declaration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF7;
+    --ink: #111110;
+    --cobalt: #1F3BFF;
+    --quiet: #8A8A85;
+    --rule: #E4E4DE;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Instrument Sans", sans-serif;
+    line-height: 1.6;
+  }
+  .board { max-width: 960px; margin: 0 auto; padding: 48px 24px 120px; }
+  .board-label {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--quiet); margin-bottom: 64px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  section { margin-bottom: 96px; }
+  .section-tag {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cobalt); margin-bottom: 24px;
+  }
+
+  /* Wordmark: the + is the identity. */
+  .wordmark {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700; font-size: clamp(28px, 5vw, 44px); letter-spacing: -0.02em;
+  }
+  .wordmark .plus { color: var(--cobalt); font-weight: 800; }
+  .wordmark-sub {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px; color: var(--quiet); margin-top: 4px; letter-spacing: 0.06em;
+  }
+
+  /* Hero: assertion + muted completion — the two-tier headline move. */
+  .hero-h {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800; font-size: clamp(40px, 8vw, 88px);
+    line-height: 1.02; letter-spacing: -0.03em; max-width: 14ch;
+  }
+  .hero-sub {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 500; font-size: clamp(24px, 4.5vw, 44px);
+    line-height: 1.1; letter-spacing: -0.02em; color: var(--quiet);
+    margin-top: 16px; max-width: 20ch;
+  }
+  .hero-kicker {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobalt);
+    margin-bottom: 24px;
+  }
+
+  /* Palette */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { border: 1px solid var(--rule); }
+  .swatch .chip { height: 96px; }
+  .swatch .meta { padding: 10px 12px; font-family: "Spline Sans Mono", monospace; font-size: 11px; }
+  .swatch .meta b { display: block; font-weight: 500; }
+  .swatch .meta span { color: var(--quiet); }
+
+  /* Type scale */
+  .spec { border-top: 1px solid var(--rule); padding: 20px 0; display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: baseline; }
+  .spec-label { font-family: "Spline Sans Mono", monospace; font-size: 11px; color: var(--quiet); letter-spacing: 0.08em; text-transform: uppercase; }
+  .t-display { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -0.02em; line-height: 1.05; }
+  .t-heading { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; }
+  .t-body { font-size: 17px; max-width: 55ch; }
+  .t-mono { font-family: "Spline Sans Mono", monospace; font-size: 14px; }
+
+  /* The axiom list: numbered as additions. Structure encodes the sum. */
+  .axioms { border-top: 2px solid var(--ink); }
+  .axiom { display: grid; grid-template-columns: 88px 1fr; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--rule); }
+  .axiom-n {
+    font-family: "Spline Sans Mono", monospace; font-size: 22px; font-weight: 500;
+    color: var(--cobalt);
+  }
+  .axiom h3 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .axiom p { color: #444440; max-width: 52ch; }
+
+  /* Dialogue: objection + plain answer */
+  .dialogue { border: 1.5px solid var(--ink); padding: 28px; max-width: 620px; }
+  .dialogue .q { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 21px; margin-bottom: 12px; }
+  .dialogue .a { color: #444440; padding-left: 16px; border-left: 3px solid var(--cobalt); }
+
+  /* Links: the + prefix does the work of an icon system */
+  .link-row { display: flex; gap: 32px; flex-wrap: wrap; }
+  a.plink {
+    color: var(--ink); text-decoration: none; font-weight: 500; font-size: 17px;
+    border-bottom: 1.5px solid var(--ink); padding-bottom: 2px;
+  }
+  a.plink::before { content: "+ "; color: var(--cobalt); font-weight: 700; }
+  a.plink:hover { color: var(--cobalt); border-color: var(--cobalt); }
+
+  .note { font-size: 14px; color: var(--quiet); max-width: 60ch; margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 16px; }
+  @media (max-width: 600px) { .spec, .axiom { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="board-label">
+    <span>Direction 01 / 04 — “The Declaration”</span>
+    <span>positive sum experiments</span>
+  </div>
+
+  <section>
+    <div class="section-tag">Identity</div>
+    <div class="wordmark">positive<span class="plus">+</span>sum experiments</div>
+    <div class="wordmark-sub">the + is the brand. nothing else needed.</div>
+  </section>
+
+  <section>
+    <div class="section-tag">Hero — the thesis, stated flat</div>
+    <div class="hero-kicker">Axiom one</div>
+    <h1 class="hero-h">For me to win, nobody else needs to lose.</h1>
+    <p class="hero-sub">An umbrella for experiments that prove it.</p>
+  </section>
+
+  <section>
+    <div class="section-tag">Palette</div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#FAFAF7; border-bottom:1px solid #E4E4DE"></div><div class="meta"><b>Paper</b><span>#FAFAF7</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#111110"></div><div class="meta"><b>Ink</b><span>#111110</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#1F3BFF"></div><div class="meta"><b>Cobalt</b><span>#1F3BFF</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#8A8A85"></div><div class="meta"><b>Quiet</b><span>#8A8A85</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Type — Bricolage Grotesque / Instrument Sans / Spline Sans Mono</div>
+    <div class="spec"><div class="spec-label">Display 800</div><div class="t-display">Profitable. Always. Default alive.</div></div>
+    <div class="spec"><div class="spec-label">Heading 600</div><div class="t-heading">Find the power law. Do the real work.</div></div>
+    <div class="spec"><div class="spec-label">Body 400</div><div class="t-body">Every relationship is a game. Some are one-to-many, some are one-on-one. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</div></div>
+    <div class="spec"><div class="spec-label">Mono / labels</div><div class="t-mono">EXPERIMENT 001 — HAPPY MORNINGS CLUB — STATUS: IDEATING</div></div>
+  </section>
+
+  <section>
+    <div class="section-tag">The axioms — numbered as additions, because the manifesto is a sum</div>
+    <div class="axioms">
+      <div class="axiom"><div class="axiom-n">+1</div><div><h3>Business is a model.</h3><p>A resource-allocation exercise. Everything inside it is a relationship and a transaction.</p></div></div>
+      <div class="axiom"><div class="axiom-n">+2</div><div><h3>Only play positive-sum games.</h3><p>Every transaction is a game. Zero-sum games are not played here. Negative-sum games, never.</p></div></div>
+      <div class="axiom"><div class="axiom-n">+3</div><div><h3>Respect time above all else.</h3><p>Time is limited, so the bets are audacious. There is no point doing work that isn’t.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Dialogue block — the objection, answered plainly</div>
+    <div class="dialogue">
+      <p class="q">“So this is a startup studio?”</p>
+      <p class="a">No. It’s one person running serious experiments under one name, with one rule about how every game gets played. Some experiments become companies. All of them have to earn their keep in 30 days.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Navigation</div>
+    <div class="link-row">
+      <a class="plink" href="#">Manifesto</a>
+      <a class="plink" href="#">What we know</a>
+      <a class="plink" href="#">Experiments</a>
+    </div>
+  </section>
+
+  <p class="note">Signature: the plus sign carries the whole identity — wordmark, axiom numbering, link markers, list bullets. One electric cobalt against print-shop paper and ink; everything else stays quiet. Reads like a printed declaration you could pin to a wall.</p>
+
+</div>
+</body>
+</html>

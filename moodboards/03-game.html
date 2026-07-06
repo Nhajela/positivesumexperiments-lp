@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 03 — The Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,800;1,400&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board: #22403A;      /* deep blackboard green */
+    --board-2: #1B332E;
+    --chalk: #F2EFE6;
+    --chalk-dim: #B9C0B4;
+    --chalk-yellow: #E8C547;
+    --chalk-blue: #9BC4E2;
+    --tray: #172B27;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse at 30% 20%, var(--board) 0%, var(--board-2) 90%);
+    color: var(--chalk);
+    font-family: "Karla", sans-serif;
+    line-height: 1.65;
+  }
+  .board { max-width: 960px; margin: 0 auto; padding: 48px 24px 120px; }
+  .board-label {
+    font-family: "Fira Mono", monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--chalk-dim); margin-bottom: 64px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  section { margin-bottom: 96px; }
+  .section-tag {
+    font-family: "Fira Mono", monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--chalk-yellow); margin-bottom: 24px;
+  }
+
+  .wordmark { font-family: "Bitter", serif; font-weight: 800; font-size: clamp(26px, 4.5vw, 40px); letter-spacing: 0.01em; }
+  .wordmark .u { border-bottom: 4px double var(--chalk-yellow); padding-bottom: 2px; }
+  .wordmark-sub { font-family: "Fira Mono", monospace; font-size: 13px; color: var(--chalk-dim); margin-top: 8px; }
+
+  .hero-kicker { font-family: "Fira Mono", monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--chalk-blue); margin-bottom: 24px; }
+  .hero-h {
+    font-family: "Bitter", serif; font-weight: 800;
+    font-size: clamp(36px, 7vw, 74px); line-height: 1.08; letter-spacing: -0.01em; max-width: 16ch;
+  }
+  .hero-h em { font-style: italic; color: var(--chalk-yellow); }
+  .hero-sub { font-size: clamp(17px, 2.8vw, 22px); color: var(--chalk-dim); margin-top: 20px; max-width: 46ch; }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { border: 1px solid rgba(242,239,230,0.25); }
+  .swatch .chip { height: 96px; }
+  .swatch .meta { padding: 10px 12px; font-family: "Fira Mono", monospace; font-size: 11px; background: var(--tray); }
+  .swatch .meta b { display: block; font-weight: 500; }
+  .swatch .meta span { color: var(--chalk-dim); }
+
+  /* THE signature: the payoff matrix. Only one playable cell. */
+  .matrix-wrap { max-width: 560px; }
+  .matrix-labels-top { display: grid; grid-template-columns: 120px 1fr 1fr; font-family: "Fira Mono", monospace; font-size: 12px; color: var(--chalk-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .matrix-labels-top span { text-align: center; }
+  .matrix { display: grid; grid-template-columns: 120px 1fr 1fr; gap: 0; }
+  .matrix .rowlab {
+    font-family: "Fira Mono", monospace; font-size: 12px; color: var(--chalk-dim);
+    text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center;
+  }
+  .cell {
+    border: 1.5px solid rgba(242,239,230,0.5);
+    aspect-ratio: 1.5; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: "Bitter", serif; font-size: clamp(22px, 4vw, 34px); font-weight: 600;
+    color: var(--chalk-dim); position: relative;
+  }
+  .cell small { font-family: "Fira Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px; }
+  .cell.dead { opacity: 0.45; }
+  .cell.dead::after {
+    content: ""; position: absolute; inset: 8px;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), rgba(242,239,230,0.6) 50%, transparent calc(50% + 1px));
+  }
+  .cell.play {
+    color: var(--chalk-yellow); border: 3px solid var(--chalk-yellow);
+    box-shadow: 0 0 0 4px rgba(232,197,71,0.12);
+  }
+  .matrix-caption { font-family: "Fira Mono", monospace; font-size: 12px; color: var(--chalk-dim); margin-top: 16px; max-width: 56ch; }
+
+  .spec { border-top: 1px solid rgba(242,239,230,0.2); padding: 20px 0; display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: baseline; }
+  .spec-label { font-family: "Fira Mono", monospace; font-size: 11px; color: var(--chalk-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+  .t-display { font-family: "Bitter", serif; font-weight: 800; font-size: 36px; line-height: 1.1; }
+  .t-heading { font-family: "Bitter", serif; font-weight: 600; font-size: 23px; }
+  .t-body { font-size: 17px; max-width: 55ch; color: #DDDACE; }
+  .t-mono { font-family: "Fira Mono", monospace; font-size: 14px; color: var(--chalk-blue); }
+
+  .dialogue { border: 1.5px dashed rgba(242,239,230,0.45); padding: 26px 28px; max-width: 620px; }
+  .dialogue .q { font-family: "Bitter", serif; font-style: italic; font-size: 21px; margin-bottom: 12px; color: var(--chalk-blue); }
+  .dialogue .a { color: #DDDACE; }
+
+  .link-row { display: flex; gap: 32px; flex-wrap: wrap; }
+  a.clink { color: var(--chalk); text-decoration: none; font-weight: 500; font-size: 17px; border-bottom: 2px solid var(--chalk-yellow); padding-bottom: 2px; }
+  a.clink:hover { color: var(--chalk-yellow); }
+
+  .note { font-size: 14px; color: var(--chalk-dim); max-width: 60ch; margin-top: 48px; border-top: 1px solid rgba(242,239,230,0.2); padding-top: 16px; }
+  @media (max-width: 640px) {
+    .spec { grid-template-columns: 1fr; gap: 6px; }
+    .matrix, .matrix-labels-top { grid-template-columns: 70px 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="board-label">
+    <span>Direction 03 / 04 — “The Game”</span>
+    <span>positive sum experiments</span>
+  </div>
+
+  <section>
+    <div class="section-tag">Identity</div>
+    <div class="wordmark">Positive <span class="u">Sum</span> Experiments</div>
+    <div class="wordmark-sub">lecture notes from a game we choose to play</div>
+  </section>
+
+  <section>
+    <div class="section-tag">Hero</div>
+    <div class="hero-kicker">Axiom two, on the board</div>
+    <h1 class="hero-h">Every relationship is a game. We only play <em>one kind</em>.</h1>
+    <p class="hero-sub">Employer, customer, vendor, teammate — every line drawn from me to anybody is a game. Three of the four outcomes are crossed out.</p>
+  </section>
+
+  <section>
+    <div class="section-tag">Signature — the payoff matrix</div>
+    <div class="matrix-wrap">
+      <div class="matrix-labels-top"><span></span><span>you win</span><span>you lose</span></div>
+      <div class="matrix">
+        <div class="rowlab">I win</div>
+        <div class="cell play">+&thinsp;/&thinsp;+<small>the only game</small></div>
+        <div class="cell dead">+&thinsp;/&thinsp;&minus;</div>
+        <div class="rowlab">I lose</div>
+        <div class="cell dead">&minus;&thinsp;/&thinsp;+</div>
+        <div class="cell dead">&minus;&thinsp;/&thinsp;&minus;</div>
+      </div>
+      <p class="matrix-caption">Chalk-crossed cells are games not played. The matrix recurs across the site at small scale — a favicon, a section divider, a loading mark.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Palette</div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#22403A"></div><div class="meta"><b>Board green</b><span>#22403A</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#F2EFE6"></div><div class="meta"><b>Chalk</b><span>#F2EFE6</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#E8C547"></div><div class="meta"><b>Chalk yellow</b><span>#E8C547</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#9BC4E2"></div><div class="meta"><b>Chalk blue</b><span>#9BC4E2</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Type — Bitter / Karla / Fira Mono</div>
+    <div class="spec"><div class="spec-label">Display 800</div><div class="t-display">Time is limited. The bets are audacious.</div></div>
+    <div class="spec"><div class="spec-label">Heading 600</div><div class="t-heading">Clarity comes from action, not pondering.</div></div>
+    <div class="spec"><div class="spec-label">Body 400</div><div class="t-body">The best test of a hypothesis is the market. Build fast and break fast — but what you build has to actually represent the hypothesis, or the result goes in the trash.</div></div>
+    <div class="spec"><div class="spec-label">Mono / notation</div><div class="t-mono">u(me, you) &gt; 0 ∀ transactions — else don’t transact</div></div>
+  </section>
+
+  <section>
+    <div class="section-tag">Dialogue block — the seminar objection</div>
+    <div class="dialogue">
+      <p class="q">“Isn’t every deal zero-sum if you negotiate hard enough?”</p>
+      <p class="a">Only if the pie is fixed. The whole bet of this umbrella is that the pie isn’t — that the model can be arranged so the value created outweighs what anyone gives up. When it can’t be arranged, we don’t play.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Navigation</div>
+    <div class="link-row">
+      <a class="clink" href="#">Manifesto</a>
+      <a class="clink" href="#">What we know</a>
+      <a class="clink" href="#">Experiments</a>
+    </div>
+  </section>
+
+  <p class="note">Signature: the 2×2 payoff matrix with three cells chalked out. Blackboard green instead of web-dark; serif chalk voice (Bitter) gives it a lecture-hall seriousness the other boards don’t have. The riskiest of the four — commits fully to a metaphor.</p>
+
+</div>
+</body>
+</html>

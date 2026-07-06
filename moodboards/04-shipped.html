@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 04 — Shipped</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,700;1,400&family=Archivo+Black&family=Courier+Prime:wght@400;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #FFFFFF;
+    --black: #0D0D0D;
+    --safety: #FFD400;
+    --stamp: #D42A20;
+    --gray: #8C8C8C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--white); color: var(--black); font-family: "Archivo", sans-serif; line-height: 1.55; }
+  .board { max-width: 960px; margin: 0 auto; padding: 48px 24px 120px; }
+  .board-label {
+    font-family: "Courier Prime", monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 64px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  section { margin-bottom: 96px; }
+  .section-tag {
+    font-family: "Courier Prime", monospace;
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--black); margin-bottom: 24px;
+    display: inline-block; background: var(--safety); padding: 3px 10px;
+  }
+
+  .wordmark { font-family: "Archivo Black", sans-serif; font-size: clamp(26px, 5vw, 42px); text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
+  .wordmark .hl { background: var(--safety); padding: 0 6px; }
+  .wordmark-sub { font-family: "Caveat", cursive; font-size: 22px; color: var(--stamp); margin-top: 8px; transform: rotate(-1deg); display: inline-block; }
+
+  .hero-kicker { font-family: "Courier Prime", monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 24px; }
+  .hero-h {
+    font-family: "Archivo Black", sans-serif; text-transform: uppercase;
+    font-size: clamp(38px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.02em; max-width: 14ch;
+  }
+  .hero-h .strike { position: relative; white-space: nowrap; }
+  .hero-h .strike::after {
+    content: ""; position: absolute; left: -2%; right: -2%; top: 48%;
+    height: 6px; background: var(--stamp); transform: rotate(-1.5deg);
+  }
+  .hero-h .fix { font-family: "Caveat", cursive; text-transform: none; letter-spacing: 0;
+    color: var(--stamp); font-size: 0.55em; vertical-align: middle; }
+  .hero-sub { font-size: clamp(17px, 2.8vw, 22px); color: #3A3A3A; margin-top: 24px; max-width: 46ch; }
+
+  .stamp {
+    display: inline-block; font-family: "Courier Prime", monospace; font-weight: 700;
+    font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--stamp); border: 3px solid var(--stamp); border-radius: 6px;
+    padding: 8px 18px; transform: rotate(-4deg); opacity: 0.9;
+    mask-image: radial-gradient(circle at 40% 60%, black 92%, transparent 100%);
+  }
+  .stamp.ok { color: #0D7A3F; border-color: #0D7A3F; transform: rotate(2deg); }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { border: 2px solid var(--black); }
+  .swatch .chip { height: 96px; }
+  .swatch .meta { padding: 10px 12px; font-family: "Courier Prime", monospace; font-size: 12px; border-top: 2px solid var(--black); }
+  .swatch .meta b { display: block; font-weight: 700; }
+  .swatch .meta span { color: var(--gray); }
+
+  .spec { border-top: 2px solid var(--black); padding: 20px 0; display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: baseline; }
+  .spec-label { font-family: "Courier Prime", monospace; font-size: 12px; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; }
+  .t-display { font-family: "Archivo Black", sans-serif; text-transform: uppercase; font-size: 34px; line-height: 1.02; }
+  .t-heading { font-weight: 700; font-size: 23px; }
+  .t-body { font-size: 17px; max-width: 55ch; }
+  .t-mono { font-family: "Courier Prime", monospace; font-size: 15px; }
+  .t-hand { font-family: "Caveat", cursive; font-size: 26px; color: var(--stamp); }
+
+  /* what-we-know entry as a logged, stamped item */
+  .logged { border: 2px solid var(--black); max-width: 640px; }
+  .logged .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 2px solid var(--black); font-family: "Courier Prime", monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; flex-wrap: wrap; }
+  .logged .body { padding: 20px 16px; }
+  .logged .body h3 { font-family: "Archivo Black", sans-serif; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
+  .logged .body p { color: #3A3A3A; }
+  .logged mark { background: var(--safety); padding: 0 3px; }
+
+  .dialogue { background: var(--black); color: var(--white); padding: 26px 28px; max-width: 620px; }
+  .dialogue .q { font-family: "Archivo Black", sans-serif; text-transform: uppercase; font-size: 19px; margin-bottom: 12px; color: var(--safety); }
+  .dialogue .a { color: #DEDEDE; }
+
+  .link-row { display: flex; gap: 24px; flex-wrap: wrap; }
+  a.slink {
+    font-family: "Courier Prime", monospace; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--black); text-decoration: none; border: 2px solid var(--black); padding: 8px 16px;
+    box-shadow: 3px 3px 0 var(--black); background: var(--white);
+  }
+  a.slink:hover { background: var(--safety); box-shadow: 1px 1px 0 var(--black); transform: translate(2px, 2px); }
+
+  .note { font-size: 14px; color: var(--gray); max-width: 60ch; margin-top: 48px; border-top: 2px solid var(--black); padding-top: 16px; }
+  @media (max-width: 600px) { .spec { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="board-label">
+    <span>Direction 04 / 04 — “Shipped”</span>
+    <span>positive sum experiments</span>
+  </div>
+
+  <section>
+    <div class="section-tag">Identity</div>
+    <div class="wordmark">Positive Sum<br><span class="hl">Experiments</span></div>
+    <div class="wordmark-sub">← the operative word</div>
+  </section>
+
+  <section>
+    <div class="section-tag">Hero</div>
+    <div class="hero-kicker">Axiom four</div>
+    <h1 class="hero-h"><span class="strike">Keep pondering</span> <span class="fix">fuck around &amp; find out</span><br>Clarity comes from action.</h1>
+    <p class="hero-sub">You don’t get more information from speculation. Find the power law, get it to 80, ship it. The manifesto itself follows the rule — published rough, revised by doing.</p>
+    <div style="margin-top: 28px; display: flex; gap: 20px; flex-wrap: wrap;">
+      <span class="stamp">Shipped</span>
+      <span class="stamp ok">Alive · Day 11/30</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Palette</div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#FFFFFF"></div><div class="meta"><b>Stark white</b><span>#FFFFFF</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#0D0D0D"></div><div class="meta"><b>Black</b><span>#0D0D0D</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#FFD400"></div><div class="meta"><b>Safety yellow</b><span>#FFD400</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#D42A20"></div><div class="meta"><b>Stamp red</b><span>#D42A20</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Type — Archivo Black / Archivo / Courier Prime / Caveat (sparingly)</div>
+    <div class="spec"><div class="spec-label">Display</div><div class="t-display">Do things that don’t scale. Shamelessly.</div></div>
+    <div class="spec"><div class="spec-label">Heading 700</div><div class="t-heading">Build fast, ship fast, break fast, iterate fast.</div></div>
+    <div class="spec"><div class="spec-label">Body 400</div><div class="t-body">When you’re dealing with unknown unknowns, be shameless about the chaotic, disorganised thing that will never outlive the experiment — in favour of speed, with the goal of learning.</div></div>
+    <div class="spec"><div class="spec-label">Mono / log</div><div class="t-mono">LOG 2026-07-06 — EXPERIMENT 001 — HYPOTHESIS LIVE</div></div>
+    <div class="spec"><div class="spec-label">Hand / edits</div><div class="t-hand">this part is still being figured out — that’s the point</div></div>
+  </section>
+
+  <section>
+    <div class="section-tag">“What we know” entry — logged and stamped</div>
+    <div class="logged">
+      <div class="head"><span>Entry № 007</span><span>Learned: KraftedX</span></div>
+      <div class="body">
+        <h3>The next feature won’t save you.</h3>
+        <p>Nobody cares about your product at all. <mark>Validate the problem before you build the solution</mark> — there are much better, more efficient ways than building.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Dialogue block</div>
+    <div class="dialogue">
+      <p class="q">“This looks unfinished.”</p>
+      <p class="a">It is. Everything here recovered its cost or got killed — the site only ever shows work in motion. Finished is what the archive is for.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-tag">Navigation</div>
+    <div class="link-row">
+      <a class="slink" href="#">Manifesto</a>
+      <a class="slink" href="#">What we know</a>
+      <a class="slink" href="#">Experiments</a>
+    </div>
+  </section>
+
+  <p class="note">Signature: visible edits — the strikethrough-and-handwritten-fix in the hero, rubber stamps carrying real state (day 11 of 30). Loudest of the four; the working-document honesty is the aesthetic. Caveat is rationed to two moments so it never tips into scrapbook.</p>
+
+</div>
+</body>
+</html>
