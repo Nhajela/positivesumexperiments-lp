@@ -7,6 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Spline+Sans+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: "Akriti";
+    src: url("../public/fonts/akriti-regular.otf") format("opentype");
+    font-display: swap;
+  }
+</style>
+<style>
   :root {
     --paper: #F7F6F1;
     --ink: #1A1917;
@@ -42,7 +49,7 @@
     color: var(--quiet); margin-bottom: 28px;
   }
 
-  .hand { font-family: "Caveat", cursive; color: var(--pen); }
+  .hand { font-family: "Akriti", "Caveat", cursive; color: var(--pen); }
 
   /* Wordmark: the + is now drawn, not typed. */
   .wordmark {
@@ -52,7 +59,7 @@
   }
   .plus-drawn { display: inline-block; width: 0.72em; height: 0.72em; margin: 0 3px; transform: rotate(-4deg) translateY(2px); }
   .wordmark-note {
-    font-family: "Caveat", cursive; font-size: 22px; color: var(--pen);
+    font-family: "Akriti", "Caveat", cursive; font-size: 22px; color: var(--pen);
     margin-top: 10px; transform: rotate(-1.2deg); display: inline-block;
   }
 
@@ -78,7 +85,7 @@
     margin-top: 20px; max-width: 22ch;
   }
   .margin-note {
-    font-family: "Caveat", cursive; font-size: 24px; color: var(--pen); line-height: 1.25;
+    font-family: "Akriti", "Caveat", cursive; font-size: 24px; color: var(--pen); line-height: 1.25;
     max-width: 220px; transform: rotate(1.6deg);
   }
   .hero-note { position: absolute; right: -10px; top: 4px; }
@@ -101,7 +108,7 @@
   .t-heading { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; }
   .t-body { font-size: 17px; max-width: 55ch; }
   .t-mono { font-family: "Spline Sans Mono", monospace; font-size: 14px; }
-  .t-hand { font-family: "Caveat", cursive; font-size: 27px; color: var(--pen); }
+  .t-hand { font-family: "Akriti", "Caveat", cursive; font-size: 27px; color: var(--pen); }
 
   /* Axioms: printed list, one entry corrected by hand */
   .axioms { border-top: 2px solid var(--ink); }
@@ -117,7 +124,7 @@
     content: ""; position: absolute; left: -2%; right: -2%; top: 52%; height: 2.5px;
     background: var(--pen); transform: rotate(-1.2deg); border-radius: 2px;
   }
-  .strike-fix .new { font-family: "Caveat", cursive; font-size: 0.95em; color: var(--pen); margin-left: 10px; }
+  .strike-fix .new { font-family: "Akriti", "Caveat", cursive; font-size: 0.95em; color: var(--pen); margin-left: 10px; }
 
   /* Dialogue: the frame is hand-drawn (border-radius trick), not ruled */
   .dialogue {
@@ -128,7 +135,7 @@
   }
   .dialogue .q { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 21px; margin-bottom: 12px; }
   .dialogue .a { color: #45443F; }
-  .dialogue .aside { margin-top: 14px; font-family: "Caveat", cursive; font-size: 23px; color: var(--pen); transform: rotate(-0.8deg); display: inline-block; }
+  .dialogue .aside { margin-top: 14px; font-family: "Akriti", "Caveat", cursive; font-size: 23px; color: var(--pen); transform: rotate(-0.8deg); display: inline-block; }
 
   .link-row { display: flex; gap: 36px; flex-wrap: wrap; align-items: baseline; }
   a.plink {
@@ -144,7 +151,7 @@
     box-shadow: 0 2px 8px rgba(26,25,23,0.08); transform: rotate(-2deg); max-width: 250px;
   }
   .polaroid .ph { background: repeating-linear-gradient(45deg, #ECEAE2 0 12px, #E4E2D8 12px 24px); height: 170px; display: flex; align-items: center; justify-content: center; font-family: "Spline Sans Mono", monospace; font-size: 11px; color: var(--quiet); text-transform: uppercase; letter-spacing: 0.1em; }
-  .polaroid .cap { font-family: "Caveat", cursive; font-size: 21px; color: var(--ink); margin-top: 10px; text-align: center; }
+  .polaroid .cap { font-family: "Akriti", "Caveat", cursive; font-size: 21px; color: var(--ink); margin-top: 10px; text-align: center; }
 
   .note { font-size: 14px; color: var(--quiet); max-width: 62ch; margin-top: 48px; border-top: 1px solid var(--rule); padding-top: 16px; }
   @media (max-width: 600px) { .spec, .axiom { grid-template-columns: 1fr; gap: 8px; } }

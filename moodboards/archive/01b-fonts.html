@@ -7,6 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:wght@400..700&family=Fraunces:ital,opsz,wght,WONK@0,9..144,300..900,1;1,9..144,400,1&family=Public+Sans:wght@400;500;700&family=Gelasio:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;700&family=Young+Serif&family=Spline+Sans+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: "Akriti";
+    src: url("../../public/fonts/akriti-regular.otf") format("opentype");
+    font-display: swap;
+  }
+</style>
+<style>
   :root {
     --paper: #F7F6F1;
     --ink: #1A1917;
@@ -27,13 +34,13 @@
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
   .intro { font-size: 15px; color: var(--quiet); max-width: 64ch; margin-bottom: 80px; }
-  .intro .hand { font-family: "Caveat", cursive; font-size: 21px; color: var(--pen); }
+  .intro .hand { font-family: "Akriti", "Caveat", cursive; font-size: 21px; color: var(--pen); }
 
   .option { margin-bottom: 110px; border-top: 2px solid var(--ink); padding-top: 18px; position: relative; }
   .opt-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
   .opt-name { font-family: "Spline Sans Mono", monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
   .opt-name b { color: var(--pen); }
-  .opt-verdict { font-family: "Caveat", cursive; font-size: 22px; color: var(--pen); transform: rotate(-0.8deg); }
+  .opt-verdict { font-family: "Akriti", "Caveat", cursive; font-size: 22px; color: var(--pen); transform: rotate(-0.8deg); }
 
   .wordmark { font-weight: 700; font-size: clamp(24px, 4vw, 36px); letter-spacing: -0.02em; display: inline-flex; align-items: center; margin-bottom: 36px; }
   .plus-drawn { display: inline-block; width: 0.7em; height: 0.7em; margin: 0 4px; transform: rotate(-4deg) translateY(2px); }

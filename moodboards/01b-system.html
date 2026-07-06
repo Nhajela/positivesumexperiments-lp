@@ -7,6 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Spline+Sans+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: "Akriti";
+    src: url("../public/fonts/akriti-regular.otf") format("opentype");
+    font-display: swap;
+  }
+</style>
+<style>
   :root {
     /* base */
     --paper: #F7F6F1;
@@ -23,7 +30,7 @@
     --font-display: "Young Serif", serif;
     --font-body: "Instrument Sans", sans-serif;
     --font-mono: "Spline Sans Mono", monospace;
-    --font-hand: "Caveat", cursive; /* stand-in until real handwriting assets */
+    --font-hand: "Akriti", "Caveat", cursive; /* stand-in until real handwriting assets */
     /* spacing scale — s1..s7 */
     --s1: 8px; --s2: 16px; --s3: 28px; --s4: 48px; --s5: 80px; --s6: 120px;
   }
@@ -150,12 +157,72 @@
         <div class="wordmark-stack">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="width:0.6em;height:0.6em"><use href="#plus-mark"/></svg>sum<br>experiments</div>
         <p class="small" style="margin-top:8px">stacked — tight spots</p>
       </div>
-      <div>
-        <span class="mark">
-          <svg class="ring" viewBox="0 0 100 100"><path d="M50 6 C76 4, 96 22, 95 48 C94 76, 76 95, 49 94 C24 93, 5 76, 6 49 C7 24, 26 8, 48 6" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/></svg>
-          <svg class="pl" viewBox="0 0 100 100"><use href="#plus-mark"/></svg>
-        </span>
-        <p class="small" style="margin-top:8px">the mark alone — favicon, stamps</p>
+      <div style="flex-basis:100%">
+        <p class="small" style="margin-bottom:14px">the mark alone — favicon, stamps. enclosure options, pick one:</p>
+        <div style="display:flex; gap:34px; flex-wrap:wrap; align-items:flex-start;">
+
+          <div class="illo">
+            <span class="mark">
+              <svg class="pl" viewBox="0 0 100 100" style="width:46px;height:46px"><use href="#plus-mark"/></svg>
+            </span>
+            <div class="cap">A · none</div>
+          </div>
+
+          <div class="illo">
+            <span class="mark">
+              <svg class="ring" viewBox="0 0 100 100" style="transform:rotate(-7deg)">
+                <path d="M62 13 C80 18, 92 33, 90 52 C88 73, 69 88, 48 87 C27 86, 12 70, 13 49 C14 29, 31 14, 52 14 C57 14, 64 15.5, 69 18" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="pl" viewBox="0 0 100 100"><use href="#plus-mark"/></svg>
+            </span>
+            <div class="cap">B · one smooth loop,<br>ends overlap</div>
+          </div>
+
+          <div class="illo">
+            <span class="mark">
+              <svg class="ring" viewBox="0 0 100 100">
+                <path d="M50 11 C71 11, 89 26, 89 49 C89 72, 71 88, 50 88 C29 88, 12 72, 12 49 C12 26, 29 11, 50 11" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" transform="rotate(-4 50 50)"/>
+                <path d="M50 14 C69 14, 85 28, 85 49 C85 70, 69 85, 50 85 C31 85, 15 70, 15 49 C15 28, 31 14, 50 14" fill="none" stroke="var(--ink)" stroke-width="1.9" stroke-linecap="round" opacity="0.6" transform="rotate(7 50 50)"/>
+              </svg>
+              <svg class="pl" viewBox="0 0 100 100" style="width:34px;height:34px"><use href="#plus-mark"/></svg>
+            </span>
+            <div class="cap">C · circled twice,<br>like a quick scribble</div>
+          </div>
+
+          <div class="illo">
+            <span class="mark">
+              <svg class="ring" viewBox="0 0 100 100">
+                <path d="M16 20 C42 17, 66 18, 85 19 C87 40, 88 60, 86 82 C62 85, 38 84, 15 83 C14 62, 14 41, 16 20 M12 21 C13 20, 15 19, 17 19 M84 80 C86 82, 87 84, 89 86" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="pl" viewBox="0 0 100 100" style="width:36px;height:36px"><use href="#plus-mark"/></svg>
+            </span>
+            <div class="cap">D · hand box,<br>corners overshoot</div>
+          </div>
+
+          <div class="illo">
+            <span class="mark">
+              <svg class="ring" viewBox="0 0 100 100">
+                <path d="M50 10 A40 40 0 0 1 88 42" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+                <path d="M89 55 A40 40 0 0 1 55 89" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+                <path d="M42 88 A40 40 0 0 1 11 52" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+                <path d="M12 40 A40 40 0 0 1 40 12" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+              </svg>
+              <svg class="pl" viewBox="0 0 100 100" style="width:34px;height:34px"><use href="#plus-mark"/></svg>
+            </span>
+            <div class="cap">E · stamp ring,<br>ink breaks up</div>
+          </div>
+
+          <div class="illo">
+            <span class="mark" style="height:60px">
+              <svg class="pl" viewBox="0 0 100 100" style="width:40px;height:40px; margin-bottom:10px"><use href="#plus-mark"/></svg>
+              <svg style="position:absolute; bottom:0; left:2px; width:68px; height:12px; overflow:visible" viewBox="0 0 100 14" preserveAspectRatio="none">
+                <path d="M2 8 C22 4, 48 10, 66 6 C80 3.5, 92 8, 98 5" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div class="cap">F · no ring —<br>signature underline</div>
+          </div>
+
+        </div>
       </div>
       <div>
         <div class="sizes">
