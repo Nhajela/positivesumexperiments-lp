@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01b — Design system seed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Spline+Sans+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* base */
+    --paper: #F7F6F1;
+    --ink: #1A1917;
+    --quiet: #8B8A83;
+    --rule: #E2E1D9;
+    /* the pens — every color is a tool with a job */
+    --pen: #1D3FE8;        /* cobalt pen: annotations, links, the + */
+    --red: #C93B2E;        /* red pen: corrections, killed things */
+    --green: #1E8A4C;      /* green marker: validated, alive */
+    --marigold: #F0A81C;   /* highlighter: emphasis in his own text */
+    --marigold-soft: rgba(240,168,28,0.32);
+    /* type */
+    --font-display: "Young Serif", serif;
+    --font-body: "Instrument Sans", sans-serif;
+    --font-mono: "Spline Sans Mono", monospace;
+    --font-hand: "Caveat", cursive; /* stand-in until real handwriting assets */
+    /* spacing scale — s1..s7 */
+    --s1: 8px; --s2: 16px; --s3: 28px; --s4: 48px; --s5: 80px; --s6: 120px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--font-body); line-height: 1.65; }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .board { max-width: 960px; margin: 0 auto; padding: 48px 24px 140px; }
+  .board-label {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--quiet); margin-bottom: var(--s5);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  section { margin-bottom: var(--s6); }
+  .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--quiet); margin-bottom: var(--s3); }
+  .rule-note { font-size: 14px; color: var(--quiet); max-width: 62ch; margin-top: var(--s3); border-top: 1px solid var(--rule); padding-top: 12px; }
+  .hand { font-family: var(--font-hand); color: var(--pen); }
+
+  /* ============ LOGO ============ */
+  .logo-row { display: flex; gap: var(--s4); align-items: flex-start; flex-wrap: wrap; }
+  .wordmark { font-family: var(--font-display); font-size: clamp(26px, 4vw, 38px); display: inline-flex; align-items: center; letter-spacing: -0.01em; }
+  .plus-drawn { display: inline-block; width: 0.68em; height: 0.68em; margin: 0 5px; transform: rotate(-4deg) translateY(2px); color: var(--pen); }
+  .wordmark-stack { font-family: var(--font-display); font-size: 26px; line-height: 1.15; }
+  .mark { width: 72px; height: 72px; position: relative; display: inline-flex; align-items: center; justify-content: center; }
+  .mark svg.ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mark svg.pl { width: 38px; height: 38px; color: var(--pen); transform: rotate(-4deg); }
+  .sizes { display: flex; gap: var(--s2); align-items: flex-end; }
+  .sizes .plus-drawn { margin: 0; }
+
+  /* ============ COLOR ============ */
+  .pens { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--s2); }
+  .pencard { border: 1px solid var(--rule); background: #FBFAF6; }
+  .pencard .chip { height: 76px; }
+  .pencard .meta { padding: 12px 14px; }
+  .pencard .meta b { font-family: var(--font-mono); font-size: 12px; display: block; letter-spacing: 0.06em; text-transform: uppercase; }
+  .pencard .meta span { font-size: 13px; color: var(--quiet); display: block; margin-top: 4px; line-height: 1.45; }
+
+  /* ============ TYPOGRAPHY ============ */
+  .tspec { border-top: 1px solid var(--rule); padding: var(--s3) 0; display: grid; grid-template-columns: 200px 1fr; gap: var(--s2); align-items: baseline; }
+  .tlabel { font-family: var(--font-mono); font-size: 11px; color: var(--quiet); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.6; }
+  .display-xl { font-family: var(--font-display); font-size: clamp(34px, 6.5vw, 68px); line-height: 1.08; letter-spacing: -0.015em; max-width: 16ch; }
+  .display-l  { font-family: var(--font-display); font-size: clamp(26px, 4vw, 40px); line-height: 1.15; }
+  .display-m  { font-family: var(--font-display); font-size: clamp(20px, 3vw, 26px); line-height: 1.25; }
+  .body-l { font-size: 19px; max-width: 58ch; }
+  .body-m { font-size: 16.5px; max-width: 62ch; color: #45443F; }
+  .small  { font-size: 14px; color: var(--quiet); }
+  .mono   { font-family: var(--font-mono); font-size: 13.5px; }
+
+  /* ============ EMPHASIS ============ */
+  .em-list { display: grid; gap: var(--s3); max-width: 640px; }
+  .em-item { display: grid; grid-template-columns: 200px 1fr; gap: var(--s2); align-items: baseline; border-top: 1px solid var(--rule); padding-top: var(--s2); }
+  .hl { background: linear-gradient(104deg, transparent 2%, var(--marigold-soft) 4%, var(--marigold-soft) 96%, transparent 99%); padding: 0 3px; }
+  .u-pen { position: relative; white-space: nowrap; }
+  .u-pen svg { position: absolute; left: -1%; bottom: -0.14em; width: 102%; height: 0.24em; overflow: visible; }
+  .circled { position: relative; white-space: nowrap; }
+  .circled svg { position: absolute; inset: -0.2em -0.32em; width: calc(100% + 0.64em); height: calc(100% + 0.4em); overflow: visible; }
+  .strike { position: relative; }
+  .strike::after { content: ""; position: absolute; left: -1%; right: -1%; top: 52%; height: 2px; background: var(--red); transform: rotate(-1.1deg); border-radius: 2px; }
+  .fix { font-family: var(--font-hand); color: var(--red); margin-left: 8px; font-size: 1.05em; }
+  a.link { color: var(--pen); text-decoration: none; border-bottom: 1.5px solid rgba(29,63,232,0.35); padding-bottom: 1px; }
+  a.link:hover { border-bottom-color: var(--pen); }
+  a.plink { color: var(--ink); font-weight: 500; text-decoration: none; }
+  a.plink .pp { color: var(--pen); font-weight: 700; margin-right: 4px; }
+  a.plink:hover { color: var(--pen); }
+  code.c { font-family: var(--font-mono); font-size: 0.88em; background: #EFEDE5; padding: 2px 6px; border-radius: 3px; }
+
+  /* ============ ILLUSTRATION ============ */
+  .illos { display: flex; gap: var(--s4); flex-wrap: wrap; align-items: flex-end; }
+  .illo { text-align: center; }
+  .illo .cap { font-family: var(--font-mono); font-size: 11px; color: var(--quiet); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
+
+  /* ============ COMPONENTS ============ */
+  .exp-list { border-top: 2px solid var(--ink); max-width: 680px; }
+  .exp-row { display: grid; grid-template-columns: 18px 1fr auto; gap: var(--s2); align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .dot { width: 11px; height: 11px; border-radius: 50% 46% 52% 48%; position: relative; top: 1px; }
+  .exp-row h3 { font-family: var(--font-display); font-size: 20px; font-weight: 400; }
+  .exp-row .sub { font-size: 14px; color: var(--quiet); margin-top: 2px; }
+  .exp-row .state { font-family: var(--font-mono); font-size: 12.5px; text-align: right; white-space: nowrap; }
+  .quote { border-left: 3px solid var(--marigold); padding-left: var(--s3); max-width: 56ch; margin: var(--s3) 0; }
+  .quote p { font-family: var(--font-display); font-size: 21px; line-height: 1.45; }
+  .quote cite { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--quiet); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 10px; font-style: normal; }
+  .footer-demo { border-top: 1px solid var(--rule); padding-top: var(--s3); display: flex; justify-content: space-between; gap: var(--s2); flex-wrap: wrap; font-family: var(--font-mono); font-size: 13px; color: var(--quiet); max-width: 680px; }
+  .footer-demo a { color: var(--quiet); }
+  .footer-demo a:hover { color: var(--pen); }
+
+  /* ============ SPACING ============ */
+  .space-demo { display: grid; gap: var(--s2); max-width: 560px; }
+  .sp { background: rgba(29,63,232,0.10); border: 1px dashed rgba(29,63,232,0.35); font-family: var(--font-mono); font-size: 11px; color: var(--pen); display: flex; align-items: center; padding-left: 10px; }
+
+  @media (max-width: 640px) {
+    .tspec, .em-item { grid-template-columns: 1fr; gap: 8px; }
+    section { margin-bottom: var(--s5); }
+  }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <g id="plus-mark">
+        <path d="M50 12 C51 34, 49 62, 50 88" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+        <path d="M14 52 C36 49, 66 51, 87 50" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+      </g>
+    </defs>
+  </svg>
+
+  <div class="board-label">
+    <span>01b — design system seed (Young Serif locked)</span>
+    <span>positive sum experiments</span>
+  </div>
+
+  <!-- LOGO -->
+  <section>
+    <div class="tag">Logo — mock. the drawn + is the mark; real pen assets replace these strokes later</div>
+    <div class="logo-row">
+      <div>
+        <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100"><use href="#plus-mark"/></svg>sum experiments</div>
+        <p class="small" style="margin-top:8px">full lockup — headers, OG image</p>
+      </div>
+      <div>
+        <div class="wordmark-stack">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="width:0.6em;height:0.6em"><use href="#plus-mark"/></svg>sum<br>experiments</div>
+        <p class="small" style="margin-top:8px">stacked — tight spots</p>
+      </div>
+      <div>
+        <span class="mark">
+          <svg class="ring" viewBox="0 0 100 100"><path d="M50 6 C76 4, 96 22, 95 48 C94 76, 76 95, 49 94 C24 93, 5 76, 6 49 C7 24, 26 8, 48 6" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <svg class="pl" viewBox="0 0 100 100"><use href="#plus-mark"/></svg>
+        </span>
+        <p class="small" style="margin-top:8px">the mark alone — favicon, stamps</p>
+      </div>
+      <div>
+        <div class="sizes">
+          <svg class="plus-drawn" viewBox="0 0 100 100" style="width:32px;height:32px"><use href="#plus-mark"/></svg>
+          <svg class="plus-drawn" viewBox="0 0 100 100" style="width:20px;height:20px"><use href="#plus-mark"/></svg>
+          <svg class="plus-drawn" viewBox="0 0 100 100" style="width:14px;height:14px"><use href="#plus-mark"/></svg>
+        </div>
+        <p class="small" style="margin-top:8px">holds at 14px — list bullets</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR -->
+  <section>
+    <div class="tag">Color — every color is a pen on the desk, with one job. never decorative</div>
+    <div class="pens">
+      <div class="pencard"><div class="chip" style="background:var(--ink)"></div><div class="meta"><b>Print ink</b><span>All set type. The printed layer.</span></div></div>
+      <div class="pencard"><div class="chip" style="background:var(--pen)"></div><div class="meta"><b>Cobalt pen</b><span>The author's pen: links, the +, margin notes, annotations.</span></div></div>
+      <div class="pencard"><div class="chip" style="background:var(--red)"></div><div class="meta"><b>Red pen</b><span>Corrections and killed experiments. Only ever means "this changed".</span></div></div>
+      <div class="pencard"><div class="chip" style="background:var(--green)"></div><div class="meta"><b>Green marker</b><span>Validated, alive, recovered. Only ever means "this worked".</span></div></div>
+      <div class="pencard"><div class="chip" style="background:var(--marigold)"></div><div class="meta"><b>Marigold highlighter</b><span>Emphasis swiped over his own words. Also the quote spine.</span></div></div>
+      <div class="pencard"><div class="chip" style="background:var(--paper); border-bottom:1px solid var(--rule)"></div><div class="meta"><b>Warm paper + grain</b><span>The only background. No cards, no fills, no shadows.</span></div></div>
+    </div>
+    <p class="rule-note">Colorful, but earned: the page can carry five inks because each appears only when its job appears. A page with nothing validated has no green on it.</p>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section>
+    <div class="tag">Typography — print voice / body voice / typewriter / pen</div>
+    <div class="tspec"><div class="tlabel">display-xl<br>clamp(34, 6.5vw, 68)<br>lh 1.08 · max 16ch</div><div class="display-xl">For me to win, nobody else needs to lose.</div></div>
+    <div class="tspec"><div class="tlabel">display-l<br>clamp(26, 4vw, 40)</div><div class="display-l">Find the power law. Do the real work.</div></div>
+    <div class="tspec"><div class="tlabel">display-m<br>clamp(20, 3vw, 26)</div><div class="display-m">Profitable. Always profitable. Default alive.</div></div>
+    <div class="tspec"><div class="tlabel">body-l · 19px · 58ch<br>ledes only</div><div class="body-l">Every relationship is a game. The only kind worth playing is the kind where both sides come out ahead.</div></div>
+    <div class="tspec"><div class="tlabel">body-m · 16.5px · 62ch<br>the default</div><div class="body-m">Some games are one-to-many. Some are one-on-one — every relationship, because everybody wants something from you and you want something from them, and you dance with them to get what they want and what you want.</div></div>
+    <div class="tspec"><div class="tlabel">small · 14px</div><div class="small">Captions, dates, asides. Quiet gray, never smaller than 13px.</div></div>
+    <div class="tspec"><div class="tlabel">mono · 13.5px</div><div class="mono">EXPERIMENT 001 — DAY 11/30 — ₹10,000 RECOVERED</div></div>
+    <p class="rule-note">Young Serif has one weight — hierarchy comes from size and space, never faux-bold. Body emphasis uses Instrument Sans 600 or the highlighter. Measures are hard limits: display 16ch, body 62ch.</p>
+  </section>
+
+  <!-- SPACING -->
+  <section>
+    <div class="tag">Spacing — one scale, s1–s6. generous by default; the page breathes like a book</div>
+    <div class="space-demo">
+      <div class="sp" style="height:8px">s1 · 8 — inside components</div>
+      <div class="sp" style="height:16px">s2 · 16 — between related lines</div>
+      <div class="sp" style="height:28px">s3 · 28 — paragraph blocks, component padding</div>
+      <div class="sp" style="height:48px">s4 · 48 — between sub-sections</div>
+      <div class="sp" style="height:80px">s5 · 80 — between page sections</div>
+      <div class="sp" style="height:120px">s6 · 120 — around the hero, chapter breaks</div>
+    </div>
+    <p class="rule-note">Nothing sits between steps. On mobile every step drops one notch (s5→s4, s6→s5). Content column: max 680px, padding 24px — the site is a single column everywhere; no grids to collapse.</p>
+  </section>
+
+  <!-- EMPHASIS -->
+  <section>
+    <div class="tag">Emphasis vocabulary — how meaning gets marked</div>
+    <div class="em-list">
+      <div class="em-item"><div class="tlabel">highlighter<br>(his emphasis)</div><div class="body-m">The 30-day timeline <span class="hl">forces you to do the right thing</span> — that’s its whole job.</div></div>
+      <div class="em-item"><div class="tlabel">pen underline<br>(drawn svg)</div><div class="body-m">In fact — <span class="u-pen">I can help other people win<svg viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M1 4 C18 2, 38 6, 55 3.5 C72 1.5, 88 5.5, 99 3" fill="none" stroke="var(--pen)" stroke-width="2.2" stroke-linecap="round"/></svg></span> as well.</div></div>
+      <div class="em-item"><div class="tlabel">circled word<br>(rare — once a page)</div><div class="body-m">It’s not about the product, it’s about the <span class="circled">story<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3" stroke-linecap="round"/></svg></span> of the product.</div></div>
+      <div class="em-item"><div class="tlabel">correction<br>(red pen)</div><div class="body-m"><span class="strike">Work hard.</span><span class="fix">respect time above all else</span></div></div>
+      <div class="em-item"><div class="tlabel">links — inline</div><div class="body-m">Modeled on <a class="link" href="#">sive.rs/ai</a>, dated and blunt.</div></div>
+      <div class="em-item"><div class="tlabel">links — nav</div><div class="body-m"><a class="plink" href="#"><span class="pp">+</span>Manifesto</a> &nbsp;&nbsp; <a class="plink" href="#"><span class="pp">+</span>What we know</a> &nbsp;&nbsp; <a class="plink" href="#"><span class="pp">+</span>AI</a></div></div>
+      <div class="em-item"><div class="tlabel">inline mono</div><div class="body-m">The rule is simple: <code class="c">cost recovered ≤ 30 days</code> or the model is wrong.</div></div>
+    </div>
+  </section>
+
+  <!-- ILLUSTRATION -->
+  <section>
+    <div class="tag">Illustration &amp; graphics — everything drawn with the same pens. single-weight wobbly strokes, highlighter tints only, no fills, no gradients</div>
+    <div class="illos">
+      <div class="illo">
+        <svg width="120" height="110" viewBox="0 0 120 110">
+          <path d="M12 52 C14 24, 44 8, 60 8 C78 8, 106 26, 108 52" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M12 52 C20 44, 28 44, 36 52 C44 44, 52 44, 60 52 C68 44, 76 44, 84 52 C92 44, 100 44, 108 52" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M60 52 C59 70, 60 84, 60 92 C60 100, 52 104, 46 100" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M60 22 C60 22, 61 32, 60 40" fill="none" stroke="var(--marigold)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="cap">the umbrella</div>
+      </div>
+      <div class="illo">
+        <svg width="130" height="110" viewBox="0 0 130 110">
+          <path d="M20 90 C30 70, 40 46, 44 24" fill="none" stroke="var(--pen)" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M36 34 C40 26, 44 22, 45 22 C48 24, 50 30, 51 36" fill="none" stroke="var(--pen)" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M70 90 C80 72, 92 50, 98 26" fill="none" stroke="var(--green)" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M90 36 C94 28, 98 24, 99 24 C102 26, 104 32, 105 38" fill="none" stroke="var(--green)" stroke-width="2.8" stroke-linecap="round"/>
+        </svg>
+        <div class="cap">+/+ — both arrows up</div>
+      </div>
+      <div class="illo">
+        <svg width="150" height="110" viewBox="0 0 150 110">
+          <path d="M14 96 C40 96, 110 95, 138 94" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M16 92 C17 70, 15 40, 16 18" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M16 78 C36 82, 52 70, 64 58 C80 42, 100 30, 134 24" fill="none" stroke="var(--red)" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M96 60 C106 56, 118 58, 124 64" fill="none" stroke="var(--marigold)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
+        </svg>
+        <div class="cap">hand-drawn chart — day 30 line dotted</div>
+      </div>
+    </div>
+    <p class="rule-note">Illustrations are diagrams from his notebook, not decoration — each one states a claim (the umbrella holds experiments; both players win; the curve must cross before day 30). When real scanned drawings arrive, they drop straight into this language.</p>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section>
+    <div class="tag">Components — experiments list, verbatim quote, footer</div>
+    <div class="exp-list">
+      <div class="exp-row">
+        <span class="dot" style="background:var(--green)"></span>
+        <div><h3>Happy Mornings Club</h3><div class="sub">daily 6:30am calls — the first bet under the umbrella</div></div>
+        <div class="state" style="color:var(--green)">ALIVE · DAY 11/30</div>
+      </div>
+      <div class="exp-row">
+        <span class="dot" style="background:var(--quiet)"></span>
+        <div><h3>[Next experiment]</h3><div class="sub">ideating</div></div>
+        <div class="state" style="color:var(--quiet)">IDEATING</div>
+      </div>
+      <div class="exp-row">
+        <span class="dot" style="background:var(--red)"></span>
+        <div><h3 class="strike" style="display:inline-block">[A killed one]</h3><div class="sub">didn’t recover its cost — model was wrong, lesson logged</div></div>
+        <div class="state" style="color:var(--red)">KILLED · DAY 30</div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:var(--s4)">
+      <p>Don’t ask what the world needs. Ask what makes you come alive.</p>
+      <cite>the quote he lives by — verbatim blocks always carry his exact words</cite>
+    </div>
+
+    <div class="footer-demo">
+      <span>positive<span style="color:var(--pen)">+</span>sum experiments</span>
+      <span><a href="#">@crazyxnaman</a> · <a href="#">hey@namanhajela.com</a> · <a href="#">/ai</a></span>
+    </div>
+  </section>
+
+  <!-- RESPONSIVENESS -->
+  <section>
+    <div class="tag">Responsiveness — rules, not breakpoints</div>
+    <p class="body-m" style="max-width:62ch">
+      One column at every size — nothing rearranges, everything just breathes less.
+      Type scales with <code class="c">clamp()</code>, never with media-query jumps.
+      Spacing drops one step below 640px. Pen marks (circles, underlines) scale with
+      their text because they live in <code class="c">em</code> units. Margin notes
+      float in the right margin on wide screens and tuck under their paragraph on
+      narrow ones. Tap targets never shrink below 44px.
+    </p>
+    <p class="rule-note">This board is itself the test — resize it. The system has no “mobile version”; it’s the same letter read on smaller paper.</p>
+  </section>
+
+</div>
+</body>
+</html>
