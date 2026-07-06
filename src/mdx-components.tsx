@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import { ZoomImage } from "@/components/zoom-image";
 
 // Element mapping for MDX pages — the written pages inherit the design
 // system without any per-page styling. Tokens from globals.css @theme.
@@ -9,9 +10,11 @@ const components: MDXComponents = {
       {...props}
     />
   ),
+  // Rhythm rule: space above a heading ≈ 2.5-3× the space below it, so the
+  // heading binds to its own section without the section gap ballooning.
   h2: (props) => (
     <h2
-      className="font-display text-display-m mt-s5 mb-s2 text-ink"
+      className="font-display text-display-l mt-s4 mb-s3 text-ink"
       {...props}
     />
   ),
@@ -26,29 +29,24 @@ const components: MDXComponents = {
   ),
   // + bullets on unordered lists only; ordered lists keep their numbers
   // (pen-cobalt markers) so sequences stay sequences.
+  // [p+&] pulls a list up under its lead-in line ("In practice," / "Some
+  // examples:") — the list belongs to that sentence, not to a new thought.
   ul: (props) => (
     <ul
-      className="mb-s3 space-y-s1 [&>li]:relative [&>li]:pl-s3 [&>li]:before:content-['+'] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:font-bold [&>li]:before:text-pen"
+      className="mb-s3 space-y-s1 [p+&]:-mt-s2 [&>li]:relative [&>li]:pl-s3 [&>li]:before:content-['+'] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:font-bold [&>li]:before:text-pen"
       {...props}
     />
   ),
   ol: (props) => (
     <ol
-      className="mb-s3 list-decimal pl-s3 space-y-s1 marker:font-mono marker:text-[14px] marker:text-pen"
+      className="mb-s3 list-decimal pl-s3 space-y-s1 [p+&]:-mt-s2 marker:font-mono marker:text-[14px] marker:text-pen"
       {...props}
     />
   ),
   li: (props) => (
     <li className="max-w-[60ch] text-body-m text-ink/85" {...props} />
   ),
-  img: (props) => (
-    // biome-ignore lint/performance/noImgElement: static export-friendly plain img for hand-drawn diagrams
-    <img
-      className="my-s4 h-auto max-w-full mix-blend-multiply"
-      {...props}
-      alt={props.alt ?? ""}
-    />
-  ),
+  img: (props) => <ZoomImage src={props.src} alt={props.alt} />,
   blockquote: (props) => (
     <blockquote
       className="border-l-[3px] border-marigold pl-s3 my-s4 text-quiet [&_p]:text-[15px]"

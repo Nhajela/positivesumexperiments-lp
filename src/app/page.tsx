@@ -45,7 +45,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="pt-s5 pb-s6">
+      <section className="pt-s5 pb-s5">
         <h1 className="font-display text-display-xl max-w-[16ch]">
           For us to win, no one has to lose.
         </h1>
@@ -61,12 +61,14 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="mb-s5">
+      <section className="mb-s6">
+        {/* hand-ruled frame, same trick as the dialogue card — a drawn button */}
         <Link
           href="/core"
-          className="text-[17px] font-medium hover:text-pen w-fit"
+          className="inline-block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-[17px] font-medium -rotate-[0.6deg] hover:border-pen hover:text-pen hover:-rotate-0 transition-transform"
         >
-          <span className="mr-1.5 font-bold text-pen">+</span>Core
+          Read the Core
+          <span className="ml-2 font-bold text-pen">&rarr;</span>
         </Link>
       </section>
     </div>
