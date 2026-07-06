@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01b — Font options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:wght@400..700&family=Fraunces:ital,opsz,wght,WONK@0,9..144,300..900,1;1,9..144,400,1&family=Public+Sans:wght@400;500;700&family=Gelasio:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;700&family=Young+Serif&family=Spline+Sans+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F6F1;
+    --ink: #1A1917;
+    --pen: #1D3FE8;
+    --quiet: #8B8A83;
+    --rule: #E2E1D9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); line-height: 1.6; font-family: "Instrument Sans", sans-serif; }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .board { max-width: 960px; margin: 0 auto; padding: 48px 24px 120px; }
+  .board-label {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--quiet); margin-bottom: 24px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  .intro { font-size: 15px; color: var(--quiet); max-width: 64ch; margin-bottom: 80px; }
+  .intro .hand { font-family: "Caveat", cursive; font-size: 21px; color: var(--pen); }
+
+  .option { margin-bottom: 110px; border-top: 2px solid var(--ink); padding-top: 18px; position: relative; }
+  .opt-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .opt-name { font-family: "Spline Sans Mono", monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .opt-name b { color: var(--pen); }
+  .opt-verdict { font-family: "Caveat", cursive; font-size: 22px; color: var(--pen); transform: rotate(-0.8deg); }
+
+  .wordmark { font-weight: 700; font-size: clamp(24px, 4vw, 36px); letter-spacing: -0.02em; display: inline-flex; align-items: center; margin-bottom: 36px; }
+  .plus-drawn { display: inline-block; width: 0.7em; height: 0.7em; margin: 0 4px; transform: rotate(-4deg) translateY(2px); }
+
+  .hero { font-weight: 800; font-size: clamp(32px, 6vw, 62px); line-height: 1.06; letter-spacing: -0.025em; max-width: 16ch; margin-bottom: 28px; }
+  .circled { position: relative; white-space: nowrap; }
+  .circled svg { position: absolute; inset: -0.18em -0.3em; width: calc(100% + 0.6em); height: calc(100% + 0.36em); overflow: visible; pointer-events: none; }
+
+  .sample-body { font-size: 17px; max-width: 56ch; color: #45443F; margin-bottom: 20px; }
+  .sample-label { font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet); }
+  .why { font-size: 14px; color: var(--quiet); max-width: 60ch; margin-top: 28px; border-top: 1px solid var(--rule); padding-top: 12px; }
+
+  /* Option 1 — baseline */
+  .o1 .wordmark, .o1 .hero { font-family: "Bricolage Grotesque", sans-serif; }
+  .o1 .sample-body { font-family: "Instrument Sans", sans-serif; }
+
+  /* Option 2 — Fraunces wonk */
+  .o2 .wordmark, .o2 .hero { font-family: "Fraunces", serif; font-variation-settings: "WONK" 1, "opsz" 100; font-weight: 640; letter-spacing: -0.015em; }
+  .o2 .sample-body { font-family: "Public Sans", sans-serif; }
+
+  /* Option 3 — Gelasio / old-web essay */
+  .o3 .wordmark, .o3 .hero { font-family: "Gelasio", Georgia, serif; font-weight: 700; letter-spacing: -0.01em; }
+  .o3 .hero { font-size: clamp(28px, 5vw, 52px); }
+  .o3 .sample-body { font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 1.7; }
+
+  /* Option 4 — Plex typewriter proof */
+  .o4 .wordmark, .o4 .hero { font-family: "IBM Plex Mono", monospace; font-weight: 600; letter-spacing: -0.03em; }
+  .o4 .hero { font-size: clamp(26px, 5vw, 50px); }
+  .o4 .sample-body { font-family: "IBM Plex Sans", sans-serif; }
+
+  /* Option 5 — Young Serif warm chunk */
+  .o5 .wordmark, .o5 .hero { font-family: "Young Serif", serif; font-weight: 400; letter-spacing: -0.01em; }
+  .o5 .sample-body { font-family: "Instrument Sans", sans-serif; }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <g id="plus-mark">
+        <path d="M50 12 C51 34, 49 62, 50 88" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+        <path d="M14 52 C36 49, 66 51, 87 50" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+      </g>
+    </defs>
+  </svg>
+
+  <div class="board-label">
+    <span>01b — font options (same system, five voices)</span>
+    <span>positive sum experiments</span>
+  </div>
+  <p class="intro">Everything else from 01b stays fixed — warm paper, print ink, the pen, drawn marks, grain. Only the print voice changes. <span class="hand">handwriting everywhere is a stand-in until your real pen arrives</span></p>
+
+  <!-- 1 -->
+  <div class="option o1">
+    <div class="opt-head"><span class="opt-name"><b>1.</b> Bricolage Grotesque + Instrument Sans — the baseline</span><span class="opt-verdict">what you saw in 01b</span></div>
+    <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="color:var(--pen)"><use href="#plus-mark"/></svg>sum experiments</div>
+    <h2 class="hero">For me to <span class="circled">win<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3.2" stroke-linecap="round"/></svg></span>, nobody else needs to lose.</h2>
+    <p class="sample-body">Every relationship is a game. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</p>
+    <p class="sample-label">EXPERIMENT 001 — HAPPY MORNINGS CLUB — DAY 11/30</p>
+    <p class="why">Contemporary grotesk with quirks in the details. Confident, current — but also the closest to what every 2026 site looks like.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="option o2">
+    <div class="opt-head"><span class="opt-name"><b>2.</b> Fraunces (wonk on) + Public Sans — the imperfect serif</span><span class="opt-verdict">crooked on purpose ↓</span></div>
+    <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="color:var(--pen)"><use href="#plus-mark"/></svg>sum experiments</div>
+    <h2 class="hero">For me to <span class="circled">win<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3.2" stroke-linecap="round"/></svg></span>, nobody else needs to lose.</h2>
+    <p class="sample-body">Every relationship is a game. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</p>
+    <p class="sample-label">EXPERIMENT 001 — HAPPY MORNINGS CLUB — DAY 11/30</p>
+    <p class="why">Fraunces has a literal WONK axis — letterforms sit slightly crooked, like worn metal type. Imperfection built into the typeface itself, not painted on. Old-print soul, still sharp at display sizes.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="option o3">
+    <div class="opt-head"><span class="opt-name"><b>3.</b> Gelasio + Verdana — the old web</span><span class="opt-verdict">pg / sivers energy</span></div>
+    <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="color:var(--pen)"><use href="#plus-mark"/></svg>sum experiments</div>
+    <h2 class="hero">For me to <span class="circled">win<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3.2" stroke-linecap="round"/></svg></span>, nobody else needs to lose.</h2>
+    <p class="sample-body">Every relationship is a game. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</p>
+    <p class="sample-label">EXPERIMENT 001 — HAPPY MORNINGS CLUB — DAY 11/30</p>
+    <p class="why">Gelasio is metric-compatible with Georgia — the essay-web of Graham and Sivers. Verdana body at 15px is the barest, most human-default move available. Zero fashion, all content. Risk: reads "blog," not "brand."</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="option o4">
+    <div class="opt-head"><span class="opt-name"><b>4.</b> IBM Plex Mono + Plex Sans — the proof sheet</span><span class="opt-verdict">typed, then corrected</span></div>
+    <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="color:var(--pen)"><use href="#plus-mark"/></svg>sum experiments</div>
+    <h2 class="hero">For me to <span class="circled">win<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3.2" stroke-linecap="round"/></svg></span>, nobody else needs to lose.</h2>
+    <p class="sample-body">Every relationship is a game. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</p>
+    <p class="sample-label">EXPERIMENT 001 — HAPPY MORNINGS CLUB — DAY 11/30</p>
+    <p class="why">Monospace display = a document that was typed, not designed — and pen marks over typewriter text is the most natural pairing there is. Strongest "working document" signal; can feel cold over long pages.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="option o5">
+    <div class="opt-head"><span class="opt-name"><b>5.</b> Young Serif + Instrument Sans — the warm chunk</span><span class="opt-verdict">friendly, hand-set feel</span></div>
+    <div class="wordmark">positive<svg class="plus-drawn" viewBox="0 0 100 100" style="color:var(--pen)"><use href="#plus-mark"/></svg>sum experiments</div>
+    <h2 class="hero">For me to <span class="circled">win<svg viewBox="0 0 120 60" preserveAspectRatio="none"><path d="M12 32 C10 12, 52 4, 82 8 C108 12, 116 28, 108 42 C98 56, 44 58, 22 50 C8 45, 8 38, 14 30" fill="none" stroke="var(--pen)" stroke-width="3.2" stroke-linecap="round"/></svg></span>, nobody else needs to lose.</h2>
+    <p class="sample-body">Every relationship is a game. The only kind worth playing — with an employer, a customer, a vendor, a teammate — is the kind where both sides come out ahead.</p>
+    <p class="sample-label">EXPERIMENT 001 — HAPPY MORNINGS CLUB — DAY 11/30</p>
+    <p class="why">One weight, chunky and warm, like hand-set wood type. The friendliest of the five — matches the "bundle of infinite energy" persona. Single weight forces restraint; pairs happily with pen marks.</p>
+  </div>
+
+</div>
+</body>
+</html>
