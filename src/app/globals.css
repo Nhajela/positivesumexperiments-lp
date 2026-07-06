@@ -1,26 +1,79 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design tokens — the single source of truth for the visual system.
+  Decided on moodboards/01b-system.html (2026-07-06):
+  warm paper + print ink, and "every color is a pen on the desk with one job".
+*/
+@theme {
+  /* base */
+  --color-paper: #f7f6f1;
+  --color-ink: #1a1917;
+  --color-quiet: #8b8a83;
+  --color-rule: #e2e1d9;
+  /* the pens — cobalt annotates, red corrects, green validates, marigold highlights */
+  --color-pen: #1d3fe8;
+  --color-red-pen: #c93b2e;
+  --color-green-marker: #1e8a4c;
+  --color-marigold: #f0a81c;
+
+  /* spacing scale s1–s6 — nothing sits between steps */
+  --spacing-s1: 8px;
+  --spacing-s2: 16px;
+  --spacing-s3: 28px;
+  --spacing-s4: 48px;
+  --spacing-s5: 80px;
+  --spacing-s6: 120px;
+
+  /* type scale — display sizes clamp; measures are hard limits (16ch/62ch) */
+  --text-display-xl: clamp(34px, 6.5vw, 68px);
+  --text-display-xl--line-height: 1.08;
+  --text-display-xl--letter-spacing: -0.015em;
+  --text-display-l: clamp(26px, 4vw, 40px);
+  --text-display-l--line-height: 1.15;
+  --text-display-m: clamp(20px, 3vw, 26px);
+  --text-display-m--line-height: 1.25;
+  --text-body-l: 19px;
+  --text-body-l--line-height: 1.65;
+  --text-body-m: 16.5px;
+  --text-body-m--line-height: 1.65;
 }
 
+/* font tokens reference next/font variables, so they must stay inline */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-young-serif), serif;
+  --font-sans: var(--font-instrument-sans), sans-serif;
+  --font-mono: var(--font-spline-mono), monospace;
+  /* Akriti stands in for Naman's real handwriting until scanned assets arrive */
+  --font-hand: var(--font-akriti), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* paper grain — the single most de-digitising move; sits above everything,
+     never intercepts input */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-marigold) 35%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pen);
+    outline-offset: 3px;
+  }
 }

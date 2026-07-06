@@ -69,3 +69,7 @@ principles page + "what we know" list (which absorbed the earlier
 - **Palette: warm paper #F7F6F1, print ink #1A1917, pen cobalt #1D3FE8,
   quiet #8B8A83, rule #E2E1D9** + paper grain.
 - The drawn + mark is the identity glyph (wordmark, links, bullets).
+- **Mark: B1 "quarter-turn extra"** (moodboards/01b-system.html, B-revised
+  row) — one heavy-ink loop with a quarter-turn overlap, drawn + inside.
+  Interim until Naman's redrawn pen assets arrive; strokes thicken at small
+  sizes. Naman's own logo-trial-1.svg parked (needs bolder strokes).

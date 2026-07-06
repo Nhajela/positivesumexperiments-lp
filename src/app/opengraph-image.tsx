@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/site";
 
-// Placeholder OG image — plain wordmark on a dark field. Gets restyled once
-// the moodboard locks the brand's type and palette.
+// OG image in the system palette (warm paper / print ink / cobalt pen).
+// Full styling with the real mark waits on Naman's pen assets
+// (docs/future-changes.md).
 
 export const alt = site.name;
 export const size = { width: 1200, height: 630 };
@@ -18,8 +19,8 @@ export default function OpenGraphImage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0a0a0a",
-        color: "#ededed",
+        backgroundColor: "#f7f6f1",
+        color: "#1a1917",
         fontSize: 72,
         fontWeight: 600,
         letterSpacing: "-0.02em",
@@ -27,7 +28,11 @@ export default function OpenGraphImage() {
         padding: 80,
       }}
     >
-      {site.name}
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span>positive</span>
+        <span style={{ color: "#1d3fe8", fontSize: 80 }}>+</span>
+        <span>sum experiments</span>
+      </div>
     </div>,
     size,
   );
