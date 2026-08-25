@@ -27,6 +27,8 @@ export function GET() {
       tag: "Flat vocabulary, arranged in groups (scope: personal/work, and so on). Set on the hypothesis.",
       post: "Writing, optionally pointing back at hypotheses and experiments.",
       body: "Long-form markdown (MDX source), inline on each record as `body.source`, or null.",
+      placeholder:
+        "True while a record's page is scaffolding rather than finished writing. Treat its text as provisional — it will be rewritten.",
     },
     endpoints: {
       graph: {

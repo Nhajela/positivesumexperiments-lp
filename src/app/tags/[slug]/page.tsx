@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
 import { StatusBadge } from "@/components/status-badge";
 import { formatDate } from "@/lib/content/format";
@@ -45,8 +47,15 @@ export default async function TagPage({
 
   const rollup = getTagRollup(tag.id);
 
+  const nothingFiled =
+    rollup.hypotheses.length === 0 &&
+    rollup.experiments.length === 0 &&
+    rollup.posts.length === 0;
+
   return (
     <div className="pb-s5">
+      {tag.placeholder ? <PlaceholderBanner /> : null}
+
       <PageHeader
         title={tag.label}
         eyebrow={{ label: "Experiments", href: paths.experiments() }}
@@ -57,15 +66,29 @@ export default async function TagPage({
         }
       />
 
-      <ProseBody collection="tags" slug={tag.slug} />
+      <ProseBody
+        collection="tags"
+        slug={tag.slug}
+        fallback={
+          <EmptyNote>What this tag means is not written up yet.</EmptyNote>
+        }
+      />
 
-      <section className="mt-s4 border-t border-rule pt-s3">
-        <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-          Hypotheses
-        </h2>
-        {rollup.hypotheses.length === 0 ? (
-          <p className="font-mono text-[13px] text-quiet">None yet.</p>
-        ) : (
+      {nothingFiled ? (
+        <div className="mt-s4 border-t border-rule pt-s3">
+          <EmptyNote>
+            Nothing is filed under {tag.label} yet. Tags are set on a hypothesis
+            and inherited by its experiments, so this fills in as soon as one is
+            tagged.
+          </EmptyNote>
+        </div>
+      ) : null}
+
+      {rollup.hypotheses.length > 0 ? (
+        <section className="mt-s4 border-t border-rule pt-s3">
+          <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
+            Hypotheses
+          </h2>
           <ul className="space-y-s1">
             {rollup.hypotheses.map((h) => (
               <li key={h.id}>
@@ -79,16 +102,14 @@ export default async function TagPage({
               </li>
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      ) : null}
 
-      <section className="mt-s4 border-t border-rule pt-s3">
-        <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-          Experiments
-        </h2>
-        {rollup.experiments.length === 0 ? (
-          <p className="font-mono text-[13px] text-quiet">None yet.</p>
-        ) : (
+      {rollup.experiments.length > 0 ? (
+        <section className="mt-s4 border-t border-rule pt-s3">
+          <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
+            Experiments
+          </h2>
           <ul className="space-y-s1">
             {rollup.experiments.map((e) => (
               <li
@@ -106,8 +127,8 @@ export default async function TagPage({
               </li>
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      ) : null}
 
       {rollup.posts.length > 0 ? (
         <section className="mt-s4 border-t border-rule pt-s3">

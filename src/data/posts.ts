@@ -27,6 +27,7 @@ export const posts = [
     tags: ["personal"],
     hypotheses: ["doing-well-decides-well"],
     experiments: ["wake-at-630"],
+    placeholder: true,
   },
 ] as const satisfies readonly PostRecord[];
 

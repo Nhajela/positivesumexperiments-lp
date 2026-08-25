@@ -41,6 +41,8 @@ Naman will send handwritten and handmade assets. When they arrive:
       descends from instead of linking /core whole
 - [ ] Filtering /experiments by tag or status without a page load (deliberately
       static for now — the tag pages carry the roll-ups instead)
+- [ ] Clear `placeholder: true` off each record in `src/data/` as Naman writes
+      the real page — every one of them carries the flag today
 - [ ] "Now" section or page (what's currently running) — `getLiveExperiments()`
       in `src/lib/content/queries.ts` already returns exactly this
 

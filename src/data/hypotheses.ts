@@ -34,6 +34,7 @@ export const hypotheses = [
     core: ["power-laws"],
     related: ["namanhajela-com"],
     createdAt: "2026-08-25",
+    placeholder: true,
   },
   {
     id: "namanhajela-com",
@@ -45,6 +46,7 @@ export const hypotheses = [
     core: [],
     related: ["doing-well-decides-well"],
     createdAt: "2026-08-25",
+    placeholder: true,
   },
 ] as const satisfies readonly HypothesisRecord[];
 

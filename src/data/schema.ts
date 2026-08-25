@@ -19,6 +19,15 @@ export type BodyLoader = () => Promise<{
 /** Directory under `content/` — also the collection name in the API. */
 export type Collection = "hypotheses" | "experiments" | "posts" | "tags";
 
+/**
+ * Marks a record whose page is scaffolding rather than finished writing.
+ *
+ * Every page carrying this says "This is a placeholder." at the top, and the
+ * flag rides along in the API so a consumer isn't misled either. Naman clears
+ * it when he has written the page — one edit here, nothing else to hunt down.
+ * Required by docs/ai-policy.md: nothing AI-arranged may read as his voice.
+ */
+
 // ---------------------------------------------------------------- statuses
 
 export const EXPERIMENT_STATUSES = [
@@ -56,6 +65,7 @@ export type Tag = {
   slug: string;
   label: string;
   group: string;
+  placeholder?: boolean;
 };
 
 // ------------------------------------------------------------ core linkage
@@ -89,6 +99,7 @@ export type Hypothesis = {
   related?: readonly string[];
   /** ISO date, YYYY-MM-DD. */
   createdAt: string;
+  placeholder?: boolean;
 };
 
 // -------------------------------------------------------------- experiment
@@ -108,6 +119,7 @@ export type Experiment = {
   /** How long it was meant to run, when that was decided up front. */
   plannedDurationDays?: number;
   createdAt: string;
+  placeholder?: boolean;
 };
 
 // -------------------------------------------------------------------- post
@@ -126,4 +138,5 @@ export type Post = {
   experiments?: readonly string[];
   /** Drafts stay out of the index, the feed, and the API. */
   draft?: boolean;
+  placeholder?: boolean;
 };

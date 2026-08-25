@@ -62,6 +62,17 @@ runs `assertContentIntegrity()` at import, so a dangling reference, a duplicate
 slug or a status that contradicts its dates **fails the build** rather than
 shipping as a broken link.
 
+Empty is a normal state throughout — a hypothesis exists before anything tests
+it, an experiment before it is written up — so every list and body says so
+plainly rather than collapsing into a hole in the page.
+
+### Placeholders
+
+A record with `placeholder: true` gets **"This is a placeholder."** printed
+above its title, and the flag rides along in the API so a site consuming the
+feed isn't misled either. Everything currently published carries it. Clearing
+one is a single edit in `src/data/`.
+
 Adding an experiment is four steps, all in
 [`content/README.md`](content/README.md). The pages, roll-ups, sitemap, feeds
 and API all follow from the record.
@@ -82,17 +93,20 @@ site can fetch it straight from the browser.
 | `/api/tags` | The tag vocabulary, by group |
 | `/feed.xml` | RSS for the blog |
 
-Each record carries its markdown body inline as `body.source`. JSON and XML are
-built from the same serialized objects (`src/lib/content/serialize.ts`), so the
-two formats can't drift apart. `version` in every response is the contract —
-bump `API_VERSION` when a field changes meaning.
+Each record carries its markdown body inline as `body.source` and a
+`placeholder` boolean saying whether that text is finished writing. JSON and
+XML are built from the same serialized objects
+(`src/lib/content/serialize.ts`), so the two formats can't drift apart.
+`version` in every response is the contract — bump `API_VERSION` when a field
+changes meaning.
 
 ## Editing prose
 
 `src/app/core/page.mdx` and everything in `content/` is plain MDX — edit it
 directly. All reader-facing prose is Naman's, written by hand (sources logged
-in `writing/`). Anything not yet written by him is marked with `<DraftNote>` or
-`[Placeholder — ...]` so it can't ship unnoticed; see `docs/ai-policy.md`.
+in `writing/`). Anything not yet written by him is flagged `placeholder: true`
+on its record and marked with `<DraftNote>` or `[Placeholder — ...]` in the
+prose, so it can't ship unnoticed; see `docs/ai-policy.md`.
 
 ## SEO
 

@@ -35,6 +35,8 @@ export type JsonTag = {
   label: string;
   group: { id: string; label: string };
   url: string;
+  /** True while the page is scaffolding rather than finished writing. */
+  placeholder: boolean;
 };
 
 export type JsonRef = {
@@ -52,6 +54,8 @@ export type JsonExperiment = {
   title: string;
   status: string;
   url: string;
+  /** True while the page is scaffolding rather than finished writing. */
+  placeholder: boolean;
   hypothesis: JsonRef;
   tags: JsonTag[];
   dates: {
@@ -69,6 +73,8 @@ export type JsonHypothesis = {
   title: string;
   statement: string;
   url: string;
+  /** True while the page is scaffolding rather than finished writing. */
+  placeholder: boolean;
   tags: JsonTag[];
   core: { id: string; number: number; title: string; url: string }[];
   related: JsonRef[];
@@ -83,6 +89,8 @@ export type JsonPost = {
   title: string;
   summary: string | null;
   url: string;
+  /** True while the page is scaffolding rather than finished writing. */
+  placeholder: boolean;
   tags: JsonTag[];
   hypotheses: JsonRef[];
   experiments: JsonRef[];
@@ -107,6 +115,7 @@ export function serializeTag(tag: ResolvedTag): JsonTag {
     label: tag.label,
     group: { id: tag.group.id, label: tag.group.label },
     url: absolute(tag.url),
+    placeholder: tag.placeholder === true,
   };
 }
 
@@ -127,6 +136,7 @@ export async function serializeExperiment(
     title: e.title,
     status: e.status,
     url: absolute(e.url),
+    placeholder: e.placeholder === true,
     hypothesis: {
       id: e.hypothesis.id,
       slug: e.hypothesis.slug,
@@ -153,6 +163,7 @@ export async function serializeHypothesis(
     title: h.title,
     statement: h.statement,
     url: absolute(h.url),
+    placeholder: h.placeholder === true,
     tags: h.tags.map(serializeTag),
     core: h.core.map((p) => ({
       id: p.id,
@@ -185,6 +196,7 @@ export async function serializePost(p: ResolvedPost): Promise<JsonPost> {
     title: p.title,
     summary: p.summary ?? null,
     url: absolute(p.url),
+    placeholder: p.placeholder === true,
     tags: p.tags.map(serializeTag),
     hypotheses: p.hypotheses.map((h) => ({
       id: h.id,

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
@@ -46,6 +48,7 @@ export default async function ExperimentPage({
   if (!experiment) notFound();
 
   const posts = getPostsAbout({ experimentId: experiment.id });
+
   // Once it has run, how long it actually took beats how long it was meant to.
   const duration =
     experiment.startedAt && experiment.endedAt
@@ -60,8 +63,22 @@ export default async function ExperimentPage({
           }
         : null;
 
+  // A planned experiment has no dates worth printing. Build the row first so
+  // the whole strip can be skipped rather than rendering an empty list.
+  const facts = [
+    experiment.startedAt
+      ? { label: "Started", value: formatDate(experiment.startedAt) }
+      : null,
+    experiment.endedAt
+      ? { label: "Ended", value: formatDate(experiment.endedAt) }
+      : null,
+    duration,
+  ].filter((fact): fact is { label: string; value: string } => fact !== null);
+
   return (
     <article className="pb-s5">
+      {experiment.placeholder ? <PlaceholderBanner /> : null}
+
       <PageHeader
         title={experiment.title}
         size="l"
@@ -72,32 +89,24 @@ export default async function ExperimentPage({
         aside={<StatusBadge status={experiment.status} />}
       />
 
-      <dl className="mb-s3 flex flex-wrap gap-x-s3 gap-y-s1 font-mono text-[13px] text-quiet">
-        {experiment.startedAt ? (
-          <div>
-            <dt className="inline">Started </dt>
-            <dd className="inline text-ink/70">
-              {formatDate(experiment.startedAt)}
-            </dd>
-          </div>
-        ) : null}
-        {experiment.endedAt ? (
-          <div>
-            <dt className="inline">Ended </dt>
-            <dd className="inline text-ink/70">
-              {formatDate(experiment.endedAt)}
-            </dd>
-          </div>
-        ) : null}
-        {duration ? (
-          <div>
-            <dt className="inline">{duration.label} </dt>
-            <dd className="inline text-ink/70">{duration.value}</dd>
-          </div>
-        ) : null}
-      </dl>
+      {facts.length > 0 ? (
+        <dl className="mb-s3 flex flex-wrap gap-x-s3 gap-y-s1 font-mono text-[13px] text-quiet">
+          {facts.map((fact) => (
+            <div key={fact.label}>
+              <dt className="inline">{fact.label} </dt>
+              <dd className="inline text-ink/70">{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <EmptyNote>Not started — no dates set yet.</EmptyNote>
+      )}
 
-      <TagPills tags={experiment.tags} className="mb-s4" />
+      {experiment.tags.length > 0 ? (
+        <TagPills tags={experiment.tags} className="mt-s2 mb-s4" />
+      ) : (
+        <div className="mb-s4" />
+      )}
 
       <section className="mb-s4 border-t border-rule pt-s3">
         <h2 className="mb-s1 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
@@ -111,7 +120,16 @@ export default async function ExperimentPage({
         </Link>
       </section>
 
-      <ProseBody collection="experiments" slug={experiment.slug} />
+      <ProseBody
+        collection="experiments"
+        slug={experiment.slug}
+        fallback={
+          <EmptyNote>
+            Not written up yet — this experiment has a record but no notes
+            against it.
+          </EmptyNote>
+        }
+      />
 
       {posts.length > 0 ? (
         <section className="mt-s5 border-t border-rule pt-s3">

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DraftNote } from "@/components/draft-note";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
 import { apiPaths } from "@/lib/content/paths";
@@ -29,6 +30,10 @@ export default function ExperimentsPage() {
 
   return (
     <div className="pb-s5">
+      {/* The opening of this page is still a stand-in quote, so the whole page
+          is flagged. Goes when Naman writes the real opening. */}
+      <PlaceholderBanner note="The opening below is a quote from Naman's brief, standing in until he writes this page. The experiments it lists are scaffolding too." />
+
       <PageHeader
         title="Experiments"
         aside={
@@ -37,11 +42,6 @@ export default function ExperimentsPage() {
           </span>
         }
       />
-
-      <DraftNote>
-        Naman's words from the 25 Aug 2026 brief, standing in until he writes
-        the opening of this page.
-      </DraftNote>
 
       <blockquote className="my-s4 border-l-[3px] border-marigold pl-s3 text-quiet">
         <p className="text-[15px]">
@@ -53,15 +53,24 @@ export default function ExperimentsPage() {
 
       {/* Doubles as the legend for the status vocabulary — the colours here
           are the same ones used against every experiment below. */}
-      <p className="mb-s5 font-mono text-[13px] text-quiet">
-        {statusCounts.map((s, i) => (
-          <span key={s.status}>
-            {i > 0 ? <span className="mx-s1 text-rule">/</span> : null}
-            <span className="mr-1.5">{s.count}</span>
-            <StatusBadge status={s.status} />
-          </span>
-        ))}
-      </p>
+      {statusCounts.length > 0 ? (
+        <p className="mb-s5 font-mono text-[13px] text-quiet">
+          {statusCounts.map((s, i) => (
+            <span key={s.status}>
+              {i > 0 ? <span className="mx-s1 text-rule">/</span> : null}
+              <span className="mr-1.5">{s.count}</span>
+              <StatusBadge status={s.status} />
+            </span>
+          ))}
+        </p>
+      ) : null}
+
+      {hypotheses.length === 0 ? (
+        <EmptyNote>
+          Nothing here yet. Experiments hang off a hypothesis — adding one
+          starts in src/data/hypotheses.ts, see content/README.md.
+        </EmptyNote>
+      ) : null}
 
       {hypotheses.map((h) => (
         <section key={h.id} className="mb-s5">
@@ -75,12 +84,12 @@ export default function ExperimentsPage() {
             {h.statement}
           </p>
 
-          <TagPills tags={h.tags} className="mb-s3" />
+          {h.tags.length > 0 ? (
+            <TagPills tags={h.tags} className="mb-s3" />
+          ) : null}
 
           {h.experiments.length === 0 ? (
-            <p className="font-mono text-[13px] text-quiet">
-              No experiments under this yet.
-            </p>
+            <EmptyNote>Nothing testing this yet.</EmptyNote>
           ) : (
             <ul className="space-y-s1">
               {h.experiments.map((e) => (

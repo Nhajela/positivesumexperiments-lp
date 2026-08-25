@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DraftNote } from "@/components/draft-note";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
@@ -50,6 +51,8 @@ export default async function HypothesisPage({
 
   return (
     <article className="pb-s5">
+      {hypothesis.placeholder ? <PlaceholderBanner /> : null}
+
       <PageHeader
         title={hypothesis.title}
         size="l"
@@ -65,7 +68,13 @@ export default async function HypothesisPage({
         {hypothesis.statement}
       </p>
 
-      <TagPills tags={hypothesis.tags} className="mt-s3 mb-s4" />
+      {hypothesis.tags.length > 0 ? (
+        <TagPills tags={hypothesis.tags} className="mt-s3 mb-s4" />
+      ) : (
+        <div className="mt-s3 mb-s4">
+          <EmptyNote>Not tagged yet.</EmptyNote>
+        </div>
+      )}
 
       {/* The rule from /core: a hypothesis says which principle it descends
           from. Saying so out loud is the point, so an empty list is shown as
@@ -75,10 +84,10 @@ export default async function HypothesisPage({
           Descends from
         </h2>
         {hypothesis.core.length === 0 ? (
-          <DraftNote>
-            No principle of the core named yet — Naman decides which one this
+          <EmptyNote>
+            No principle named yet — Naman decides which part of the core this
             descends from.
-          </DraftNote>
+          </EmptyNote>
         ) : (
           <ul className="space-y-s1">
             {hypothesis.core.map((principle) => (
@@ -103,7 +112,10 @@ export default async function HypothesisPage({
           Experiments testing it
         </h2>
         {hypothesis.experiments.length === 0 ? (
-          <p className="font-mono text-[13px] text-quiet">None yet.</p>
+          <EmptyNote>
+            Nothing testing this yet — the hypothesis is written down before
+            anything is run against it.
+          </EmptyNote>
         ) : (
           <ul className="space-y-s1">
             {hypothesis.experiments.map((e) => (
@@ -125,7 +137,15 @@ export default async function HypothesisPage({
         )}
       </section>
 
-      <ProseBody collection="hypotheses" slug={hypothesis.slug} />
+      <ProseBody
+        collection="hypotheses"
+        slug={hypothesis.slug}
+        fallback={
+          <EmptyNote>
+            The case for this hypothesis is not written up yet.
+          </EmptyNote>
+        }
+      />
 
       {hypothesis.related.length > 0 ? (
         <section className="mt-s5 border-t border-rule pt-s3">

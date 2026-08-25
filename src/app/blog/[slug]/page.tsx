@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
@@ -50,6 +52,8 @@ export default async function PostPage({
 
   return (
     <article className="pb-s5">
+      {post.placeholder ? <PlaceholderBanner /> : null}
+
       <PageHeader
         title={post.title}
         size="l"
@@ -64,9 +68,17 @@ export default async function PostPage({
         }
       />
 
-      <TagPills tags={post.tags} className="mb-s4" />
+      {post.tags.length > 0 ? (
+        <TagPills tags={post.tags} className="mb-s4" />
+      ) : (
+        <div className="mb-s4" />
+      )}
 
-      <ProseBody collection="posts" slug={post.slug} />
+      <ProseBody
+        collection="posts"
+        slug={post.slug}
+        fallback={<EmptyNote>This post has no body yet.</EmptyNote>}
+      />
 
       {linked.length > 0 ? (
         <section className="mt-s5 border-t border-rule pt-s3">

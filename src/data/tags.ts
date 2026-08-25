@@ -25,24 +25,28 @@ export const tags = [
     slug: "personal",
     label: "Personal",
     group: "scope",
+    placeholder: true,
   },
   {
     id: "work",
     slug: "work",
     label: "Work",
     group: "scope",
+    placeholder: true,
   },
   {
     id: "self",
     slug: "self",
     label: "Self",
     group: "arena",
+    placeholder: true,
   },
   {
     id: "building",
     slug: "building",
     label: "Building",
     group: "arena",
+    placeholder: true,
   },
 ] as const satisfies readonly Tag[];
 

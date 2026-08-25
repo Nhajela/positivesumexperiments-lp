@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
+import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { TagPills } from "@/components/tag-pill";
 import { formatDate } from "@/lib/content/format";
 import { apiPaths } from "@/lib/content/paths";
@@ -18,9 +20,17 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getPosts();
+  // The banner clears itself: it shows only while every post listed is
+  // scaffolding, so publishing one real post retires it.
+  const allPlaceholders =
+    posts.length > 0 && posts.every((post) => post.placeholder);
 
   return (
     <div className="pb-s5">
+      {allPlaceholders ? (
+        <PlaceholderBanner note="Every post listed here is scaffolding. Naman has not published a real one yet." />
+      ) : null}
+
       <PageHeader
         title="Blog"
         aside={
@@ -34,7 +44,10 @@ export default function BlogPage() {
       />
 
       {posts.length === 0 ? (
-        <p className="font-mono text-[13px] text-quiet">Nothing published.</p>
+        <EmptyNote>
+          Nothing published yet. Posts live in content/posts — see
+          content/README.md.
+        </EmptyNote>
       ) : (
         <ul>
           {posts.map((post) => (

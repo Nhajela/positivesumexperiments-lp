@@ -55,9 +55,21 @@ yourself go in the latter.
 
 ## Placeholders
 
-Anything not yet written by Naman is marked with `<DraftNote>` or
-`[Placeholder — ...]` so it can't be mistaken for his voice, and so it is
-obvious what still needs writing. See `docs/ai-policy.md`.
+Set `placeholder: true` on a record in `src/data/` and its page prints **"This
+is a placeholder."** above the title, before anything it qualifies. The flag is
+published in the API too, so nobody reading the feed is misled. Clear it when
+you have written the page — that one edit is the whole job.
+
+Inside a file, `<DraftNote>` and `[Placeholder — ...]` mark which *parts* are
+unfinished, and which quotes are your own words kept verbatim rather than
+final prose. See `docs/ai-policy.md`.
+
+## Nothing there yet
+
+Empty is expected, not broken. A hypothesis with no experiments, an experiment
+with no write-up, a tag with nothing filed under it — each page says so in
+plain words instead of hiding the section. Write when there is something to
+write.
 
 ## Where it shows up
 

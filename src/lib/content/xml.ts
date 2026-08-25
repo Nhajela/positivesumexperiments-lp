@@ -91,7 +91,12 @@ function tagsNode(tags: JsonTag[]): XmlNode | null {
     name: "tags",
     children: tags.map((t) => ({
       name: "tag",
-      attrs: { id: t.id, group: t.group.id, href: t.url },
+      attrs: {
+        id: t.id,
+        group: t.group.id,
+        href: t.url,
+        placeholder: t.placeholder ? "true" : null,
+      },
       text: t.label,
     })),
   };
@@ -117,7 +122,13 @@ function rootAttrs(count: number): Attrs {
 function experimentNode(e: JsonExperiment): XmlNode {
   return {
     name: "experiment",
-    attrs: { id: e.id, slug: e.slug, status: e.status, href: e.url },
+    attrs: {
+      id: e.id,
+      slug: e.slug,
+      status: e.status,
+      href: e.url,
+      placeholder: e.placeholder ? "true" : null,
+    },
     children: [
       text("title", e.title),
       {
@@ -151,7 +162,13 @@ export function experimentsXml(experiments: JsonExperiment[]): string {
 function hypothesisNode(h: JsonHypothesis): XmlNode {
   return {
     name: "hypothesis",
-    attrs: { id: h.id, slug: h.slug, href: h.url, created: h.dates.created },
+    attrs: {
+      id: h.id,
+      slug: h.slug,
+      href: h.url,
+      created: h.dates.created,
+      placeholder: h.placeholder ? "true" : null,
+    },
     children: [
       text("title", h.title),
       text("statement", h.statement),
@@ -208,6 +225,7 @@ function postNode(p: JsonPost): XmlNode {
       href: p.url,
       published: p.dates.published,
       updated: p.dates.updated,
+      placeholder: p.placeholder ? "true" : null,
     },
     children: [
       text("title", p.title),
