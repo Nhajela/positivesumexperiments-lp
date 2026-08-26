@@ -18,13 +18,9 @@ export const bodies: BodyRegistry = {
   hypotheses: {
     "doing-well-decides-well": () =>
       import("../../content/hypotheses/doing-well-decides-well.mdx"),
-    "namanhajela-com": () =>
-      import("../../content/hypotheses/namanhajela-com.mdx"),
   },
   experiments: {
     "wake-at-630": () => import("../../content/experiments/wake-at-630.mdx"),
-    "build-namanhajela-com": () =>
-      import("../../content/experiments/build-namanhajela-com.mdx"),
   },
   posts: {
     "placeholder-first-post": () =>
