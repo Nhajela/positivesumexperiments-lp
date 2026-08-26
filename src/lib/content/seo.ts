@@ -135,6 +135,21 @@ export function seoForCore(): PageSeo {
   };
 }
 
+export function seoForAwareness(): PageSeo {
+  const description =
+    "Pieces of awareness that complement the core — starting with the limited decision budget.";
+  return {
+    title: "Pieces of Awareness",
+    description,
+    path: paths.awareness(),
+    card: {
+      eyebrow: "Pieces of Awareness",
+      title: "You have a limited decision budget at all points of time.",
+      description: clamp(description, CARD_CHARS),
+    },
+  };
+}
+
 export function seoForExperimentsIndex(): PageSeo {
   const counts = getCounts();
   const tally = join(

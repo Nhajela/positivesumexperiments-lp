@@ -6,6 +6,7 @@
 
 export const paths = {
   core: () => "/core",
+  awareness: () => "/awareness",
   experiments: () => "/experiments",
   experiment: (slug: string) => `/experiments/${slug}`,
   hypothesis: (slug: string) => `/hypotheses/${slug}`,

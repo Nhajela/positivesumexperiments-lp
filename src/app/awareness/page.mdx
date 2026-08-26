@@ -1,0 +1,36 @@
+import Link from "next/link";
+
+import { seoForAwareness, toMetadata } from "@/lib/content/seo";
+
+export const metadata = toMetadata(seoForAwareness());
+
+<div className="mt-s5 mb-s4 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
+  <h1 className="font-display text-display-xl text-ink">Pieces of Awareness</h1>
+  <span className="font-hand text-[22px] text-pen -rotate-1">Author: Nmn</span>
+</div>
+
+<p className="font-mono text-[13px] uppercase tracking-[0.08em] text-quiet mb-s4">
+  Complementary to <Link href="/core" className="text-pen hover:underline">Core</Link>
+</p>
+
+## Limited Decision Budget
+
+You have a limited decision budget at all points of time. And the quality
+of decisions goes down through time, fatigue, and number of decisions
+made.
+
+Design your life such that most of the important decisions are pre made
+in your favor.
+
+<div className="mt-s4 border-t border-rule pt-s3">
+  <p className="mb-s1 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
+    See also
+  </p>
+  <Link
+    href="/hypotheses/doing-well-decides-well"
+    className="text-body-m text-ink hover:text-pen"
+  >
+    <span className="mr-1.5 font-bold text-pen">+</span>
+    Doing well, deciding well
+  </Link>
+</div>

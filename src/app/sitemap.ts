@@ -12,7 +12,13 @@ import { site } from "@/lib/site";
 // rarely. Everything under /experiments, /hypotheses, /tags and /blog comes
 // from the content records, so adding an experiment adds its URL here with no
 // extra step.
-const staticRoutes = ["/", "/core", paths.experiments(), paths.blog()];
+const staticRoutes = [
+  "/",
+  "/core",
+  paths.awareness(),
+  paths.experiments(),
+  paths.blog(),
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const url = (route: string) => `${site.url}${route === "/" ? "" : route}`;
