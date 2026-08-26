@@ -19,34 +19,20 @@ type HypothesisRecord = Omit<Hypothesis, "tags" | "core" | "related"> & {
 // body at content/hypotheses/<slug>.mdx argues why.
 //
 // All prose in `title` and `statement` is Naman's, verbatim
-// (writing/2026-08-25-experiments-and-blog-brief.txt). Anything not yet
-// written by him is marked [Placeholder — ...] so it can't be mistaken for
-// his voice. See docs/ai-policy.md.
+// (writing/2026-08-25-experiments-and-blog-brief.txt), with one exception:
+// `doing-well-decides-well`'s title is a short display label Naman asked for
+// directly, not a quote — replace it whenever he'd rather write his own.
+// Anything not yet written by him is marked [Placeholder — ...] so it can't
+// be mistaken for his voice. See docs/ai-policy.md.
 export const hypotheses = [
   {
     id: "doing-well-decides-well",
     slug: "doing-well-decides-well",
-    title:
-      "When I am doing well in my life then I will be able to make better decisions",
-    statement:
-      "When I have mental clarity, when I have a peaceful mind, I'll be able to make much better decisions.",
+    title: "Doing well, deciding well",
+    statement: "When I'm doing well, I will make better decisions.",
     tags: ["personal", "self"],
     core: ["power-laws"],
-    related: ["namanhajela-com"],
     createdAt: "2026-08-25",
-    placeholder: true,
-  },
-  {
-    id: "namanhajela-com",
-    slug: "namanhajela-com",
-    title: "Building namanhajela.com",
-    statement:
-      '[Placeholder — Naman writes this. From the brief: "building my namanhajela.com website helps me do xyz."]',
-    tags: ["work", "building"],
-    core: [],
-    related: ["doing-well-decides-well"],
-    createdAt: "2026-08-25",
-    placeholder: true,
   },
 ] as const satisfies readonly HypothesisRecord[];
 

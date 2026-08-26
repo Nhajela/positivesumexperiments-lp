@@ -24,16 +24,6 @@ export const experiments = [
     status: "planned",
     plannedDurationDays: 15,
     createdAt: "2026-08-25",
-    placeholder: true,
-  },
-  {
-    id: "build-namanhajela-com",
-    slug: "build-namanhajela-com",
-    title: "Build namanhajela.com",
-    hypothesis: "namanhajela-com",
-    status: "planned",
-    createdAt: "2026-08-25",
-    placeholder: true,
   },
 ] as const satisfies readonly ExperimentRecord[];
 
