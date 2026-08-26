@@ -1,6 +1,6 @@
 import { apiPaths } from "@/lib/content/paths";
 import { getCounts } from "@/lib/content/queries";
-import { json } from "@/lib/content/responses";
+import { json, preflight } from "@/lib/content/responses";
 import { API_VERSION } from "@/lib/content/serialize";
 import { site } from "@/lib/site";
 
@@ -56,3 +56,5 @@ export function GET() {
     },
   });
 }
+
+export const OPTIONS = preflight;

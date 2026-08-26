@@ -1,5 +1,5 @@
 import { getHypotheses, getHypothesisBySlug } from "@/lib/content/queries";
-import { json, notFound } from "@/lib/content/responses";
+import { json, notFound, preflight } from "@/lib/content/responses";
 import { envelope, serializeHypothesis } from "@/lib/content/serialize";
 
 export const dynamic = "force-static";
@@ -19,3 +19,5 @@ export async function GET(
 
   return json(envelope({ hypothesis: await serializeHypothesis(hypothesis) }));
 }
+
+export const OPTIONS = preflight;

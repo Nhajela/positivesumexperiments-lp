@@ -94,11 +94,16 @@ site can fetch it straight from the browser.
 | `/feed.xml` | RSS for the blog |
 
 Each record carries its markdown body inline as `body.source` and a
-`placeholder` boolean saying whether that text is finished writing. JSON and
-XML are built from the same serialized objects
+`placeholder` boolean saying whether that text is finished writing. Tags carry
+their prose too, but only where a tag is the subject (`/api/tags`, and the
+graph's `tagGroups`) — a tag repeats on every record it classifies, so the
+copies hanging off an experiment stay lean.
+
+JSON and XML are built from the same serialized objects
 (`src/lib/content/serialize.ts`), so the two formats can't drift apart.
 `version` in every response is the contract — bump `API_VERSION` when a field
-changes meaning.
+changes meaning. Every endpoint answers `OPTIONS` as well as `GET`, so a
+cross-origin caller that triggers a CORS preflight isn't turned away.
 
 ## Editing prose
 

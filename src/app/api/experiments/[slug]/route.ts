@@ -1,5 +1,5 @@
 import { getExperimentBySlug, getExperiments } from "@/lib/content/queries";
-import { json, notFound } from "@/lib/content/responses";
+import { json, notFound, preflight } from "@/lib/content/responses";
 import { envelope, serializeExperiment } from "@/lib/content/serialize";
 
 export const dynamic = "force-static";
@@ -19,3 +19,5 @@ export async function GET(
 
   return json(envelope({ experiment: await serializeExperiment(experiment) }));
 }
+
+export const OPTIONS = preflight;

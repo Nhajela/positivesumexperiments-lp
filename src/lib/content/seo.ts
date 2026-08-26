@@ -13,6 +13,7 @@
 
 import type { Metadata } from "next";
 import { statusLabel } from "@/components/status-badge";
+import { corePrinciples } from "@/data/core";
 import type { OgCard } from "@/lib/og/card";
 import { OG_STATUS_COLOR } from "@/lib/og/card";
 import { site } from "@/lib/site";
@@ -129,7 +130,7 @@ export function seoForCore(): PageSeo {
       eyebrow: "The Core",
       title: "It is a game, time is limited. Give back to all audaciously.",
       description: clamp(description, CARD_CHARS),
-      meta: ["7 principles"],
+      meta: [plural(corePrinciples.length, "principle")],
     },
   };
 }

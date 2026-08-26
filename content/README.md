@@ -50,8 +50,8 @@ to wake up</HandNote> at 6:30.
 ```
 
 Two things get stripped before a file is served over the API, so they are safe
-to use freely: `import` lines at the top, and `{/* MDX comments */}`. Notes to
-yourself go in the latter.
+to use freely: `import` statements at the top — including ones wrapped across
+several lines — and `{/* MDX comments */}`. Notes to yourself go in the latter.
 
 ## Placeholders
 

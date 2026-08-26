@@ -1,5 +1,5 @@
 import { apiPaths } from "@/lib/content/paths";
-import { xml } from "@/lib/content/responses";
+import { preflight, xml } from "@/lib/content/responses";
 import { serializePostsDocument } from "@/lib/content/serialize";
 import { rssFeed } from "@/lib/content/xml";
 import { site } from "@/lib/site";
@@ -15,3 +15,5 @@ export async function GET() {
     "application/rss+xml",
   );
 }
+
+export const OPTIONS = preflight;

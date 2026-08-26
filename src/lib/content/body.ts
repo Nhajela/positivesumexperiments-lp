@@ -14,8 +14,15 @@ const CONTENT_ROOT = path.join(process.cwd(), "content");
 
 /** Editorial notes to the writer — stripped so consumers get clean markdown. */
 const MDX_COMMENT = /\{\s*\/\*[\s\S]*?\*\/\s*\}/g;
-/** Component imports at the head of a file: machinery, not writing. */
-const LEADING_IMPORTS = /^(?:import\s[^\n]*\n|\s*\n)*/;
+/**
+ * Component imports at the head of a file: machinery, not writing.
+ *
+ * Matched up to the module specifier rather than to end-of-line, because an
+ * import can wrap across lines — a line-based strip leaves `} from "…";`
+ * stranded in the markdown this publishes.
+ */
+const LEADING_IMPORTS =
+  /^(?:[ \t]*import\b[\s\S]*?["'][^"'\n]*["'];?[ \t]*\r?\n|[ \t]*\r?\n)*/;
 
 /**
  * The markdown source of a record's body, or null when it has none.

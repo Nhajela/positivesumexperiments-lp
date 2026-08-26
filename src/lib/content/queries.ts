@@ -177,6 +177,7 @@ export function assertContentIntegrity(): void {
 
   for (const h of hypotheses) {
     const label = `hypothesis "${h.id}"`;
+    unique(`${label} tags`, h.tags);
     refs(label, h.tags, tagById, "tag");
     refs(label, h.core, coreById, "core principle");
     refs(label, h.related, hypothesisById, "hypothesis");
@@ -187,6 +188,7 @@ export function assertContentIntegrity(): void {
   for (const e of experiments) {
     const label = `experiment "${e.id}"`;
     refs(label, [e.hypothesis], hypothesisById, "hypothesis");
+    unique(`${label} tags`, e.tags ?? []);
     refs(label, e.tags, tagById, "tag");
     date(`${label} createdAt`, e.createdAt);
     date(`${label} startedAt`, e.startedAt);
@@ -204,6 +206,7 @@ export function assertContentIntegrity(): void {
 
   for (const p of posts) {
     const label = `post "${p.id}"`;
+    unique(`${label} tags`, p.tags ?? []);
     refs(label, p.tags, tagById, "tag");
     refs(label, p.hypotheses, hypothesisById, "hypothesis");
     refs(label, p.experiments, experimentById, "experiment");

@@ -1,4 +1,4 @@
-import { xml } from "@/lib/content/responses";
+import { preflight, xml } from "@/lib/content/responses";
 import { serializeGraphDocument } from "@/lib/content/serialize";
 import { graphXml } from "@/lib/content/xml";
 
@@ -18,3 +18,5 @@ export async function GET() {
     }),
   );
 }
+
+export const OPTIONS = preflight;

@@ -11,6 +11,7 @@ import type {
   JsonHypothesis,
   JsonPost,
   JsonTag,
+  JsonTagDetail,
 } from "./serialize";
 import { API_VERSION } from "./serialize";
 
@@ -99,6 +100,21 @@ function tagsNode(tags: JsonTag[]): XmlNode | null {
       },
       text: t.label,
     })),
+  };
+}
+
+/** A tag as the subject: same attributes, plus its prose. */
+function tagDetailNode(tag: JsonTagDetail): XmlNode {
+  return {
+    name: "tag",
+    attrs: {
+      id: tag.id,
+      slug: tag.slug,
+      group: tag.group.id,
+      href: tag.url,
+      placeholder: tag.placeholder ? "true" : null,
+    },
+    children: [text("label", tag.label), bodyNode(tag.body)],
   };
 }
 
@@ -249,7 +265,7 @@ export function graphXml(input: {
   hypotheses: JsonHypothesis[];
   experiments: JsonExperiment[];
   posts: JsonPost[];
-  tagGroups: { id: string; label: string; tags: JsonTag[] }[];
+  tagGroups: { id: string; label: string; tags: JsonTagDetail[] }[];
   core: { id: string; number: number; title: string; url: string }[];
 }): string {
   return renderDocument({
@@ -271,7 +287,10 @@ export function graphXml(input: {
         children: input.tagGroups.map((g) => ({
           name: "tagGroup",
           attrs: { id: g.id },
-          children: [text("label", g.label), tagsNode(g.tags)],
+          children: [
+            text("label", g.label),
+            { name: "tags", children: g.tags.map(tagDetailNode) },
+          ],
         })),
       },
       { name: "hypotheses", children: input.hypotheses.map(hypothesisNode) },

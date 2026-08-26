@@ -39,6 +39,14 @@ export type JsonTag = {
   placeholder: boolean;
 };
 
+/**
+ * A tag where the tag is the subject, rather than a label hanging off an
+ * experiment. Carries its prose, which the lean shape above deliberately does
+ * not: tags repeat on every record they classify, and inlining a body into
+ * each of those would balloon the graph document for no one's benefit.
+ */
+export type JsonTagDetail = JsonTag & { body: JsonBody };
+
 export type JsonRef = {
   id: string;
   slug: string;
@@ -119,8 +127,14 @@ export function serializeTag(tag: ResolvedTag): JsonTag {
   };
 }
 
+export async function serializeTagDetail(
+  tag: ResolvedTag,
+): Promise<JsonTagDetail> {
+  return { ...serializeTag(tag), body: await body("tags", tag.slug) };
+}
+
 async function body(
-  collection: "hypotheses" | "experiments" | "posts",
+  collection: "hypotheses" | "experiments" | "posts" | "tags",
   slug: string,
 ): Promise<JsonBody> {
   const source = await readBodySource(collection, slug);
@@ -255,15 +269,22 @@ export async function serializePostsDocument() {
   });
 }
 
-export function serializeTagsDocument() {
+export async function serializeTagsDocument() {
   return envelope({
     collection: "tags" as const,
-    groups: getTagsByGroup().map(({ group, tags }) => ({
+    groups: await serializeTagGroups(),
+  });
+}
+
+/** Tag groups with each tag's prose attached — for /api/tags and the graph. */
+async function serializeTagGroups() {
+  return Promise.all(
+    getTagsByGroup().map(async ({ group, tags }) => ({
       id: group.id,
       label: group.label,
-      tags: tags.map(serializeTag),
+      tags: await Promise.all(tags.map(serializeTagDetail)),
     })),
-  });
+  );
 }
 
 /**
@@ -271,10 +292,11 @@ export function serializeTagsDocument() {
  * experiments, and the posts. This is the endpoint to point another site at.
  */
 export async function serializeGraphDocument() {
-  const [hypotheses, experiments, postItems] = await Promise.all([
+  const [hypotheses, experiments, postItems, tagGroups] = await Promise.all([
     Promise.all(getHypotheses().map(serializeHypothesis)),
     Promise.all(getExperiments().map(serializeExperiment)),
     Promise.all(getPosts().map(serializePost)),
+    serializeTagGroups(),
   ]);
 
   return envelope({
@@ -286,11 +308,7 @@ export async function serializeGraphDocument() {
       url: absolute(principle.url),
       hypotheses: descended.map((h) => h.id),
     })),
-    tagGroups: getTagsByGroup().map(({ group, tags }) => ({
-      id: group.id,
-      label: group.label,
-      tags: tags.map(serializeTag),
-    })),
+    tagGroups,
     hypotheses,
     experiments,
     posts: postItems,
