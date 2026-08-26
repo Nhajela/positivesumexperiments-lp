@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CrossLink, SectionLabel } from "@/components/mdx-labels";
 import { seoForAwareness, toMetadata } from "@/lib/content/seo";
 
 export const metadata = toMetadata(seoForAwareness());
@@ -9,9 +10,7 @@ export const metadata = toMetadata(seoForAwareness());
   <span className="font-hand text-[22px] text-pen -rotate-1">Author: Nmn</span>
 </div>
 
-<p className="font-mono text-[13px] uppercase tracking-[0.08em] text-quiet mb-s4">
-  Complementary to <Link href="/core" className="text-pen hover:underline">Core</Link>
-</p>
+<CrossLink lead="Complementary to" href="/core" label="Core" />
 
 ## Limited Decision Budget
 
@@ -23,9 +22,7 @@ Design your life such that most of the important decisions are pre made
 in your favor.
 
 <div className="mt-s4 border-t border-rule pt-s3">
-  <p className="mb-s1 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-    See also
-  </p>
+  <SectionLabel label="See also" />
   <Link
     href="/hypotheses/doing-well-decides-well"
     className="text-body-m text-ink hover:text-pen"
