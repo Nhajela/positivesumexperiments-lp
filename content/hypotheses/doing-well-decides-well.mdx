@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { CrossLink } from "@/components/mdx-labels";
 
 {/* Source: writing/2026-08-26-doing-well-and-wake-at-630.txt. Naman's words,
     quoted verbatim per docs/ai-policy.md. */}
@@ -27,9 +27,4 @@ This hypothesis will be a home to a set of experiments that aim to modify
 and set good foundations for my environment, for all the prebaked decisions
 that I want to wake up with everyday and make minimal thinking effort on.
 
-<p className="mt-s4 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-  See also:{" "}
-  <Link href="/awareness" className="text-pen hover:underline">
-    Pieces of Awareness
-  </Link>
-</p>
+<CrossLink lead="See also:" href="/awareness" label="Pieces of Awareness" className="mt-s4" />

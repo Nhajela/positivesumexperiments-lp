@@ -3,7 +3,6 @@ import Link from "next/link";
 import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
-import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
 import { apiPaths } from "@/lib/content/paths";
@@ -26,15 +25,14 @@ export default function ExperimentsPage() {
 
   return (
     <div className="pb-s5">
-      {/* The opening of this page is still a stand-in quote, so the whole page
-          is flagged. Goes when Naman writes the real opening. */}
-      <PlaceholderBanner note="The opening below is a quote from Naman's brief, standing in until he writes this page. The experiments it lists are scaffolding too." />
-
       <PageHeader
         title="Experiments"
         aside={
           <span className="font-mono text-[13px] text-quiet">
-            {counts.experiments} across {counts.hypotheses} hypotheses
+            {counts.experiments}{" "}
+            {counts.experiments === 1 ? "experiment" : "experiments"} across{" "}
+            {counts.hypotheses}{" "}
+            {counts.hypotheses === 1 ? "hypothesis" : "hypotheses"}
           </span>
         }
       />
@@ -51,6 +49,7 @@ export default function ExperimentsPage() {
           are the same ones used against every experiment below. */}
       {statusCounts.length > 0 ? (
         <p className="mb-s5 font-mono text-[13px] text-quiet">
+          <span className="mr-s2 uppercase tracking-[0.08em]">Status</span>
           {statusCounts.map((s, i) => (
             <span key={s.status}>
               {i > 0 ? <span className="mx-s1 text-rule">/</span> : null}
@@ -70,6 +69,9 @@ export default function ExperimentsPage() {
 
       {hypotheses.map((h) => (
         <section key={h.id} className="mb-s5">
+          <p className="mb-1 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
+            Hypothesis
+          </p>
           <h2 className="font-display text-display-m max-w-[30ch] text-ink">
             <Link href={h.url} className="hover:text-pen">
               {h.title}
@@ -83,6 +85,10 @@ export default function ExperimentsPage() {
           {h.tags.length > 0 ? (
             <TagPills tags={h.tags} className="mb-s3" />
           ) : null}
+
+          <p className="mb-s1 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
+            Experiments testing it
+          </p>
 
           {h.experiments.length === 0 ? (
             <EmptyNote>Nothing testing this yet.</EmptyNote>

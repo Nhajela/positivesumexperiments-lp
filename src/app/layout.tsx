@@ -83,7 +83,7 @@ export default function RootLayout({
               <PlusDrawn className="mx-[3px] inline-block h-[0.68em] w-[0.68em] -rotate-4 translate-y-[1px] text-pen" />
               sum experiments
             </Link>
-            <nav className="flex gap-s3 text-[15px] font-medium">
+            <nav className="flex flex-wrap gap-x-s2 gap-y-1 text-[15px] font-medium sm:gap-x-s3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
