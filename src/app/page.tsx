@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { paths } from "@/lib/content/paths";
+import { getCounts } from "@/lib/content/queries";
+import { seoForHome, toMetadata } from "@/lib/content/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-};
+export const metadata: Metadata = toMetadata(seoForHome());
 
 // Organization + WebSite structured data for the umbrella brand. Rendered as
 // JSON-LD on the home page only — search engines pick it up site-wide from here.
@@ -35,8 +34,22 @@ const jsonLd = {
   ],
 };
 
+// The three places to go from here. Core first: it is what the other two are
+// answerable to.
+const destinations = [
+  { href: paths.core(), label: "Read the Core", tilt: "-rotate-[0.6deg]" },
+  {
+    href: paths.experiments(),
+    label: "See the experiments",
+    tilt: "rotate-[0.5deg]",
+  },
+  { href: paths.blog(), label: "Read the blog", tilt: "-rotate-[0.35deg]" },
+] as const;
+
 // Copy is Naman's, verbatim (writing/2026-07-06-landing-and-core.txt).
 export default function Home() {
+  const counts = getCounts();
+
   return (
     <div className="pb-s5">
       <script
@@ -62,14 +75,29 @@ export default function Home() {
       </section>
 
       <section className="mb-s6">
-        {/* hand-ruled frame, same trick as the dialogue card — a drawn button */}
-        <Link
-          href="/core"
-          className="inline-block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-[17px] font-medium -rotate-[0.6deg] hover:border-pen hover:text-pen hover:-rotate-0 transition-transform"
-        >
-          Read the Core
-          <span className="ml-2 font-bold text-pen">&rarr;</span>
-        </Link>
+        {/* hand-ruled frames, same trick as the dialogue card — drawn buttons.
+            Each sits at its own angle so the row reads as three things drawn
+            by hand rather than one control repeated. */}
+        <div className="flex flex-wrap gap-s2">
+          {destinations.map((destination) => (
+            <Link
+              key={destination.href}
+              href={destination.href}
+              className={`inline-block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-[17px] font-medium ${destination.tilt} transition-transform hover:-rotate-0 hover:border-pen hover:text-pen`}
+            >
+              {destination.label}
+              <span className="ml-2 font-bold text-pen">&rarr;</span>
+            </Link>
+          ))}
+        </div>
+
+        {/* "Open" rather than "running": planned and paused experiments are
+            still live questions, they just aren't in motion today. */}
+        <p className="mt-s3 font-mono text-[13px] text-quiet">
+          {counts.experiments > 0
+            ? `${counts.experiments} ${counts.experiments === 1 ? "experiment" : "experiments"} across ${counts.hypotheses} ${counts.hypotheses === 1 ? "hypothesis" : "hypotheses"}, ${counts.live} still open.`
+            : "No experiments yet."}
+        </p>
       </section>
     </div>
   );

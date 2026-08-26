@@ -19,8 +19,10 @@ Naman will send handwritten and handmade assets. When they arrive:
 
 ## Identity & meta
 
-- [ ] Real OG image designed from the final identity (currently a plain
-      wordmark placeholder in `src/app/opengraph-image.tsx`)
+- [x] Per-page OG images generated from the content (`src/lib/og/`), in the
+      system palette and type. Still to come when the pen assets land: the
+      real mark on the card, and a hand-drawn rule instead of the hairline
+      plate
 - [ ] Favicon from the final mark
 
 ## Content & structure
@@ -29,12 +31,22 @@ Naman will send handwritten and handmade assets. When they arrive:
       entries to publish
 - [ ] Reinstate the public /ai page (sive.rs/ai-shaped) once Naman writes it —
       the operating policy stays live in docs/ai-policy.md meanwhile
-- [ ] Experiments section on home (removed at launch; Happy Mornings Club
-      returns when Naman wants it listed)
-- [ ] Per-experiment pages with live state (day X/30, alive/concluded)
-- [ ] Anchors/permalinks for each "what we know" entry
-- [ ] RSS feed once there's a stream of entries
-- [ ] "Now" section or page (what's currently running)
+- [ ] Experiments section on home (removed at launch; /experiments now exists,
+      so this is a matter of surfacing the live ones on the front page)
+- [x] Per-experiment pages with live state — `/experiments/<slug>`, status and
+      dates from `src/data/experiments.ts`
+- [x] RSS feed — `/feed.xml`, plus JSON and XML at `/api` (see README)
+- [ ] Day counter on a running experiment (day X of 15) — the dates are in the
+      record already, it just isn't rendered
+- [ ] Heading anchors/permalinks across MDX (rehype-slug + rehype-autolink),
+      which would also let a hypothesis deep-link the exact core principle it
+      descends from instead of linking /core whole
+- [ ] Filtering /experiments by tag or status without a page load (deliberately
+      static for now — the tag pages carry the roll-ups instead)
+- [ ] Clear `placeholder: true` off each record in `src/data/` as Naman writes
+      the real page — every one of them carries the flag today
+- [ ] "Now" section or page (what's currently running) — `getLiveExperiments()`
+      in `src/lib/content/queries.ts` already returns exactly this
 
 ## Ops
 

@@ -1,0 +1,64 @@
+Naman's brief for the experiments + blog structure, 25 Aug 2026. Spoken,
+transcribed, logged here unedited. Every quote on the hypothesis and
+experiment pages is pulled from this file verbatim — nothing on those pages
+was written for him.
+
+----
+
+Let's make two new pages inside here:
+- Experiments
+- Blog
+
+All the content will be hard coded but it would be nice to create a system
+where it's easily retrievable, like in an XML format or in a JSON format as
+well. That way any other site, if they want, can query and check what
+experiment, what blog, and what all.
+
+Experiment, again, is a data structure we are building in code here and we
+will keep adding more experiments to it but experiments will have a parent
+object of hypothesis. One hypothesis can have multiple experiments. I don't
+know where I should put this but I think within hypothesis is a better place
+to put it. Within hypothesis there will be a category and subcategory. An
+experiment will have a status, which is planned, ongoing, paused, concluded,
+whatever, so there will be a status. There will be just a markdown blog of
+everything else within an experiment as well, within a hypothesis as well,
+within a category as well, and within a subcategory as well. That's how that
+will happen and then there will be some roll-up functions to get different
+things and utility, like a place within the repo or outside the repo in a
+public folder or somewhere where I can just write freely for whatever
+experiments and whatever things are.
+
+For example one of the experiments I wanna set up, and the goal of this whole
+exercise, is to frankly make public whatever I try and do, whatever my intents
+are with anything related to work and beyond work as well. That's the goal. In
+those there will be different kinds of experiments. For example we can
+actually remove category and subcategory and just call it tags. Within tags we
+can put one group of tags, which is personal experiment versus work
+experiment. I don't know how you categorise that but basically if I take an
+experiment that says, "Hey I will wake up every day at 6:30 a.m. for the next
+whatever 15 days or so," right, so I'll wake up every day at 6:30 a.m. The
+core hypothesis and hypothesis can be linked to each other very briefly, but
+the core hypothesis behind this, or the core understanding or the knowledge
+behind this, is that firstly it drives from the fact that when a founder does
+well in his life, he is able to take better decisions. All of these hypotheses
+basically link back to our core axioms which we have made so
+
+So basically somewhere in there I wrote about power laws and all of that. Each
+hypothesis will justify how it relates back to the core. The hypothesis is
+that when I am doing well in my life then I will be able to make better
+decisions, which is needed for a power law. When I have mental clarity, when I
+have a peaceful mind, I'll be able to make much better decisions. If I need to
+have a peaceful mind then one thing I can try is to wake up at 6:30 a.m. The
+bigger point of waking up at 6:30 a.m. is planning to wake up at 6:30 a.m.,
+which means I will have to plan to sleep at 10 p.m. or something like that. A
+lot of the crap that can potentially happen with me personally, which happens
+usually at midnight and screws up my mind, which makes me scroll, which makes
+me go in 10 different directions, all of that can be avoided through this
+experiment. That is the experiment. It runs for 15-ish days and then we see
+what comes out of it. That's an example.
+
+Another experiment could be: hey, building my namanhajela.com website helps me
+do xyz. There are different kinds of experiments. I want to document
+everything on this website and for that I need these structures to be very
+primitive, very open, very flexible structures and renderers to be built so
+that can be better.
