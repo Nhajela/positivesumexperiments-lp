@@ -108,10 +108,44 @@ in `writing/`). Anything not yet written by him is flagged `placeholder: true`
 on its record and marked with `<DraftNote>` or `[Placeholder — ...]` in the
 prose, so it can't ship unnoticed; see `docs/ai-policy.md`.
 
-## SEO
+## SEO and OG images
 
-- Per-page `metadata` exports (title template + canonical set per page)
+Every page's title, meta description, canonical URL, Open Graph and Twitter
+tags, **and the text drawn on its OG image** come from one `PageSeo` built in
+`src/lib/content/seo.ts`. That is the point of the module: the card a link
+shows in Slack and the description Google prints are the same strings, so they
+cannot drift.
+
+A page is two lines:
+
+```tsx
+// page.tsx
+export const metadata = toMetadata(seoForExperiment(experiment));
+
+// opengraph-image.tsx
+export default async function Image({ params }) {
+  return ogImageResponse(seoForExperiment(experiment).card);
+}
+```
+
+- **The card** (`src/lib/og/card.tsx`) is one template for all 14 OG routes,
+  drawn in the site's own system — warm paper, print ink, the cobalt `+`, a
+  hairline plate. Written for Satori (flexbox only, no cascade), so it is
+  inline styles by necessity. Titles step down through four sizes by length,
+  and the footer is pinned so the wordmark can never be pushed off the plate.
+- **A placeholder record** prints "This is a placeholder" on its card and
+  appends the same note to its meta description.
+- **Fonts** are vendored in `assets/fonts/` as TTF. Satori cannot use webfonts
+  or woff2, and pulling from Google at build time would make the images depend
+  on a network call — this way they render identically offline and on a
+  preview deploy. `assets/` rather than `public/`: build inputs, not downloads.
+- Descriptions reuse Naman's own writing where a record has it (a hypothesis's
+  statement, a post's summary); everything composed on top is factual —
+  counts, statuses, dates, labels. See `docs/ai-policy.md`.
+
+Also:
+
 - `src/app/robots.ts`, `src/app/sitemap.ts` — written pages are listed by hand
   there; content routes come from the records automatically
-- `src/app/opengraph-image.tsx` — generated OG image
 - JSON-LD (Organization + WebSite) on the home page
+- All 14 OG images are prerendered as static PNGs at build

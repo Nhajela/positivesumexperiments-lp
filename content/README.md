@@ -71,6 +71,14 @@ with no write-up, a tag with nothing filed under it — each page says so in
 plain words instead of hiding the section. Write when there is something to
 write.
 
+## What a record gets for free
+
+Writing a record also writes its social card and its search-engine text: title,
+meta description, canonical URL, Open Graph and Twitter tags, and a 1200×630 OG
+image drawn in the site's own type and palette. All of it comes from
+`src/lib/content/seo.ts`, from the same fields you filled in — nothing to
+maintain per page. A record marked `placeholder: true` says so on its card too.
+
 ## Where it shows up
 
 | You write | It renders at | It serialises to |

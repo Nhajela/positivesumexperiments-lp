@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { paths } from "@/lib/content/paths";
 import { getCounts } from "@/lib/content/queries";
+import { seoForHome, toMetadata } from "@/lib/content/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-};
+export const metadata: Metadata = toMetadata(seoForHome());
 
 // Organization + WebSite structured data for the umbrella brand. Rendered as
 // JSON-LD on the home page only — search engines pick it up site-wide from here.

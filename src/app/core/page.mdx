@@ -1,11 +1,8 @@
 import { HandNote } from "@/components/hand-note";
 
-export const metadata = {
-  title: "Core",
-  description:
-    "The core of our awareness towards running any and all experiments within this venture.",
-  alternates: { canonical: "/core" },
-};
+import { seoForCore, toMetadata } from "@/lib/content/seo";
+
+export const metadata = toMetadata(seoForCore());
 
 <div className="mt-s5 mb-s4 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
   <h1 className="font-display text-display-xl text-ink">Core</h1>

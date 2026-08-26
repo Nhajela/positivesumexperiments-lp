@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { formatDate } from "@/lib/content/format";
 import { apiPaths, paths } from "@/lib/content/paths";
 import { getTagBySlug, getTagRollup, getTags } from "@/lib/content/queries";
+import { seoForTag, toMetadata } from "@/lib/content/seo";
 
 export const dynamicParams = false;
 
@@ -26,11 +27,7 @@ export async function generateMetadata({
   const tag = getTagBySlug(slug);
   if (!tag) return {};
 
-  return {
-    title: tag.label,
-    description: `Everything filed under ${tag.label} — hypotheses, experiments and writing.`,
-    alternates: { canonical: paths.tag(tag.slug) },
-  };
+  return toMetadata(seoForTag(tag));
 }
 
 // A tag page is a roll-up, not a list of one thing: experiments inherit their

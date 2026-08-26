@@ -9,12 +9,13 @@ import { ProseBody } from "@/components/prose-body";
 import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
 import { daysBetween, formatDate } from "@/lib/content/format";
-import { apiPaths, paths } from "@/lib/content/paths";
+import { apiPaths } from "@/lib/content/paths";
 import {
   getExperimentBySlug,
   getExperiments,
   getPostsAbout,
 } from "@/lib/content/queries";
+import { seoForExperiment, toMetadata } from "@/lib/content/seo";
 
 export const dynamicParams = false;
 
@@ -31,11 +32,7 @@ export async function generateMetadata({
   const experiment = getExperimentBySlug(slug);
   if (!experiment) return {};
 
-  return {
-    title: experiment.title,
-    description: experiment.hypothesis.statement,
-    alternates: { canonical: paths.experiment(experiment.slug) },
-  };
+  return toMetadata(seoForExperiment(experiment));
 }
 
 export default async function ExperimentPage({

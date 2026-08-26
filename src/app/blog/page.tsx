@@ -6,15 +6,16 @@ import { PageHeader } from "@/components/page-header";
 import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { TagPills } from "@/components/tag-pill";
 import { formatDate } from "@/lib/content/format";
-import { apiPaths } from "@/lib/content/paths";
+import { apiPaths, paths } from "@/lib/content/paths";
 import { getPosts } from "@/lib/content/queries";
+import { seoForBlogIndex, toMetadata } from "@/lib/content/seo";
 
+// The feed link is the one thing the shared generator does not know about.
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "Writing from Positive Sum Experiments.",
+  ...toMetadata(seoForBlogIndex()),
   alternates: {
-    canonical: "/blog",
-    types: { "application/rss+xml": "/feed.xml" },
+    canonical: paths.blog(),
+    types: { "application/rss+xml": apiPaths.feed() },
   },
 };
 

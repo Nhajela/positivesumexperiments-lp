@@ -15,6 +15,7 @@ import {
   getHypothesisBySlug,
   getPostsAbout,
 } from "@/lib/content/queries";
+import { seoForHypothesis, toMetadata } from "@/lib/content/seo";
 
 export const dynamicParams = false;
 
@@ -31,11 +32,7 @@ export async function generateMetadata({
   const hypothesis = getHypothesisBySlug(slug);
   if (!hypothesis) return {};
 
-  return {
-    title: hypothesis.title,
-    description: hypothesis.statement,
-    alternates: { canonical: paths.hypothesis(hypothesis.slug) },
-  };
+  return toMetadata(seoForHypothesis(hypothesis));
 }
 
 export default async function HypothesisPage({

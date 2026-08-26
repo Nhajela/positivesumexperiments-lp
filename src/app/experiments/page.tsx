@@ -12,13 +12,9 @@ import {
   getExperimentsByHypothesis,
   getStatusCounts,
 } from "@/lib/content/queries";
+import { seoForExperimentsIndex, toMetadata } from "@/lib/content/seo";
 
-export const metadata: Metadata = {
-  title: "Experiments",
-  description:
-    "Every experiment run under Positive Sum Experiments, filed under the hypothesis it tests.",
-  alternates: { canonical: "/experiments" },
-};
+export const metadata: Metadata = toMetadata(seoForExperimentsIndex());
 
 // The index reads top-down as the structure itself: hypothesis, then the
 // experiments testing it. Grouping is the whole point — an experiment on its

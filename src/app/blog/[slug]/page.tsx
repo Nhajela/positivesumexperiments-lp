@@ -11,6 +11,7 @@ import { TagPills } from "@/components/tag-pill";
 import { formatDate } from "@/lib/content/format";
 import { apiPaths, paths } from "@/lib/content/paths";
 import { getPostBySlug, getPosts } from "@/lib/content/queries";
+import { seoForPost, toMetadata } from "@/lib/content/seo";
 
 export const dynamicParams = false;
 
@@ -27,16 +28,7 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return {};
 
-  return {
-    title: post.title,
-    description: post.summary ?? undefined,
-    alternates: { canonical: paths.post(post.slug) },
-    openGraph: {
-      type: "article",
-      publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt,
-    },
-  };
+  return toMetadata(seoForPost(post));
 }
 
 export default async function PostPage({
