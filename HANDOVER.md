@@ -8,8 +8,14 @@ description — it's a working note, not project docs.
 
 Working branch: `claude/ui-ux-polish-audit-9s90pg`, already pushed to
 `origin`. Latest commit: `abcf508` — "Fix mobile nav overflow and MDX
-hydration bug; label the experiments index". No PR opened yet (user hasn't
-asked for one).
+hydration bug; label the experiments index".
+
+**PR #3 is now open**, created by the user directly from the Claude Code UI:
+https://github.com/Nhajela/positivesumexperiments-lp/pull/3 — reference
+this going forward rather than opening a new one. Pushing more commits to
+this branch updates it automatically. Worth asking the user in the fresh
+session whether they want it watched (`subscribe_pr_activity`) for CI/review
+activity.
 
 ## The actual ask
 
