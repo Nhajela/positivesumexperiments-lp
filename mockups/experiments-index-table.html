@@ -1,0 +1,462 @@
+<title>Experiments Index — Table View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #f7f6f1;
+    --ink: #1a1917;
+    --quiet: #8b8a83;
+    --rule: #e2e1d9;
+    --pen: #1d3fe8;
+    --red-pen: #c93b2e;
+    --green-marker: #1e8a4c;
+    --marigold: #f0a81c;
+    --row-tint: rgba(29, 63, 232, 0.035);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1a1917;
+      --ink: #ece9e0;
+      --quiet: #8b8a83;
+      --rule: #35342f;
+      --pen: #7c90f5;
+      --red-pen: #e06a5e;
+      --green-marker: #4cb87d;
+      --marigold: #f0b23f;
+      --row-tint: rgba(124, 144, 245, 0.06);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1a1917;
+    --ink: #ece9e0;
+    --quiet: #8b8a83;
+    --rule: #35342f;
+    --pen: #7c90f5;
+    --red-pen: #e06a5e;
+    --green-marker: #4cb87d;
+    --marigold: #f0b23f;
+    --row-tint: rgba(124, 144, 245, 0.06);
+  }
+
+  html, body {
+    background: var(--paper);
+  }
+  body {
+    color: var(--ink);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 28px 28px 80px;
+  }
+
+  a {
+    color: var(--pen);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .mono {
+    font-family: "Spline Sans Mono", monospace;
+  }
+
+  /* ---- mockup banner ---- */
+  .mockup-banner {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    border-bottom: 1px dashed var(--rule);
+    padding: 8px 0;
+    margin-bottom: 48px;
+  }
+
+  /* ---- eyebrow labels ---- */
+  .eyebrow {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    margin: 0 0 8px;
+  }
+
+  /* ---- header ---- */
+  h1 {
+    font-family: "Young Serif", serif;
+    font-weight: 400;
+    font-size: clamp(34px, 6vw, 68px);
+    line-height: 1.08;
+    margin: 0 0 28px;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--marigold);
+    margin: 0 0 48px;
+    padding: 8px 0 8px 28px;
+    font-style: italic;
+    color: var(--ink);
+    max-width: 640px;
+  }
+
+  /* ---- the graph table ---- */
+  .graph-section {
+    margin-bottom: 80px;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  table.graph {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+  }
+
+  table.graph th {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    text-align: left;
+    padding: 8px 16px 8px 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+  table.graph th:last-child {
+    padding-right: 0;
+  }
+
+  table.graph td {
+    padding: 16px 16px 16px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.graph td:last-child {
+    padding-right: 0;
+  }
+  table.graph tbody tr:hover {
+    background: var(--row-tint);
+  }
+
+  .hyp-cell .hyp-title {
+    font-family: "Young Serif", serif;
+    font-size: 21px;
+    line-height: 1.3;
+    display: inline-block;
+  }
+  .hyp-cell .hyp-statement {
+    display: block;
+    font-size: 16px;
+    color: var(--quiet);
+    margin-top: 8px;
+    max-width: 300px;
+  }
+
+  /* tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tag {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 0 8px;
+    line-height: 1.9;
+    white-space: nowrap;
+  }
+
+  /* experiments sub-list inside a cell: "+" bullets */
+  .exp-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .exp-list li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 8px;
+  }
+  .exp-list li:last-child {
+    margin-bottom: 0;
+  }
+  .exp-list li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--pen);
+    font-weight: 700;
+    font-family: "Instrument Sans", sans-serif;
+  }
+  .exp-list .exp-meta {
+    display: block;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+    margin-top: 0;
+  }
+  .exp-none {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+  }
+
+  /* status dot + label */
+  .status {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+  .status .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: 1px;
+    background: var(--quiet);
+  }
+  .status.planned .dot   { background: var(--quiet); }
+  .status.ongoing .dot   { background: var(--green-marker); }
+  .status.paused .dot    { background: var(--marigold); }
+  .status.concluded .dot { background: var(--green-marker); outline: 1px solid var(--green-marker); outline-offset: 2px; }
+  .status.abandoned .dot { background: var(--red-pen); }
+
+  .status-stack .status {
+    display: block;
+    margin-bottom: 16px;
+  }
+  .status-stack .status:last-child {
+    margin-bottom: 0;
+  }
+
+  /* totals line under the table */
+  .table-totals {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--quiet);
+    padding: 8px 0 0;
+  }
+
+  /* status legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .legend .status {
+    color: var(--quiet);
+  }
+
+  /* ---- detail cards ---- */
+  .detail-section h2 {
+    font-family: "Young Serif", serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 8px;
+  }
+
+  .hyp-card {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    margin-bottom: 48px;
+  }
+
+  .hyp-card .statement {
+    font-size: 21px;
+    max-width: 640px;
+    margin: 0 0 16px;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .descends {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+  }
+  .descends a {
+    color: var(--pen);
+  }
+
+  .hyp-card .exp-detail {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hyp-card .exp-detail li {
+    position: relative;
+    padding-left: 28px;
+  }
+  .hyp-card .exp-detail li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--pen);
+    font-weight: 700;
+  }
+  .hyp-card .exp-detail .exp-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .hyp-card .exp-detail .exp-sub {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+  }
+
+  /* ---- footer ---- */
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 80px;
+    padding-top: 16px;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    .wrap { padding: 16px 16px 48px; }
+    .mockup-banner { margin-bottom: 28px; }
+    blockquote { padding-left: 16px; margin-bottom: 28px; }
+    .graph-section { margin-bottom: 48px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="mockup-banner">Experiments Index — Table view</div>
+
+  <header>
+    <p class="eyebrow">Positive Sum Experiments</p>
+    <h1>Experiments</h1>
+    <blockquote>The goal of this whole exercise is to frankly make public whatever I try and do, whatever my intents are with anything related to work and beyond work as well.</blockquote>
+  </header>
+
+  <section class="graph-section" aria-label="Hypotheses and the experiments testing them">
+    <p class="eyebrow">The graph so far</p>
+    <div class="table-scroll">
+      <table class="graph">
+        <thead>
+          <tr>
+            <th style="width: 38%;">Hypothesis</th>
+            <th style="width: 17%;">Tags</th>
+            <th style="width: 30%;">Experiments testing it</th>
+            <th style="width: 15%;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="hyp-cell">
+              <a class="hyp-title" href="#doing-well-deciding-well">Doing well, deciding well</a>
+              <span class="hyp-statement">&ldquo;When I&rsquo;m doing well, I will make better decisions.&rdquo;</span>
+            </td>
+            <td>
+              <ul class="tags">
+                <li class="tag">Personal</li>
+                <li class="tag">Self</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="exp-list">
+                <li>
+                  <a href="#">Wake up at 6:30 a.m. for 15 days</a>
+                  <span class="exp-meta">15 days, planned length</span>
+                </li>
+              </ul>
+            </td>
+            <td class="status-stack">
+              <span class="status planned"><span class="dot"></span>Planned</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-totals">1 hypothesis &nbsp;&middot;&nbsp; 1 experiment &nbsp;&middot;&nbsp; 1 planned</p>
+
+    <div class="legend" aria-label="Status legend">
+      <span class="status planned"><span class="dot"></span>Planned</span>
+      <span class="status ongoing"><span class="dot"></span>Ongoing</span>
+      <span class="status paused"><span class="dot"></span>Paused</span>
+      <span class="status concluded"><span class="dot"></span>Concluded</span>
+      <span class="status abandoned"><span class="dot"></span>Abandoned</span>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-label="Hypothesis detail">
+
+    <article class="hyp-card" id="doing-well-deciding-well">
+      <p class="eyebrow">Hypothesis</p>
+      <h2><a href="#">Doing well, deciding well</a></h2>
+      <p class="statement">When I&rsquo;m doing well, I will make better decisions.</p>
+
+      <div class="card-meta">
+        <ul class="tags">
+          <li class="tag">Personal</li>
+          <li class="tag">Self</li>
+        </ul>
+        <span class="descends">Descends from core principle: <a href="#">5. Play with the power laws.</a></span>
+      </div>
+
+      <p class="eyebrow">Experiments testing it</p>
+      <ul class="exp-detail">
+        <li>
+          <div class="exp-line">
+            <a href="#">Wake up at 6:30 a.m. for 15 days</a>
+            <span class="status planned"><span class="dot"></span>Planned</span>
+          </div>
+          <span class="exp-sub">Planned length: 15 days</span>
+        </li>
+      </ul>
+    </article>
+
+  </section>
+
+  <footer class="site-footer">
+    Same page, as data: <a href="#">JSON</a> &middot; <a href="#">XML</a> &middot; <a href="#">everything</a>
+  </footer>
+
+</div>

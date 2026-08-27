@@ -1,15 +1,16 @@
 import { notFound } from "next/navigation";
-import { getTagBySlug, getTags } from "@/lib/content/queries";
-import { seoForTag } from "@/lib/content/seo";
+import { plural } from "@/lib/content/seo";
 import { OG_CONTENT_TYPE, OG_SIZE, ogImageResponse } from "@/lib/og/render";
 import { site } from "@/lib/site";
+import { publishedPosts } from "../../blog/posts";
+import { tagBySlug, tags } from "../tags-data";
 
 export const alt = `A tag on ${site.name}`;
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
 export function generateStaticParams() {
-  return getTags().map((tag) => ({ slug: tag.slug }));
+  return tags.map((tag) => ({ slug: tag.slug }));
 }
 
 export default async function Image({
@@ -18,8 +19,18 @@ export default async function Image({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tag = getTagBySlug(slug);
+  const tag = tagBySlug(slug);
   if (!tag) notFound();
 
-  return ogImageResponse(seoForTag(tag).card);
+  const count = publishedPosts().filter((post) =>
+    (post.tags ?? []).some((t) => t.slug === tag.slug),
+  ).length;
+
+  return ogImageResponse({
+    eyebrow: "Tag",
+    title: tag.label,
+    description: `Everything filed under ${tag.label}.`,
+    meta: [plural(count, "post")],
+    placeholder: tag.placeholder,
+  });
 }

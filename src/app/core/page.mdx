@@ -1,8 +1,6 @@
 import { HandNote } from "@/components/hand-note";
 
-import { seoForCore, toMetadata } from "@/lib/content/seo";
-
-export const metadata = toMetadata(seoForCore());
+export { metadata } from "./seo";
 
 <div className="mt-s5 mb-s4 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
   <h1 className="font-display text-display-xl text-ink">Core</h1>

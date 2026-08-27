@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
-import { getPostBySlug, getPosts } from "@/lib/content/queries";
-import { seoForPost } from "@/lib/content/seo";
+import { formatDate } from "@/lib/content/format";
 import { OG_CONTENT_TYPE, OG_SIZE, ogImageResponse } from "@/lib/og/render";
 import { site } from "@/lib/site";
+import { postBySlug, publishedPosts } from "../posts";
 
 export const alt = `A post on ${site.name}`;
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
 export function generateStaticParams() {
-  return getPosts().map((post) => ({ slug: post.slug }));
+  return publishedPosts().map((post) => ({ slug: post.slug }));
 }
 
 export default async function Image({
@@ -18,8 +18,14 @@ export default async function Image({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = postBySlug(slug);
   if (!post) notFound();
 
-  return ogImageResponse(seoForPost(post).card);
+  return ogImageResponse({
+    eyebrow: ["Blog", ...(post.tags ?? []).map((t) => t.label)].join(" · "),
+    title: post.title,
+    description: post.summary,
+    meta: [formatDate(post.publishedAt)],
+    placeholder: post.placeholder,
+  });
 }

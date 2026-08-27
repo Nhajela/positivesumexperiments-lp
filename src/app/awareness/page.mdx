@@ -1,9 +1,8 @@
 import Link from "next/link";
 
 import { CrossLink, SectionLabel } from "@/components/mdx-labels";
-import { seoForAwareness, toMetadata } from "@/lib/content/seo";
 
-export const metadata = toMetadata(seoForAwareness());
+export { metadata } from "./seo";
 
 <div className="mt-s5 mb-s4 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
   <h1 className="font-display text-display-xl text-ink">Pieces of Awareness</h1>
@@ -12,7 +11,7 @@ export const metadata = toMetadata(seoForAwareness());
 
 <CrossLink lead="Complementary to" href="/core" label="Core" />
 
-## Limited Decision Budget
+<h2 id="limited-decision-budget">Limited Decision Budget</h2>
 
 You have a limited decision budget at all points of time. And the quality
 of decisions goes down through time, fatigue, and number of decisions

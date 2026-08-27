@@ -1,4 +1,11 @@
-import type { ExperimentStatus } from "@/data/schema";
+// An experiment's status — a plain literal union, defined right here rather
+// than imported from a shared schema.
+export type ExperimentStatus =
+  | "planned"
+  | "ongoing"
+  | "paused"
+  | "concluded"
+  | "abandoned";
 
 // Status in the palette's own logic (moodboards/01b-system.html): cobalt is
 // the live pen, marigold flags, green validates, red corrects, quiet is

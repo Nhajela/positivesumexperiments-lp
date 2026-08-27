@@ -1,0 +1,98 @@
+<title>Placeholder Text — Before/After</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f6f1;
+    --ink: #1a1917;
+    --quiet: #8b8a83;
+    --rule: #e2e1d9;
+    --pen: #1d3fe8;
+    --red-pen: #c93b2e;
+    --green-marker: #1e8a4c;
+    --marigold: #f0a81c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1a1917; --ink: #f2f0e8; --quiet: #a19f95; --rule: #37352c;
+      --pen: #6d8bff; --red-pen: #ef7a6c; --green-marker: #4fbd80; --marigold: #f5be55;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1a1917; --ink: #f2f0e8; --quiet: #a19f95; --rule: #37352c;
+    --pen: #6d8bff; --red-pen: #ef7a6c; --green-marker: #4fbd80; --marigold: #f5be55;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Instrument Sans", sans-serif; line-height: 1.65;
+    margin: 0; padding: 48px 24px 120px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  .banner {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--quiet);
+    border: 1px dashed var(--rule); padding: 8px 16px; margin-bottom: 48px;
+  }
+  h1 {
+    font-family: "Young Serif", serif; font-size: clamp(26px, 4vw, 40px);
+    line-height: 1.15; margin: 0 0 8px;
+  }
+  .sub { color: var(--quiet); font-size: 16.5px; margin: 0 0 48px; max-width: 60ch; }
+  .section-label {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--pen);
+    margin: 48px 0 16px; padding-top: 28px; border-top: 1px solid var(--rule);
+  }
+  .section-label:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  .heading2 { font-family: "Young Serif", serif; font-size: 22px; margin: 28px 0 8px; }
+  .draftnote {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; line-height: 1.6;
+    border-left: 3px solid var(--red-pen); padding-left: 16px; margin: 16px 0;
+    color: color-mix(in srgb, var(--red-pen) 85%, var(--ink));
+    max-width: 62ch;
+  }
+  .plain-p { font-size: 16.5px; margin: 16px 0; max-width: 62ch; }
+  code {
+    font-family: "Spline Sans Mono", monospace; font-size: 0.9em;
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+    padding: 1px 5px; border-radius: 3px;
+  }
+  .verdict {
+    font-size: 14px; color: var(--quiet); margin-top: 12px;
+    border-left: 3px solid var(--pen); padding-left: 16px; max-width: 62ch;
+  }
+</style>
+
+<div class="wrap">
+  <div class="banner">MOCKUP — comparing wording for the two "unwritten yet" sections on the wake-at-630 experiment page. Not the live site.</div>
+
+  <h1>The log / What came out of it</h1>
+  <p class="sub">Three independent cold-read reviewers all singled out this exact passage as confusing — it currently exposes internal implementation details (file paths, code) to a visitor with no context for what they mean.</p>
+
+  <div class="section-label">Current (live on positivesumexperiments.com right now)</div>
+  <div class="heading2">The log</div>
+  <div class="draftnote">Placeholder — Naman writes here as it runs. This experiment is <code>planned</code>; when it starts, set <code>status: "ongoing"</code> and <code>startedAt</code> in <code>src/data/experiments.ts</code>.</div>
+  <div class="heading2">What came out of it</div>
+  <div class="draftnote">Placeholder — written at the end, when the status goes to <code>concluded</code>.</div>
+  <p class="verdict">This is genuinely useful as a note-to-self (exact field names, exact file) — it's just also visible to every reader, who has no idea what <code>src/data/experiments.ts</code> is.</p>
+
+  <div class="section-label">Option 1 — same meaning, no implementation details</div>
+  <div class="heading2">The log</div>
+  <div class="draftnote">Not written yet — this fills in once the experiment actually starts.</div>
+  <div class="heading2">What came out of it</div>
+  <div class="draftnote">Not written yet — this fills in once the experiment wraps.</div>
+  <p class="verdict">Loses the precise "how to update this" instructions for future-Naman, but reads cleanly to a visitor. You'd rely on memory (or a separate internal note, not on the page) for the mechanics of updating status.</p>
+
+  <div class="section-label">Option 2 — visitor-facing line + the mechanics tucked behind a detail toggle</div>
+  <div class="heading2">The log</div>
+  <div class="draftnote">
+    Not written yet — this fills in once the experiment starts.
+    <details style="margin-top:8px;">
+      <summary style="cursor:pointer; color:var(--quiet);">for-future-me</summary>
+      <div style="margin-top:8px;">This experiment is <code>planned</code>; when it starts, set <code>status: "ongoing"</code> and <code>startedAt</code> in <code>src/data/experiments.ts</code>.</div>
+    </details>
+  </div>
+  <p class="verdict">Keeps both audiences served — casual readers see one clean line, and the maintenance note is one click away rather than gone. Costs a tiny bit of markup/complexity per placeholder section.</p>
+</div>

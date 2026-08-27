@@ -6,16 +6,34 @@ import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
 import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
-import { StatusBadge } from "@/components/status-badge";
 import { formatDate } from "@/lib/content/format";
-import { apiPaths, paths } from "@/lib/content/paths";
-import { getTagBySlug, getTagRollup, getTags } from "@/lib/content/queries";
-import { seoForTag, toMetadata } from "@/lib/content/seo";
+import { paths } from "@/lib/content/paths";
+import { describe, join, plural, toMetadata } from "@/lib/content/seo";
+import type { OgCard } from "@/lib/og/card";
+import { publishedPosts } from "../../blog/posts";
+import { tagBySlug, tags } from "../tags-data";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getTags().map((tag) => ({ slug: tag.slug }));
+  return tags.map((tag) => ({ slug: tag.slug }));
+}
+
+function postsForTag(slug: string) {
+  return publishedPosts().filter((post) =>
+    (post.tags ?? []).some((t) => t.slug === slug),
+  );
+}
+
+function cardFor(tag: NonNullable<ReturnType<typeof tagBySlug>>): OgCard {
+  const count = postsForTag(tag.slug).length;
+  return {
+    eyebrow: "Tag",
+    title: tag.label,
+    description: `Everything filed under ${tag.label}.`,
+    meta: [plural(count, "post")],
+    placeholder: tag.placeholder,
+  };
 }
 
 export async function generateMetadata({
@@ -24,30 +42,36 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const tag = getTagBySlug(slug);
+  const tag = tagBySlug(slug);
   if (!tag) return {};
 
-  return toMetadata(seoForTag(tag));
+  const count = postsForTag(tag.slug).length;
+  return toMetadata({
+    title: tag.label,
+    description: describe(
+      `Everything filed under ${tag.label} — ${join([plural(count, "post")])}`,
+      [],
+      tag.placeholder,
+    ),
+    path: paths.tag(tag.slug),
+    keywords: [tag.label],
+    card: cardFor(tag),
+  });
 }
 
-// A tag page is a roll-up, not a list of one thing: experiments inherit their
-// hypothesis's tags, so a tag gathers the whole line of enquiry and anything
-// written about it.
+// A tag page shows what has been written under it. Hypotheses and
+// experiments used to roll up here too — they're parked for now (see
+// CLAUDE.md), so this is blog posts only until that graph comes back.
 export default async function TagPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tag = getTagBySlug(slug);
+  const tag = tagBySlug(slug);
   if (!tag) notFound();
 
-  const rollup = getTagRollup(tag.id);
-
-  const nothingFiled =
-    rollup.hypotheses.length === 0 &&
-    rollup.experiments.length === 0 &&
-    rollup.posts.length === 0;
+  const posts = postsForTag(tag.slug);
 
   return (
     <div className="pb-s5">
@@ -55,87 +79,32 @@ export default async function TagPage({
 
       <PageHeader
         title={tag.label}
-        eyebrow={{ label: "Experiments", href: paths.experiments() }}
-        aside={
-          <span className="font-mono text-[13px] text-quiet">
-            {tag.group.label}
-          </span>
-        }
+        eyebrow={{ label: "Blog", href: paths.blog() }}
       />
 
       <ProseBody
-        collection="tags"
-        slug={tag.slug}
+        load={tag.body}
         fallback={
           <EmptyNote>What this tag means is not written up yet.</EmptyNote>
         }
       />
 
-      {nothingFiled ? (
+      {posts.length === 0 ? (
         <div className="mt-s4 border-t border-rule pt-s3">
-          <EmptyNote>
-            Nothing is filed under {tag.label} yet. Tags are set on a hypothesis
-            and inherited by its experiments, so this fills in as soon as one is
-            tagged.
-          </EmptyNote>
+          <EmptyNote>Nothing is filed under {tag.label} yet.</EmptyNote>
         </div>
-      ) : null}
-
-      {rollup.hypotheses.length > 0 ? (
-        <section className="mt-s4 border-t border-rule pt-s3">
-          <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-            Hypotheses
-          </h2>
-          <ul className="space-y-s1">
-            {rollup.hypotheses.map((h) => (
-              <li key={h.id}>
-                <Link
-                  href={h.url}
-                  className="max-w-[52ch] text-body-m hover:text-pen"
-                >
-                  <span className="mr-1.5 font-bold text-pen">+</span>
-                  {h.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {rollup.experiments.length > 0 ? (
-        <section className="mt-s4 border-t border-rule pt-s3">
-          <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-            Experiments
-          </h2>
-          <ul className="space-y-s1">
-            {rollup.experiments.map((e) => (
-              <li
-                key={e.id}
-                className="flex flex-wrap items-baseline justify-between gap-s1"
-              >
-                <Link
-                  href={e.url}
-                  className="max-w-[46ch] text-body-m hover:text-pen"
-                >
-                  <span className="mr-1.5 font-bold text-pen">+</span>
-                  {e.title}
-                </Link>
-                <StatusBadge status={e.status} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {rollup.posts.length > 0 ? (
+      ) : (
         <section className="mt-s4 border-t border-rule pt-s3">
           <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
             Writing
           </h2>
           <ul className="space-y-s1">
-            {rollup.posts.map((post) => (
-              <li key={post.id}>
-                <Link href={post.url} className="text-body-m hover:text-pen">
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Link
+                  href={paths.post(post.slug)}
+                  className="text-body-m hover:text-pen"
+                >
                   <span className="mr-1.5 font-bold text-pen">+</span>
                   {post.title}
                 </Link>
@@ -146,13 +115,10 @@ export default async function TagPage({
             ))}
           </ul>
         </section>
-      ) : null}
+      )}
 
       <MachineReadable
-        links={[
-          { href: apiPaths.tags(), label: "JSON" },
-          { href: apiPaths.graph(), label: "everything" },
-        ]}
+        links={[{ href: `/tags/${tag.slug}/data`, label: "JSON" }]}
       />
     </div>
   );

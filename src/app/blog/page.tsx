@@ -6,26 +6,41 @@ import { PageHeader } from "@/components/page-header";
 import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { TagPills } from "@/components/tag-pill";
 import { formatDate } from "@/lib/content/format";
-import { apiPaths, paths } from "@/lib/content/paths";
-import { getPosts } from "@/lib/content/queries";
-import { seoForBlogIndex, toMetadata } from "@/lib/content/seo";
+import { paths } from "@/lib/content/paths";
+import { plural, toMetadata } from "@/lib/content/seo";
+import type { OgCard } from "@/lib/og/card";
+import { publishedPosts } from "./posts";
+
+const posts = publishedPosts();
+
+// The banner clears itself: it shows only while every post listed is
+// scaffolding, so publishing one real post retires it.
+const allPlaceholders = posts.length > 0 && posts.every((p) => p.placeholder);
+
+const description = `Writing from Positive Sum Experiments — ${plural(posts.length, "post")}.`;
+
+export const ogCard: OgCard = {
+  eyebrow: "Blog",
+  title: "Writing from Positive Sum Experiments",
+  meta: [plural(posts.length, "post")],
+  placeholder: allPlaceholders,
+};
 
 // The feed link is the one thing the shared generator does not know about.
 export const metadata: Metadata = {
-  ...toMetadata(seoForBlogIndex()),
+  ...toMetadata({
+    title: "Blog",
+    description,
+    path: paths.blog(),
+    card: ogCard,
+  }),
   alternates: {
     canonical: paths.blog(),
-    types: { "application/rss+xml": apiPaths.feed() },
+    types: { "application/rss+xml": "/feed.xml" },
   },
 };
 
 export default function BlogPage() {
-  const posts = getPosts();
-  // The banner clears itself: it shows only while every post listed is
-  // scaffolding, so publishing one real post retires it.
-  const allPlaceholders =
-    posts.length > 0 && posts.every((post) => post.placeholder);
-
   return (
     <div className="pb-s5">
       {allPlaceholders ? (
@@ -36,7 +51,7 @@ export default function BlogPage() {
         title="Blog"
         aside={
           <a
-            href={apiPaths.feed()}
+            href="/feed.xml"
             className="font-mono text-[13px] text-quiet hover:text-pen"
           >
             <span className="mr-1 text-pen">+</span>RSS
@@ -52,12 +67,15 @@ export default function BlogPage() {
       ) : (
         <ul>
           {posts.map((post) => (
-            <li key={post.id} className="mb-s4 border-b border-rule pb-s3">
+            <li key={post.slug} className="mb-s4 border-b border-rule pb-s3">
               <p className="mb-s1 font-mono text-[13px] text-quiet">
                 {formatDate(post.publishedAt)}
               </p>
               <h2 className="font-display text-display-m max-w-[30ch]">
-                <Link href={post.url} className="text-ink hover:text-pen">
+                <Link
+                  href={paths.post(post.slug)}
+                  className="text-ink hover:text-pen"
+                >
                   {post.title}
                 </Link>
               </h2>
@@ -66,7 +84,7 @@ export default function BlogPage() {
                   {post.summary}
                 </p>
               ) : null}
-              <TagPills tags={post.tags} className="mt-s2" />
+              <TagPills tags={post.tags ?? []} className="mt-s2" />
             </li>
           ))}
         </ul>
@@ -74,9 +92,9 @@ export default function BlogPage() {
 
       <MachineReadable
         links={[
-          { href: apiPaths.posts(), label: "JSON" },
-          { href: apiPaths.postsXml(), label: "XML" },
-          { href: apiPaths.feed(), label: "RSS" },
+          { href: "/blog.json", label: "JSON" },
+          { href: "/blog.xml", label: "XML" },
+          { href: "/feed.xml", label: "RSS" },
         ]}
       />
     </div>

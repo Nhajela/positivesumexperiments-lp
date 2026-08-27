@@ -1,11 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { paths } from "@/lib/content/paths";
-import { getCounts } from "@/lib/content/queries";
-import { seoForHome, toMetadata } from "@/lib/content/seo";
+import { CARD_CHARS, clamp, toMetadata } from "@/lib/content/seo";
+import type { OgCard } from "@/lib/og/card";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = toMetadata(seoForHome());
+// site.description opens with the assertion that is also the home card's
+// title. The card shows what follows it, so the two don't say the same
+// sentence twice.
+const HOME_SUBTITLE = site.description.split(". ").slice(1).join(". ");
+
+export const ogCard: OgCard = {
+  title: "For us to win, no one has to lose.",
+  description: clamp(HOME_SUBTITLE, CARD_CHARS),
+};
+
+export const metadata: Metadata = toMetadata({
+  title: site.name,
+  description: clamp(site.description),
+  path: "/",
+  absoluteTitle: true,
+  card: ogCard,
+});
 
 // Organization + WebSite structured data for the umbrella brand. Rendered as
 // JSON-LD on the home page only — search engines pick it up site-wide from here.
@@ -34,6 +50,70 @@ const jsonLd = {
   ],
 };
 
+// The four sections a first-time visitor has no way to guess the shape of
+// from the nav alone ("Core"/"Awareness" tell you nothing before you click —
+// confirmed independently by three cold-read visitor tests). One-line
+// explainer per section, plus a small line-drawn icon. The explainer text
+// itself is placeholder scaffolding — Naman writes the real one-liners; see
+// docs/ai-policy.md.
+const onramp = [
+  {
+    href: paths.core(),
+    label: "Core",
+    icon: (
+      <path
+        d="M14 4 L24 20 L14 24 L4 20 Z M14 12 v6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    placeholder:
+      '[Placeholder — one line, e.g. "The principles everything else answers to."]',
+  },
+  {
+    href: paths.awareness(),
+    label: "Awareness",
+    icon: (
+      <>
+        <path
+          d="M4 14 C7 8 11 6 14 6 C17 6 21 8 24 14 C21 20 17 22 14 22 C11 22 7 20 4 14 Z"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="14" cy="14" r="3.2" />
+      </>
+    ),
+    placeholder:
+      '[Placeholder — one line, e.g. "Short standalone insights, smaller than a whole principle."]',
+  },
+  {
+    href: paths.experiments(),
+    label: "Experiments",
+    icon: (
+      <path
+        d="M11 4 h6 M12.5 4 v7 L6 22 a2 2 0 0 0 1.8 3 h12.4 a2 2 0 0 0 1.8-3 L15.5 11 V4 M9.5 16 h9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    placeholder:
+      '[Placeholder — one line, e.g. "Beliefs I\'m testing on myself, and what happened."]',
+  },
+  {
+    href: paths.blog(),
+    label: "Blog",
+    icon: (
+      <path
+        d="M6 22 L7 17.5 L19 5.5 a1.8 1.8 0 0 1 2.5 0 l1 1 a1.8 1.8 0 0 1 0 2.5 L10.5 21 Z M17 8 l3 3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    placeholder:
+      '[Placeholder — one line, e.g. "Longer writing, sometimes tied to a specific experiment."]',
+  },
+] as const;
+
 // The three places to go from here. Core first: it is what the other two are
 // answerable to.
 const destinations = [
@@ -48,8 +128,6 @@ const destinations = [
 
 // Copy is Naman's, verbatim (writing/2026-07-06-landing-and-core.txt).
 export default function Home() {
-  const counts = getCounts();
-
   return (
     <div className="pb-s5">
       <script
@@ -74,11 +152,51 @@ export default function Home() {
         </p>
       </section>
 
+      <section className="mb-s5">
+        <p className="font-mono text-[13px] uppercase tracking-[0.08em] text-quiet mb-s2">
+          How this site is organized
+        </p>
+        <ul className="divide-y divide-rule border-t border-rule">
+          {onramp.map((item) => (
+            <li
+              key={item.href}
+              className="flex flex-col gap-s1 py-s2 sm:flex-row sm:items-baseline sm:gap-s2"
+            >
+              <span className="flex shrink-0 items-center gap-s1 sm:basis-[9ch]">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 28 28"
+                  className="h-5 w-5 shrink-0 text-pen"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                >
+                  {item.icon}
+                </svg>
+                <span className="font-display text-[19px]">
+                  <Link href={item.href} className="hover:text-pen">
+                    {item.label}
+                  </Link>
+                </span>
+              </span>
+              <span className="font-mono text-[13px] text-red-pen/80">
+                {item.placeholder}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="mb-s6">
         {/* hand-ruled frames, same trick as the dialogue card — drawn buttons.
-            Each sits at its own angle so the row reads as three things drawn
-            by hand rather than one control repeated. */}
-        <div className="flex flex-wrap gap-s2">
+            Each sits at its own angle so the stack reads as three things
+            drawn by hand rather than one control repeated. Stacked one per
+            line at every width: at the 680px content measure the three
+            labels never fit one row (they run ~665px against 632px of
+            usable space), so a wrapping flex row always broke unevenly
+            into 2-then-1 — this makes the one-per-line layout the design
+            instead of an overflow accident. */}
+        <div className="flex flex-col items-start gap-s2">
           {destinations.map((destination) => (
             <Link
               key={destination.href}
@@ -90,14 +208,6 @@ export default function Home() {
             </Link>
           ))}
         </div>
-
-        {/* "Open" rather than "running": planned and paused experiments are
-            still live questions, they just aren't in motion today. */}
-        <p className="mt-s3 font-mono text-[13px] text-quiet">
-          {counts.experiments > 0
-            ? `${counts.experiments} ${counts.experiments === 1 ? "experiment" : "experiments"} across ${counts.hypotheses} ${counts.hypotheses === 1 ? "hypothesis" : "hypotheses"}, ${counts.live} still open.`
-            : "No experiments yet."}
-        </p>
       </section>
     </div>
   );

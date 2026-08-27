@@ -1,0 +1,325 @@
+<title>Hypothesis — Table First</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f6f1;
+    --ink: #1a1917;
+    --quiet: #8b8a83;
+    --rule: #e2e1d9;
+    --pen: #1d3fe8;
+    --red-pen: #c93b2e;
+    --green-marker: #1e8a4c;
+    --marigold: #f0a81c;
+    --paper-inset: #f1f0e9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191817;
+      --ink: #eae8e1;
+      --quiet: #8b8a83;
+      --rule: #34322e;
+      --pen: #7d92f5;
+      --red-pen: #e06152;
+      --green-marker: #4fb87d;
+      --marigold: #f0a81c;
+      --paper-inset: #1f1e1c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191817;
+    --ink: #eae8e1;
+    --quiet: #8b8a83;
+    --rule: #34322e;
+    --pen: #7d92f5;
+    --red-pen: #e06152;
+    --green-marker: #4fb87d;
+    --marigold: #f0a81c;
+    --paper-inset: #1f1e1c;
+  }
+
+  html, body { background: var(--paper); }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 28px 120px;
+  }
+  a { color: var(--pen); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .mono, .eyebrow {
+    font-family: "Spline Sans Mono", monospace;
+  }
+  .eyebrow {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+  }
+
+  /* mockup banner */
+  .alt-banner {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    border-bottom: 1px dashed var(--rule);
+    padding-bottom: 8px;
+    margin-bottom: 48px;
+  }
+
+  .crumb {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  header.masthead { margin-top: 28px; }
+  .kicker { margin-bottom: 8px; }
+  .short-title {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--quiet);
+    margin: 8px 0 8px;
+  }
+  h1 {
+    font-family: "Young Serif", serif;
+    font-weight: 400;
+    font-size: clamp(28px, 5.5vw, 48px);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    margin: 0 0 8px;
+  }
+  .date {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+  }
+
+  hr.rule {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0;
+  }
+
+  .see-more { margin-top: 28px; }
+  .see-more > summary {
+    list-style: none;
+    cursor: pointer;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pen);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .see-more > summary::-webkit-details-marker { display: none; }
+  .see-more > summary .twist { font-weight: 700; transition: transform 0.15s ease; display: inline-block; }
+  .see-more[open] > summary .twist { transform: rotate(45deg); }
+  .see-more[open] > summary .see-more-label::after { content: " less"; }
+  .see-more:not([open]) > summary .see-more-label::after { content: " more"; }
+  .see-more-rest { margin-top: 16px; }
+
+  /* ------ the summary table ------ */
+  .at-a-glance { margin-top: 48px; }
+  .at-a-glance .eyebrow { display: block; margin-bottom: 16px; }
+  .table-scroll { overflow-x: auto; }
+  table.summary {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 520px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  table.summary th,
+  table.summary td {
+    text-align: left;
+    vertical-align: top;
+    padding: 16px 28px 16px 0;
+    border-top: 1px solid var(--rule);
+    font-weight: 400;
+  }
+  table.summary tr:first-child th,
+  table.summary tr:first-child td { border-top: 0; }
+  table.summary th {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    white-space: nowrap;
+    width: 1%;
+    padding-top: 21px; /* optical align label with first line of value */
+  }
+  table.summary td:last-child { padding-right: 0; }
+  td.statement {
+    font-family: "Young Serif", serif;
+    font-size: 24px;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+  td .sub {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+    letter-spacing: 0.04em;
+  }
+
+  /* status */
+  .status {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .status .dot { color: var(--marigold); }
+
+  /* tags */
+  .tag {
+    display: inline-block;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--rule);
+    padding: 2px 8px;
+    margin-right: 8px;
+    color: var(--ink);
+  }
+
+  /* placeholder / unfinished */
+  .placeholder {
+    color: var(--quiet);
+    font-style: italic;
+  }
+  .placeholder-flag {
+    font-family: "Spline Sans Mono", monospace;
+    font-style: normal;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red-pen);
+  }
+
+  /* ------ prose ------ */
+  .reasoning .eyebrow { display: block; margin-bottom: 16px; }
+  .reasoning p { margin: 0 0 28px; max-width: 620px; }
+  .reasoning p:last-child { margin-bottom: 0; }
+
+  ul.plus {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    max-width: 620px;
+  }
+  ul.plus li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 8px;
+  }
+  ul.plus li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    color: var(--pen);
+    font-weight: 700;
+    font-family: "Instrument Sans", sans-serif;
+  }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 16px 16px 80px; }
+    body { font-size: 17px; }
+    td.statement { font-size: 21px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="alt-banner">Alternate B — Table first (rev 2: long title → full description → see more → everything else, incl. table)</div>
+
+  <nav class="crumb"><a href="#">&larr; Experiments</a></nav>
+
+  <header class="masthead">
+    <div class="kicker eyebrow">Hypothesis</div>
+    <p class="short-title">Doing well, deciding well</p>
+    <h1>&ldquo;When I&rsquo;m doing well, I will make better decisions.&rdquo;</h1>
+    <div class="date">25 Aug 2026</div>
+  </header>
+
+  <section class="reasoning" aria-label="Description" style="margin-top:48px;">
+    <p>There is no distinction between life and work or anything else. It's all a part of me, and a function of how well I handle the balancing act.</p>
+
+    <p>My emotional stability, my self perception, my energy levels, my sugar levels, everything cascades into my work through the quality of decisions I make.</p>
+
+    <ul class="plus">
+      <li>Did I fight with my girlfriend the day before?</li>
+      <li>Did I eat good food that keeps my energy stable?</li>
+      <li>Did I work my body so that my mind gets proper blood flow?</li>
+      <li>Did I work my mind to be ready to do the hard things?</li>
+    </ul>
+
+    <details class="see-more">
+      <summary><span class="twist">+</span><span class="see-more-label">See</span></summary>
+      <div class="see-more-rest">
+        <p>Every single aspect of my life trails into every other aspect.</p>
+        <p>We can't consciously control everything all the time, we have limited decisions we can make everyday.</p>
+        <p>The best way to then get to wherever we want is to design an life and environment where we're in the best position to win.</p>
+        <p>This hypothesis will be a home to a set of experiments that aim to modify and set good foundations for my environment, for all the prebaked decisions that I want to wake up with everyday and make minimal thinking effort on.</p>
+      </div>
+    </details>
+  </section>
+
+  <hr class="rule">
+
+  <section class="at-a-glance" aria-label="Everything else">
+    <span class="eyebrow">Everything else</span>
+    <div class="table-scroll" style="margin-top:16px;">
+      <table class="summary">
+        <tr>
+          <th scope="row">Descends from</th>
+          <td><a href="#">5. Play with the power laws.</a> <span class="sub">&mdash; from Core</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Tested by</th>
+          <td>
+            <a href="#">Wake up at 6:30 a.m. for 15 days</a><br>
+            <span class="status"><span class="dot">&#9679;</span> Planned</span> <span class="sub">&middot; 15 days</span>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Tags</th>
+          <td><span class="tag">Personal</span><span class="tag">Self</span></td>
+        </tr>
+        <tr>
+          <th scope="row">See also</th>
+          <td><a href="#">Pieces of Awareness</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Written about</th>
+          <td>
+            <span class="placeholder">[Placeholder &mdash; Naman&rsquo;s first post]</span><br>
+            <span class="sub">25 Aug 2026</span> <span class="placeholder-flag">unfinished</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+</div>

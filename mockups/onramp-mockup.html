@@ -1,0 +1,230 @@
+<title>Home — On-Ramp Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f6f1;
+    --ink: #1a1917;
+    --quiet: #8b8a83;
+    --rule: #e2e1d9;
+    --pen: #1d3fe8;
+    --red-pen: #c93b2e;
+    --green-marker: #1e8a4c;
+    --marigold: #f0a81c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1a1917;
+      --ink: #f2f0e8;
+      --quiet: #a19f95;
+      --rule: #37352c;
+      --pen: #6d8bff;
+      --red-pen: #ef7a6c;
+      --green-marker: #4fbd80;
+      --marigold: #f5be55;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1a1917;
+    --ink: #f2f0e8;
+    --quiet: #a19f95;
+    --rule: #37352c;
+    --pen: #6d8bff;
+    --red-pen: #ef7a6c;
+    --green-marker: #4fbd80;
+    --marigold: #f5be55;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Instrument Sans", sans-serif;
+    line-height: 1.65;
+    margin: 0;
+    padding: 48px 24px 120px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  .banner {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    border: 1px dashed var(--rule);
+    padding: 8px 16px;
+    margin-bottom: 48px;
+  }
+  h1.display {
+    font-family: "Young Serif", serif;
+    font-size: clamp(34px, 6.5vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    max-width: 16ch;
+    margin: 0 0 28px;
+  }
+  p.lede {
+    font-size: 19px;
+    max-width: 58ch;
+    color: color-mix(in srgb, var(--ink) 80%, transparent);
+    margin: 0 0 80px;
+  }
+  .eyebrow {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    margin-bottom: 16px;
+  }
+  .option-label {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pen);
+    margin: 80px 0 28px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+  }
+  .option-label:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+
+  /* Option 1: inline map — four short lines, plain-language explainer per item */
+  .map-list { list-style: none; margin: 0 0 16px; padding: 0; }
+  .map-list li {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .map-list li:first-child { padding-top: 0; }
+  .map-term {
+    font-family: "Young Serif", serif;
+    font-size: 19px;
+    flex: 0 0 140px;
+  }
+  .map-term a { color: var(--pen); text-decoration: none; }
+  .map-term a:hover { text-decoration: underline; }
+  .map-desc {
+    font-size: 16.5px;
+    color: var(--quiet);
+  }
+  .map-desc .ph {
+    color: var(--red-pen);
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+  }
+
+  /* Option 2: numbered mini-cards, more like a guided sequence */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px;
+  }
+  .card-num {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: "Young Serif", serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+  .card-title a { color: var(--ink); text-decoration: none; }
+  .card-title a:hover { color: var(--pen); }
+  .card-desc {
+    font-size: 16.5px;
+    color: var(--quiet);
+    margin: 0;
+  }
+  .card-desc .ph {
+    color: var(--red-pen);
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    display: block;
+    margin-top: 8px;
+  }
+
+  .note {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+    border-left: 3px solid var(--marigold);
+    padding-left: 16px;
+    margin: 28px 0 0;
+    max-width: 60ch;
+  }
+</style>
+
+<div class="wrap">
+  <div class="banner">MOCKUP — home page "on-ramp" options, not the live site. All italicized-red text below is placeholder scaffolding for Naman to replace with his own one-liners — none of it is meant to ship as written.</div>
+
+  <h1 class="display">For us to win, no one has to lose.</h1>
+  <p class="lede">Positive Sum Experiments is a venture by <a href="#" style="color:var(--pen)">Naman Hajela</a> running experiments with their fundamentals rooted in this philosophy.</p>
+
+  <div class="option-label">Option 1 — inline map (short, sits right under the hero)</div>
+  <div class="eyebrow">How this site is organized</div>
+  <ul class="map-list">
+    <li>
+      <span class="map-term"><a href="#">Core</a></span>
+      <span class="map-desc"><span class="ph">[Placeholder — one line, e.g. "The principles everything else answers to."]</span></span>
+    </li>
+    <li>
+      <span class="map-term"><a href="#">Awareness</a></span>
+      <span class="map-desc"><span class="ph">[Placeholder — one line, e.g. "Short standalone insights, smaller than a whole principle."]</span></span>
+    </li>
+    <li>
+      <span class="map-term"><a href="#">Experiments</a></span>
+      <span class="map-desc"><span class="ph">[Placeholder — one line, e.g. "Beliefs I'm testing on myself, and what happened."]</span></span>
+    </li>
+    <li>
+      <span class="map-term"><a href="#">Blog</a></span>
+      <span class="map-desc"><span class="ph">[Placeholder — one line, e.g. "Longer writing, sometimes tied to a specific experiment."]</span></span>
+    </li>
+  </ul>
+  <p class="note">Rationale: cheapest possible fix — four short lines, no new page, no new visual language. Sits directly under the existing hero copy. Risk: still fairly dense if someone skims past it.</p>
+
+  <div class="option-label">Option 2 — numbered mini-cards (more like a guided sequence)</div>
+  <div class="eyebrow">Start here</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-num">01</div>
+      <div class="card-title"><a href="#">Core</a></div>
+      <p class="card-desc">
+        <span class="ph">[Placeholder — one line explaining Core, e.g. "The principles everything else is built on — read this first."]</span>
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <div class="card-title"><a href="#">Awareness</a></div>
+      <p class="card-desc">
+        <span class="ph">[Placeholder — one line explaining Awareness and how it differs from Core.]</span>
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <div class="card-title"><a href="#">Experiments</a></div>
+      <p class="card-desc">
+        <span class="ph">[Placeholder — one line explaining what a Hypothesis vs an Experiment is, since the site uses both words.]</span>
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-num">04</div>
+      <div class="card-title"><a href="#">Blog</a></div>
+      <p class="card-desc">
+        <span class="ph">[Placeholder — one line on how the blog relates to the experiments/hypotheses above.]</span>
+      </p>
+    </div>
+  </div>
+  <p class="note">Rationale: more explicit "start here" framing, gives Core/Awareness/Experiments/Blog equal visual weight as four doors in, each explained in plain language before you pick one. Costs more vertical space on the home page than Option 1.</p>
+
+  <p class="note" style="border-left-color: var(--pen); margin-top: 80px;">Not attempted here: rewriting the nav labels themselves ("Core"/"Awareness"). That's a brand-voice call, not a layout one — these two options assume you keep the current labels and add an explainer instead.</p>
+</div>

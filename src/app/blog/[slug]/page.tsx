@@ -1,22 +1,31 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EmptyNote } from "@/components/empty-note";
 import { MachineReadable } from "@/components/machine-readable";
 import { PageHeader } from "@/components/page-header";
 import { PlaceholderBanner } from "@/components/placeholder-banner";
 import { ProseBody } from "@/components/prose-body";
-import { StatusBadge } from "@/components/status-badge";
 import { TagPills } from "@/components/tag-pill";
 import { formatDate } from "@/lib/content/format";
-import { apiPaths, paths } from "@/lib/content/paths";
-import { getPostBySlug, getPosts } from "@/lib/content/queries";
-import { seoForPost, toMetadata } from "@/lib/content/seo";
+import { paths } from "@/lib/content/paths";
+import { describe, toMetadata } from "@/lib/content/seo";
+import type { OgCard } from "@/lib/og/card";
+import { postBySlug, publishedPosts } from "../posts";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getPosts().map((post) => ({ slug: post.slug }));
+  return publishedPosts().map((post) => ({ slug: post.slug }));
+}
+
+function cardFor(post: NonNullable<ReturnType<typeof postBySlug>>): OgCard {
+  return {
+    eyebrow: ["Blog", ...(post.tags ?? []).map((t) => t.label)].join(" · "),
+    title: post.title,
+    description: post.summary,
+    meta: [formatDate(post.publishedAt)],
+    placeholder: post.placeholder,
+  };
 }
 
 export async function generateMetadata({
@@ -25,10 +34,23 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = postBySlug(slug);
   if (!post) return {};
 
-  return toMetadata(seoForPost(post));
+  return toMetadata({
+    title: post.title,
+    description: describe(
+      post.summary ?? "A post from Positive Sum Experiments.",
+      [],
+      post.placeholder,
+    ),
+    path: paths.post(post.slug),
+    type: "article",
+    publishedTime: post.publishedAt,
+    modifiedTime: post.updatedAt,
+    keywords: (post.tags ?? []).map((t) => t.label),
+    card: cardFor(post),
+  });
 }
 
 export default async function PostPage({
@@ -37,10 +59,8 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = postBySlug(slug);
   if (!post) notFound();
-
-  const linked = [...post.hypotheses, ...post.experiments];
 
   return (
     <article className="pb-s5">
@@ -60,58 +80,21 @@ export default async function PostPage({
         }
       />
 
-      {post.tags.length > 0 ? (
-        <TagPills tags={post.tags} className="mb-s4" />
+      {(post.tags ?? []).length > 0 ? (
+        <TagPills tags={post.tags ?? []} className="mb-s4" />
       ) : (
         <div className="mb-s4" />
       )}
 
       <ProseBody
-        collection="posts"
-        slug={post.slug}
+        load={post.body}
         fallback={<EmptyNote>This post has no body yet.</EmptyNote>}
       />
 
-      {linked.length > 0 ? (
-        <section className="mt-s5 border-t border-rule pt-s3">
-          <h2 className="mb-s2 font-mono text-[13px] uppercase tracking-[0.08em] text-quiet">
-            About
-          </h2>
-          <ul className="space-y-s1">
-            {post.hypotheses.map((h) => (
-              <li key={h.id}>
-                <Link
-                  href={h.url}
-                  className="max-w-[52ch] text-body-m hover:text-pen"
-                >
-                  <span className="mr-1.5 font-bold text-pen">+</span>
-                  {h.title}
-                </Link>
-              </li>
-            ))}
-            {post.experiments.map((e) => (
-              <li
-                key={e.id}
-                className="flex flex-wrap items-baseline justify-between gap-s1"
-              >
-                <Link
-                  href={e.url}
-                  className="max-w-[46ch] text-body-m hover:text-pen"
-                >
-                  <span className="mr-1.5 font-bold text-pen">+</span>
-                  {e.title}
-                </Link>
-                <StatusBadge status={e.status} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
       <MachineReadable
         links={[
-          { href: apiPaths.post(post.slug), label: "JSON" },
-          { href: apiPaths.feed(), label: "RSS" },
+          { href: `/blog/${post.slug}/data`, label: "JSON" },
+          { href: "/feed.xml", label: "RSS" },
         ]}
       />
     </article>

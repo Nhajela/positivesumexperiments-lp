@@ -1,0 +1,389 @@
+<title>Experiments Index — First Principles</title>
+<!-- Self-critique: my default answer to "strangers don't get the vocabulary" was a bolt-on
+     explainer section + process diagram (that's what the staged-reveal draft does, and what
+     AI tends to produce). Revised: the definitions moved into cobalt margin pen-notes anchored
+     where each word first appears, and the experiment is physically nested under its hypothesis
+     with a drawn connector — so layout, not a preamble, teaches the relationship. The cream +
+     serif palette matches AI-cluster (1) but is the client's established brand (mandated tokens),
+     with a cobalt-pen accent rather than terracotta; the № numbering is a real ordinal ledger,
+     earned, and the empty № 2 slot makes a one-entry index read as growing, not sparse. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f6f1; --ink: #1a1917; --quiet: #8b8a83; --rule: #e2e1d9;
+    --pen: #1d3fe8; --red-pen: #c93b2e; --green-marker: #1e8a4c; --marigold: #f0a81c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1c1b18; --ink: #ece9e0; --quiet: #8f8d84; --rule: #35332d;
+      --pen: #7d92ff; --red-pen: #e06a5c; --green-marker: #4fbf7f; --marigold: #f0b545;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1c1b18; --ink: #ece9e0; --quiet: #8f8d84; --rule: #35332d;
+    --pen: #7d92ff; --red-pen: #e06a5c; --green-marker: #4fbf7f; --marigold: #f0b545;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { background: var(--paper); color: var(--ink); margin: 0; padding: 0; }
+  body {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 16.5px; line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--pen); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, .draft:focus-visible {
+    outline: 2px solid var(--pen); outline-offset: 2px; border-radius: 2px;
+  }
+
+  .mock-banner {
+    position: sticky; top: 0; z-index: 10; background: var(--paper);
+    border-bottom: 1px solid var(--rule); padding: 8px 16px;
+    font-family: "Spline Sans Mono", monospace; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--quiet); text-align: center;
+  }
+  .mock-banner .flag { color: var(--red-pen); }
+
+  .page { max-width: 66rem; margin: 0 auto; padding: 48px 16px 120px; }
+
+  .eyebrow {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--quiet); font-weight: 500;
+  }
+
+  /* ================= Masthead ================= */
+  .masthead { max-width: 58ch; }
+  h1 {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(34px, 6vw, 54px); line-height: 1.08; letter-spacing: -0.015em;
+    margin: 16px 0;
+  }
+  .masthead-count {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet);
+    margin: 0 0 28px;
+  }
+  blockquote { margin: 0; }
+  blockquote.intro cite, blockquote.excerpt cite, blockquote.pledge cite {
+    display: block; font-style: normal; font-family: "Spline Sans Mono", monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--quiet);
+    margin-top: 8px;
+  }
+  /* ---- The intro, set like a short letter rather than a pulled quote: no
+     border, no italic-quote treatment — this is Naman addressing the reader
+     directly, not a citation. Slightly larger and more air than body copy. ---- */
+  .letter {
+    max-width: 58ch; margin: 0 0 28px;
+    font-family: "Instrument Sans", sans-serif; font-size: 18px; line-height: 1.65;
+  }
+  .letter p { margin: 0 0 20px; }
+  .letter p:last-child { margin-bottom: 0; }
+
+  .howto { max-width: 58ch; margin: 48px 0 0; font-size: 16px; }
+  .howto p { margin: 0; }
+  /* ---- The "*" aside: Naman's own note-to-the-reader about why some of this
+     is just for him. Set apart from the letter above — quieter, smaller,
+     genuinely a footnote in tone, not another paragraph of the address. ---- */
+  .star-note {
+    max-width: 56ch; margin: 16px 0 0; padding-left: 20px; position: relative;
+    font-size: 14.5px; line-height: 1.6; color: var(--quiet);
+  }
+  .star-note::before {
+    content: "*"; position: absolute; left: 0; top: 0; color: var(--pen);
+  }
+  .star-note p { margin: 0 0 12px; }
+  .star-note p:last-child { margin-bottom: 0; }
+
+  /* ---- DRAFT marker: Claude's placeholder prose, for Naman to rewrite ---- */
+  .draft {
+    position: relative; display: block;
+    padding: 16px;
+    outline: 1px dashed var(--red-pen); outline-offset: 0;
+  }
+  .draft::after {
+    content: "DRAFT · EDIT ME";
+    position: absolute; top: -8px; right: 8px;
+    font-family: "Spline Sans Mono", monospace; font-size: 9.5px; font-weight: 500;
+    letter-spacing: 0.1em; color: var(--red-pen);
+    background: var(--paper); padding: 0 8px; line-height: 16px;
+  }
+
+  /* ================= The ledger ================= */
+  .ledger { margin-top: 80px; }
+
+  .entry { border-top: 1px solid var(--rule); padding-top: 28px; margin-top: 80px; }
+  .ledger .entry:first-child { margin-top: 0; }
+  .entry-num {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; letter-spacing: 0.08em;
+    color: var(--quiet); margin: 0 0 28px;
+  }
+  .entry-num .no { color: var(--pen); font-weight: 600; }
+
+  /* Two columns: the record + the pen margin. Margin collapses inline on small screens. */
+  .entry-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    column-gap: 48px; row-gap: 16px;
+  }
+  .cell-main { min-width: 0; max-width: 58ch; }
+  /* explicit placement: record in col 1, pen notes in col 2 beside what they annotate */
+  .cell-main.is-belief { grid-column: 1; grid-row: 1; }
+  .gloss.for-belief   { grid-column: 2; grid-row: 1; }
+  .connector          { grid-column: 1; grid-row: 2; }
+  .test-cell          { grid-column: 1; grid-row: 3; }
+  .gloss.for-test     { grid-column: 2; grid-row: 3; }
+
+  /* ---- Signature: margin pen-notes. Cobalt italic, anchored by proofreader asterisks. ---- */
+  .gloss {
+    color: var(--pen);
+    font-style: italic; font-size: 14px; line-height: 1.6;
+    align-self: start; padding-top: 8px;
+  }
+  .gloss .mark { font-style: normal; font-weight: 600; margin-right: 8px; }
+  .gloss p { margin: 0 0 8px; }
+  .gloss p:last-child { margin-bottom: 0; }
+  .gloss .draft { padding: 8px 16px 8px 8px; }
+  .gloss .draft::after { content: "DRAFT"; right: 0; }
+  /* the anchor mark sitting in the main column's label */
+  .gloss-anchor {
+    color: var(--pen); font-weight: 600; font-style: normal;
+    margin-left: 8px; letter-spacing: 0;
+  }
+
+  .card-eyebrow {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--quiet); margin: 0 0 16px;
+  }
+
+  /* ---- The belief, stated big. This IS the hero of the page. ---- */
+  .belief {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(26px, 4.2vw, 40px); line-height: 1.22; letter-spacing: -0.01em;
+    margin: 0 0 16px;
+  }
+  .belief a { color: var(--ink); }
+  .belief a:hover { color: var(--pen); text-decoration: none; }
+  /* Tags (Personal/Self) are hidden for now — a lone group/scope pair read
+     as noise rather than useful classification. Markup kept commented, not
+     deleted: bring back once groupings are done more intentionally. */
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 16px; }
+  .tag {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.04em;
+    text-transform: uppercase; border: 1px solid var(--rule); color: var(--quiet); padding: 2px 8px;
+  }
+  /* ---- Read-link, redesigned as an actual button — same drawn-frame
+     language as the home page's CTAs, so "go read the rest" carries the
+     same weight as a front-door action, not an afterthought mono link. ---- */
+  .read-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "Instrument Sans", sans-serif; font-size: 14.5px; font-weight: 500;
+    color: var(--ink); text-decoration: none;
+    border: 1.5px solid var(--ink); border-radius: 14px 200px 14px 220px / 220px 14px 200px 14px;
+    padding: 8px 18px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .read-btn:hover { color: var(--pen); border-color: var(--pen); text-decoration: none; }
+  .read-btn .arrow { color: var(--pen); font-weight: 700; }
+
+  /* ---- Connector: a drawn pen stroke from the belief down into its test ---- */
+  .connector { margin: 0; padding: 0 0 0 28px; }
+  .connector svg { display: block; height: 80px; width: 60px; overflow: visible; }
+  .connector path { stroke: var(--pen); stroke-width: 1.8; fill: none; stroke-linecap: round; }
+  .connector .tested-by {
+    fill: var(--pen); font-family: "Spline Sans Mono", monospace; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .connector path.draw {
+      stroke-dasharray: 130; stroke-dashoffset: 130;
+      animation: penstroke 0.9s ease-out 0.3s forwards;
+    }
+    @keyframes penstroke { to { stroke-dashoffset: 0; } }
+  }
+
+  /* ---- The test, nested under its belief, in the site's wobbly frame ---- */
+  .test-cell { padding-left: 28px; }
+  .wobbly {
+    border: 1.5px solid var(--rule);
+    border-radius: 16px 225px 16px 255px / 255px 16px 225px 16px;
+    padding: 28px;
+  }
+  .exp-title {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(20px, 2.8vw, 24px); line-height: 1.3; margin: 0 0 16px;
+  }
+  .exp-title a { color: var(--ink); }
+  .exp-title a:hover { color: var(--pen); text-decoration: none; }
+  blockquote.pledge {
+    padding: 0 0 0 16px; border-left: 3px solid var(--marigold);
+    font-style: italic; font-size: 15.5px; margin: 0 0 28px;
+  }
+  .exp-meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px 16px; flex-wrap: wrap;
+  }
+  .exp-meta-left { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .status-badge {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--quiet); white-space: nowrap;
+  }
+  .status-badge .dot { color: var(--quiet); }
+  .status-badge.ongoing .dot, .status-badge.concluded .dot { color: var(--green-marker); }
+  .status-badge.paused .dot { color: var(--marigold); }
+  .status-badge.abandoned .dot { color: var(--red-pen); }
+  .exp-length { font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet); }
+  .exp-meta a { font-family: "Spline Sans Mono", monospace; font-size: 13px; }
+
+  /* ---- № 2: the next slot, empty on purpose ---- */
+  .entry.next .entry-num, .entry.next .cell-main { color: var(--quiet); }
+  .slot {
+    border: 1.5px dashed var(--rule);
+    border-radius: 16px 225px 16px 255px / 255px 16px 225px 16px;
+    padding: 28px; font-size: 15.5px;
+  }
+  .slot p { margin: 0; }
+  .slot .card-eyebrow { margin-bottom: 8px; }
+
+  /* ---- Status legend + footer ---- */
+  .legend {
+    margin-top: 120px; padding-top: 28px; border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px;
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; color: var(--quiet);
+  }
+  .legend .legend-label { text-transform: uppercase; letter-spacing: 0.08em; margin-right: 8px; }
+  .legend .dot-planned { color: var(--quiet); }
+  .legend .dot-ongoing, .legend .dot-concluded { color: var(--green-marker); }
+  .legend .dot-paused { color: var(--marigold); }
+  .legend .dot-abandoned { color: var(--red-pen); }
+  .footnote {
+    margin-top: 48px; font-family: "Spline Sans Mono", monospace; font-size: 12px; color: var(--quiet);
+  }
+
+  /* ================= Small screens: the margin folds inline ================= */
+  @media (max-width: 760px) {
+    .entry-grid { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+    /* single column: natural DOM order already reads correctly
+       (belief → its pen note → connector → test → its pen note) */
+    .entry-grid > * { grid-column: auto; grid-row: auto; }
+    .gloss { padding: 0 0 0 16px; border-left: 2px solid var(--pen); }
+    .gloss .draft { padding: 8px 16px 8px 8px; }
+    .test-cell, .connector { padding-left: 16px; }
+  }
+</style>
+
+<div class="mock-banner">Experiments index &mdash; first-principles redesign (rev 2: real intro copy from Naman, tags/excerpt/"Filed as" removed, real buttons, experiment marked ongoing)</div>
+
+<main class="page">
+  <header class="masthead">
+    <span class="eyebrow">Positive Sum Experiments</span>
+    <h1>Hypothesis &amp; Experiments</h1>
+    <p class="masthead-count">On record: 1 belief &middot; 1 test</p>
+
+    <!-- Naman's own words, verbatim — not a draft. Set like a short letter,
+         not a pulled quote: no border, no italics, no citation. -->
+    <div class="letter">
+      <p>Here you'll find the various experiments I'm running, with their hypothesis, logs and findings.</p>
+      <p>My goal is to make public as many aspects of my journey and life as possible, in an effort to help others learn and benefit from it.</p>
+    </div>
+
+    <div class="howto">
+      <p>Each entry below is a hypothesis that i'm testing through many different experiments across life and work.</p>
+    </div>
+    <aside class="star-note">
+      <p>Quite a few of these are just here for myself. They're there to encapsulate how I look at life and how I'm choosing to spend my time and energy.</p>
+      <p>I believe that by putting such stuff into words, I am able to stick to the experiments better, and develop a deeper awareness into the important stuff.</p>
+      <p>At some point in the development of this venture, there will be starred experiments here based on what I think you can learn the most for. Until then though, please enjoy my enthusiasm to write about, systemize and design my intentional life and work.</p>
+    </aside>
+  </header>
+
+  <div class="ledger">
+
+    <!-- ================= № 1 ================= -->
+    <article class="entry">
+      <p class="entry-num"><span class="no">&#8470;&nbsp;1</span> &middot; opened 2026</p>
+
+      <div class="entry-grid">
+
+        <div class="cell-main is-belief">
+          <p class="card-eyebrow">Hypothesis<span class="gloss-anchor">&#10033;</span></p>
+          <h2 class="belief"><a href="#">&ldquo;When I&rsquo;m doing well, I will make better decisions.&rdquo;</a></h2>
+          <!-- Tags hidden for now — see .tags comment in <style>.
+          <div class="tags">
+            <span class="tag">Personal</span>
+            <span class="tag">Self</span>
+          </div>
+          -->
+          <a class="read-btn" href="#">Read the full hypothesis <span class="arrow">&rarr;</span></a>
+        </div>
+
+        <!-- margin pen-note 1: defines "hypothesis" where the word first appears -->
+        <aside class="gloss for-belief" aria-label="Margin note defining hypothesis">
+          <div class="draft">
+            <p><span class="mark">&#10033;</span>a hypothesis, here: a belief I hold about myself, written down where anyone can see it &mdash; plainly enough that it can turn out to be wrong.</p>
+          </div>
+        </aside>
+
+        <!-- the drawn pen stroke from belief to test -->
+        <figure class="connector" aria-hidden="true">
+          <svg viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+            <path class="draw" d="M8 2 C6 22 7 44 10 62 M10 62 l-5 -9 M10 62 l8 -7"/>
+            <text class="tested-by" x="24" y="40">tested by</text>
+          </svg>
+        </figure>
+
+        <div class="test-cell">
+          <article class="wobbly">
+            <p class="card-eyebrow">Experiment<span class="gloss-anchor">&#10033;&#10033;</span> &middot; testing &#8470;&nbsp;1</p>
+            <h3 class="exp-title"><a href="#">Wake up at 6:30 a.m. for 15 days</a></h3>
+            <blockquote class="pledge">
+              I will wake up every day at 6:30 a.m. for the next 15 days or so.
+            </blockquote>
+            <div class="exp-meta">
+              <div class="exp-meta-left">
+                <span class="status-badge ongoing"><span class="dot">&#9679;</span> Ongoing</span>
+                <span class="exp-length">started 27 Aug 2026 &middot; 15 days planned</span>
+              </div>
+              <a class="read-btn" href="#">Read the experiment <span class="arrow">&rarr;</span></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- margin pen-note 2: defines "experiment" beside the actual experiment -->
+        <aside class="gloss for-test" aria-label="Margin note defining experiment">
+          <div class="draft">
+            <p><span class="mark">&#10033;&#10033;</span>an experiment: one concrete, time-boxed change to my days that says whether the belief above holds. When it ends, the belief comes out stronger, weaker, or gone.</p>
+          </div>
+        </aside>
+
+      </div>
+    </article>
+
+    <!-- ================= № 2: empty on purpose ================= -->
+    <article class="entry next">
+      <p class="entry-num"><span class="no">&#8470;&nbsp;2</span> &middot; unwritten</p>
+      <div class="entry-grid">
+        <div class="cell-main">
+          <div class="slot draft">
+            <p class="card-eyebrow">Hypothesis</p>
+            <p>Not yet written. Beliefs get a number here the day I commit to testing them &mdash; this ledger grows one entry at a time.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="legend">
+    <span class="legend-label">Status vocabulary</span>
+    <span><span class="dot-planned">&#9679;</span> Planned</span>
+    <span><span class="dot-ongoing">&#9679;</span> Ongoing</span>
+    <span><span class="dot-paused">&#9679;</span> Paused</span>
+    <span><span class="dot-concluded">&#9679;</span> Concluded</span>
+    <span><span class="dot-abandoned">&#9679;</span> Abandoned</span>
+  </div>
+
+  <p class="footnote">Same page, as data: <a href="#">JSON</a> &middot; <a href="#">XML</a> &middot; <a href="#">everything</a></p>
+</main>

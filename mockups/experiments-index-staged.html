@@ -1,0 +1,476 @@
+<title>Experiments Index — Staged Reveal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f6f1; --ink: #1a1917; --quiet: #8b8a83; --rule: #e2e1d9;
+    --pen: #1d3fe8; --red-pen: #c93b2e; --green-marker: #1e8a4c; --marigold: #f0a81c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1c1b18; --ink: #ece9e0; --quiet: #8f8d84; --rule: #35332d;
+      --pen: #7d92ff; --red-pen: #e06a5c; --green-marker: #4fbf7f; --marigold: #f0b545;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1c1b18; --ink: #ece9e0; --quiet: #8f8d84; --rule: #35332d;
+    --pen: #7d92ff; --red-pen: #e06a5c; --green-marker: #4fbf7f; --marigold: #f0b545;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--paper); color: var(--ink); margin: 0; padding: 0; }
+  body { font-family: "Instrument Sans", sans-serif; font-size: 16.5px; line-height: 1.65; overflow-x: hidden; }
+
+  .mock-banner {
+    position: sticky; top: 0; z-index: 10; background: var(--paper);
+    border-bottom: 1px solid var(--rule); padding: 8px 16px;
+    font-family: "Spline Sans Mono", monospace; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--quiet); text-align: center;
+  }
+  .mock-banner .flag { color: var(--red-pen); }
+
+  .page { max-width: 46rem; margin: 0 auto; padding: 48px 16px 120px; }
+
+  a { color: var(--pen); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .eyebrow {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--quiet); font-weight: 500;
+  }
+
+  .masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  h1 {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(34px, 6vw, 56px); line-height: 1.08; letter-spacing: -0.015em;
+    margin: 16px 0 16px;
+  }
+  .masthead-aside {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet);
+  }
+
+  blockquote { margin: 0; padding: 0 0 0 28px; border-left: 3px solid var(--marigold); }
+  blockquote.intro {
+    margin: 16px 0 80px; font-style: italic; font-size: 19px; max-width: 58ch; color: var(--ink);
+  }
+
+  /* ---- Draft-copy marker: Claude's placeholder prose Naman will rewrite. ---- */
+  .draft {
+    position: relative;
+    padding: 16px;
+    outline: 1px dashed color-mix(in srgb, var(--red-pen) 40%, transparent);
+    outline-offset: 0;
+    background: color-mix(in srgb, var(--red-pen) 3%, transparent);
+  }
+  .draft::after {
+    content: "DRAFT \00b7 EDIT ME";
+    position: absolute; top: -8px; right: 8px;
+    font-family: "Spline Sans Mono", monospace; font-size: 9.5px; font-weight: 500;
+    letter-spacing: 0.1em; color: var(--red-pen);
+    background: var(--paper); padding: 0 8px; line-height: 16px;
+  }
+  @supports not (background: color-mix(in srgb, red 3%, transparent)) {
+    .draft { outline-color: var(--red-pen); background: transparent; }
+  }
+
+  /* ================= HERO ================= */
+  .hero { margin: 0 0 120px; padding-bottom: 80px; border-bottom: 1px solid var(--rule); }
+  .hero-lede { max-width: 58ch; margin: 0 0 48px; }
+  .hero-lede p { margin: 0; }
+
+  .hero-diagram-scroll { overflow-x: auto; margin: 0 0 16px; }
+  .hero-diagram { min-width: 620px; max-width: 780px; margin: 0 auto; }
+  .hero-diagram svg { width: 100%; height: auto; display: block; }
+  .hero-caption {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; color: var(--quiet);
+    text-align: center; margin: 0 0 48px;
+  }
+
+  .hero-explainer { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 620px) { .hero-explainer { grid-template-columns: 1fr; } }
+  .hero-term-label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: "Young Serif", serif; font-size: 21px; margin: 0 0 16px;
+  }
+  .hero-term-label .swatch { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .hero-term-label.hyp .swatch { background: var(--pen); }
+  .hero-term-label.exp .swatch { background: var(--marigold); }
+  .hero-term-desc { margin: 0; font-size: 15.5px; line-height: 1.7; }
+  .hero-term-desc + .hero-term-desc { margin-top: 8px; }
+
+  /* ================= Acts ================= */
+  .act { margin-top: 120px; }
+  .hero + .act { margin-top: 0; }
+  .act-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 16px; }
+  .act-num { font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--pen); }
+  h2.act-title {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(24px, 3.4vw, 32px); margin: 0; line-height: 1.2;
+  }
+  .act-sub { max-width: 56ch; margin: 0 0 48px; font-size: 15.5px; color: var(--ink); }
+  .act-sub p { margin: 0; }
+
+  /* ---- Wobbly hand-drawn frame — the site's signature card border ---- */
+  .wobbly {
+    border: 1.5px solid var(--rule);
+    border-radius: 16px 225px 16px 255px / 255px 16px 225px 16px;
+    padding: 28px;
+  }
+
+  /* ---- Hypothesis card (Act 1) ---- */
+  .hyp-card { margin-bottom: 28px; display: flex; gap: 28px; align-items: flex-start; }
+  .hyp-icon { flex-shrink: 0; width: 64px; height: 64px; color: var(--pen); margin-top: 8px; }
+  .hyp-body { flex: 1; min-width: 0; }
+  .card-eyebrow {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--quiet); margin: 0 0 8px;
+  }
+  /* Long title (the full belief statement) is the heading here — the short
+     title "Doing well, deciding well" appears only in linked, space-limited
+     refs (the "Testing →" line in Act 2). */
+  .hyp-title {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(21px, 3vw, 26px); line-height: 1.3; margin: 0 0 16px;
+  }
+  .hyp-title a { color: var(--ink); }
+  .hyp-title a:hover { color: var(--pen); text-decoration: none; }
+  blockquote.excerpt {
+    margin: 0 0 16px; font-style: italic; font-size: 15.5px; color: var(--ink);
+    padding-left: 16px; border-left-width: 3px;
+  }
+  blockquote.excerpt cite {
+    display: block; font-style: normal; font-family: "Spline Sans Mono", monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--quiet);
+    margin-top: 8px;
+  }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.04em;
+    text-transform: uppercase; border: 1px solid var(--rule); color: var(--quiet); padding: 2px 8px;
+  }
+  .hyp-foot {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet);
+  }
+  .hyp-foot .dot { color: var(--pen); }
+
+  @media (max-width: 560px) {
+    .hyp-card, .exp-card { flex-direction: column; gap: 16px; }
+    .hyp-icon, .exp-icon { margin-top: 0; }
+  }
+
+  /* ---- Experiment card (Act 2) ---- */
+  .exp-card { margin-bottom: 28px; display: flex; gap: 28px; align-items: flex-start; }
+  .exp-icon { flex-shrink: 0; width: 64px; height: 64px; color: var(--marigold); margin-top: 8px; }
+  .exp-body { flex: 1; min-width: 0; }
+  .exp-testing {
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--quiet); margin: 0 0 8px;
+  }
+  .exp-title {
+    font-family: "Young Serif", serif; font-weight: 400;
+    font-size: clamp(19px, 2.6vw, 22px); margin: 0 0 16px; line-height: 1.3;
+  }
+  .exp-title a { color: var(--ink); }
+  .exp-title a:hover { color: var(--pen); text-decoration: none; }
+  blockquote.pledge {
+    margin: 0 0 16px; font-style: italic; font-size: 15.5px; padding-left: 16px;
+  }
+  blockquote.pledge cite {
+    display: block; font-style: normal; font-family: "Spline Sans Mono", monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--quiet);
+    margin-top: 8px;
+  }
+  .exp-meta {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .exp-meta-left { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .status-badge {
+    font-family: "Spline Sans Mono", monospace; font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--quiet); white-space: nowrap;
+  }
+  .status-badge .dot { color: var(--quiet); }
+  .status-badge.ongoing .dot, .status-badge.concluded .dot { color: var(--green-marker); }
+  .status-badge.paused .dot { color: var(--marigold); }
+  .status-badge.abandoned .dot { color: var(--red-pen); }
+  .exp-length { font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--quiet); }
+  .exp-meta a { font-family: "Spline Sans Mono", monospace; font-size: 13px; }
+
+  /* ---- Status legend — doubles as the vocabulary for the whole system ---- */
+  .legend {
+    margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px;
+    font-family: "Spline Sans Mono", monospace; font-size: 12px; color: var(--quiet);
+  }
+  .legend .legend-label { text-transform: uppercase; letter-spacing: 0.08em; margin-right: 8px; }
+  .legend .dot-planned { color: var(--quiet); }
+  .legend .dot-ongoing, .legend .dot-concluded { color: var(--green-marker); }
+  .legend .dot-paused { color: var(--marigold); }
+  .legend .dot-abandoned { color: var(--red-pen); }
+
+  .footnote {
+    margin-top: 80px; font-family: "Spline Sans Mono", monospace; font-size: 12px; color: var(--quiet);
+  }
+
+</style>
+
+<div class="mock-banner">Experiments index &mdash; staged reveal (rev 4) &mdash; <span class="flag">draft: full copy + illustration by Claude for Naman to edit, not final voice content</span></div>
+
+<main class="page">
+  <header class="masthead">
+    <div>
+      <span class="eyebrow">Positive Sum Experiments</span>
+      <h1>Experiments</h1>
+    </div>
+    <span class="masthead-aside">1 experiment across 1 hypothesis</span>
+  </header>
+
+  <blockquote class="intro">The goal of this whole exercise is to frankly make public whatever I try and do, whatever my intents are with anything related to work and beyond work as well.</blockquote>
+
+  <!-- ================= HERO: the two words, defined before the lists ================= -->
+  <section class="hero reveal">
+    <div class="hero-lede draft">
+      <p>Two words carry this whole page, so before the lists: what I mean by a <strong>hypothesis</strong> and an <strong>experiment</strong>. It&rsquo;s a small loop, and it looks like this.</p>
+    </div>
+
+    <div class="hero-diagram-scroll">
+      <div class="hero-diagram">
+        <!-- Hand-drawn-style diagram: belief → hypothesis → experiment → result, looping back. -->
+        <svg viewBox="0 0 780 272" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A belief gets written down as a hypothesis, tested by an experiment, produces a result, and what I learn feeds back into what I believe.">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+            <!-- step numbers -->
+            <g fill="var(--quiet)" font-family="Spline Sans Mono, monospace" font-size="11" letter-spacing="1" text-anchor="middle">
+              <text x="88" y="44">01</text>
+              <text x="280" y="44">02</text>
+              <text x="482" y="44">03</text>
+              <text x="693" y="44">04</text>
+            </g>
+
+            <!-- beat 1: a head with a spark in it — the belief -->
+            <g stroke="var(--ink)" stroke-width="1.9">
+              <path d="M62 84 C64 69 79 59 94 61 C109 63 118 76 117 92 C116.4 101 111 107 112 116 C112.6 122 115 126 118 130 L99 137 C97 132 92 130 86 131 C74 133 61 124 60 110 C59 101 60 92 62 84 Z"/>
+              <path d="M99 137 C100 143 100 148 99 152" stroke-width="1.5"/>
+            </g>
+            <!-- the spark: a cobalt asterisk-thought -->
+            <g stroke="var(--pen)" stroke-width="2.1">
+              <path d="M88 86 C88.4 93 88.2 100 88 106"/>
+              <path d="M78 91 C84 94 91 98 97 101"/>
+              <path d="M97 90 C91 94 84 98 78 102"/>
+            </g>
+            <!-- little rays: something is brewing -->
+            <g stroke="var(--quiet)" stroke-width="1.3">
+              <path d="M77 52 L80 58"/>
+              <path d="M92 49 L92 56"/>
+              <path d="M106 53 L103 59"/>
+            </g>
+            <!-- hatch under the chin -->
+            <g stroke="var(--quiet)" stroke-width="1.1">
+              <path d="M72 148 l8 -5"/>
+              <path d="M83 150 l8 -5"/>
+            </g>
+
+            <!-- arrow 1 -->
+            <path d="M130 109 C146 105 176 107 206 106" stroke="var(--quiet)" stroke-width="1.4" stroke-dasharray="5 6"/>
+            <path d="M202 100 L214 106 L202 112" stroke="var(--quiet)" stroke-width="1.4"/>
+            <text x="170" y="90" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="10" letter-spacing="1" fill="var(--quiet)">WRITE IT DOWN</text>
+
+            <!-- beat 2: a note card with scribbled lines and a question mark — the hypothesis -->
+            <g stroke="var(--ink)" stroke-width="1.9">
+              <path d="M230 74 C258 70 302 71 331 74 C334 98 334 124 330 146 C300 149 259 148 229 146 C226 122 227 96 230 74 Z"/>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.4">
+              <path d="M242 96 C256 93.5 270 95 286 93.5"/>
+              <path d="M242 110 C254 108 266 110 279 108"/>
+              <path d="M242 124 C252 122 260 124 268 122.5"/>
+            </g>
+            <text x="303" y="132" font-family="Young Serif, serif" font-size="42" fill="var(--pen)">?</text>
+            <g stroke="var(--quiet)" stroke-width="1.1">
+              <path d="M322 153 l7 -6"/>
+              <path d="M332 151 l6 -5"/>
+            </g>
+
+            <!-- arrow 2 -->
+            <path d="M342 108 C355 104.5 372 107 390 106" stroke="var(--quiet)" stroke-width="1.4" stroke-dasharray="5 6"/>
+            <path d="M386 100 L398 106 L386 112" stroke="var(--quiet)" stroke-width="1.4"/>
+            <text x="368" y="90" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="10" letter-spacing="1" fill="var(--quiet)">TEST IT</text>
+
+            <!-- beat 3: a time-boxed calendar with days ticked off — the experiment -->
+            <g stroke="var(--ink)" stroke-width="1.9">
+              <path d="M406 70 C446 66 520 67 558 70 C561 96 561 126 557 148 C518 152 448 151 405 148 C402 124 403 94 406 70 Z"/>
+              <path d="M436 58 C436.4 63 436.7 69 437 74"/>
+              <path d="M526 58 C526.4 63 526.7 69 527 74"/>
+            </g>
+            <path d="M406 90 C450 88 516 89.5 558 88.5" stroke="var(--ink)" stroke-width="1.4"/>
+            <text x="482" y="84" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="10" letter-spacing="1.5" fill="var(--quiet)">15 DAYS</text>
+            <!-- fifteen day-marks, three rows of five -->
+            <g stroke="var(--ink)" stroke-width="1.5">
+              <path d="M420 106 l12 -4"/><path d="M448 105 l12 -4"/><path d="M476 106 l12 -4"/><path d="M504 105 l12 -4"/><path d="M532 106 l12 -4"/>
+              <path d="M420 122 l12 -4"/><path d="M448 121 l12 -4"/><path d="M476 122 l12 -4"/><path d="M504 121 l12 -4"/><path d="M532 122 l12 -4"/>
+              <path d="M420 138 l12 -4"/><path d="M448 137 l12 -4"/><path d="M476 138 l12 -4"/><path d="M504 137 l12 -4"/><path d="M532 138 l12 -4"/>
+            </g>
+            <!-- the first four days, crossed off in marigold -->
+            <g stroke="var(--marigold)" stroke-width="2.1">
+              <path d="M420 102 l4 6 9 -12"/>
+              <path d="M448 101 l4 6 9 -12"/>
+              <path d="M476 102 l4 6 9 -12"/>
+              <path d="M504 101 l4 6 9 -12"/>
+            </g>
+            <!-- a small clock riding the corner -->
+            <g stroke="var(--marigold)" stroke-width="1.8">
+              <circle cx="556" cy="63" r="13" fill="var(--paper)"/>
+              <path d="M556 56 C556.3 59 556 61 556 64 L562 67"/>
+            </g>
+
+            <!-- arrow 3 -->
+            <path d="M568 108 C582 104 614 107 636 106" stroke="var(--quiet)" stroke-width="1.4" stroke-dasharray="5 6"/>
+            <path d="M632 100 L644 106 L632 112" stroke="var(--quiet)" stroke-width="1.4"/>
+            <text x="606" y="97" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="9" letter-spacing="0.6" fill="var(--quiet)">SEE RESULT</text>
+
+            <!-- beat 4: the result note — could be a check, could be a cross -->
+            <g stroke="var(--ink)" stroke-width="1.9">
+              <path d="M652 80 C676 76 712 77 734 80 C737 100 737 124 733 144 C710 147 676 146 651 144 C648 122 649 100 652 80 Z"/>
+            </g>
+            <path d="M666 100 l9 11 19 -22" stroke="var(--pen)" stroke-width="2.3"/>
+            <g stroke="var(--ink)" stroke-width="1.5">
+              <path d="M668 122 l11 11"/>
+              <path d="M679 122 l-11 11"/>
+            </g>
+            <path d="M694 130 C702 128.5 712 129.5 722 128.5" stroke="var(--quiet)" stroke-width="1.2"/>
+
+            <!-- beat names -->
+            <g fill="var(--ink)" font-family="Young Serif, serif" font-size="16" text-anchor="middle">
+              <text x="88" y="182">a belief</text>
+              <text x="280" y="182">a hypothesis</text>
+              <text x="482" y="182">an experiment</text>
+              <text x="693" y="182">a result</text>
+            </g>
+
+            <!-- the return loop -->
+            <path d="M693 192 C702 222 560 236 392 237 C214 238 92 228 84 196" stroke="var(--quiet)" stroke-width="1.4" stroke-dasharray="5 6"/>
+            <path d="M77 203 L84 190 L91 202" stroke="var(--quiet)" stroke-width="1.4"/>
+            <text x="390" y="258" text-anchor="middle" font-family="Spline Sans Mono, monospace" font-size="10" letter-spacing="1.5" fill="var(--quiet)">WHAT I LEARN FEEDS BACK INTO WHAT I BELIEVE</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <p class="hero-caption">The whole system, in one loop.</p>
+
+    <div class="hero-explainer">
+      <div>
+        <p class="hero-term-label hyp"><span class="swatch"></span> Hypothesis</p>
+        <div class="draft">
+          <p class="hero-term-desc">A hypothesis is a belief I hold about myself, written down plainly enough that it can turn out to be wrong. Not a goal, not a quote I liked &mdash; a bet about how I actually work.</p>
+          <p class="hero-term-desc">If there&rsquo;s no way for it to fail, it doesn&rsquo;t get to be on this page.</p>
+        </div>
+      </div>
+      <div>
+        <p class="hero-term-label exp"><span class="swatch"></span> Experiment</p>
+        <div class="draft">
+          <p class="hero-term-desc">An experiment is how a belief earns its keep: one concrete change to my days, run for a fixed number of them, with what counts as success written down before I start.</p>
+          <p class="hero-term-desc">When it ends, the belief comes out stronger, weaker, or gone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACT 1: HYPOTHESES ================= -->
+  <section class="act reveal">
+    <div class="act-head">
+      <span class="act-num">01</span>
+      <h2 class="act-title">What I believe</h2>
+    </div>
+    <div class="act-sub draft">
+      <p>Everything below starts here. Each belief gets stated once, in full, and collects the experiments that test it. One so far &mdash; this list is built to grow.</p>
+    </div>
+
+    <article class="wobbly hyp-card">
+      <svg class="hyp-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 10 C22 7 39 8 47 10 C49.5 24 49.5 37 47.5 49 C36 51.5 20 51.5 8.5 49 C6.5 36 7 22 9 10 Z" stroke-width="2"/>
+          <path d="M16 21 C23 19.8 30 20.8 36 19.8" stroke-width="1.5"/>
+          <path d="M16 29 C22 27.8 27 28.8 32 27.8" stroke-width="1.5"/>
+        </g>
+        <text x="30" y="45" font-family="Young Serif, serif" font-size="22" fill="currentColor">?</text>
+      </svg>
+      <div class="hyp-body">
+        <p class="card-eyebrow">Hypothesis</p>
+        <!-- Long title is the heading; the short title only shows up in Act 2's linked ref -->
+        <h3 class="hyp-title"><a href="#">&ldquo;When I&rsquo;m doing well, I will make better decisions.&rdquo;</a></h3>
+        <blockquote class="excerpt">
+          Every single aspect of my life trails into every other aspect.
+          <cite>From the hypothesis, in Naman&rsquo;s words</cite>
+        </blockquote>
+        <div class="tags">
+          <span class="tag">Personal</span>
+          <span class="tag">Self</span>
+        </div>
+        <div class="hyp-foot">
+          <span><span class="dot">&#9679;</span> 1 experiment testing this &mdash; Act 02, below</span>
+          <a href="#">Read the hypothesis &rarr;</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= ACT 2: EXPERIMENTS ================= -->
+  <section class="act reveal">
+    <div class="act-head">
+      <span class="act-num">02</span>
+      <h2 class="act-title">How I&rsquo;m testing it</h2>
+    </div>
+    <div class="act-sub draft">
+      <p>The actual tests. Each one names the belief it&rsquo;s testing, how long it runs, and where it stands right now.</p>
+    </div>
+
+    <article class="wobbly exp-card">
+      <svg class="exp-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 15 C20 12 38 12.5 49 15 C51.5 26 51.5 39 49.5 49 C37 52 18 51.5 6.5 49 C4.5 38 5 25 7 15 Z" stroke-width="2"/>
+          <path d="M7 24 C22 22.8 40 23.8 49 22.8" stroke-width="1.5"/>
+          <path d="M17 8 C17.2 11.5 17.4 15 17.6 18" stroke-width="2"/>
+          <path d="M39 8 C39.2 11.5 39.4 15 39.6 18" stroke-width="2"/>
+          <path d="M14 35 l8 -3" stroke-width="1.5"/>
+          <path d="M28 34.5 l8 -3" stroke-width="1.5"/>
+          <path d="M42 35 l8 -3" stroke-width="1.5"/>
+          <path d="M14 45 l8 -3" stroke-width="1.5"/>
+          <path d="M28 44.5 l8 -3" stroke-width="1.5"/>
+          <path d="M14 32 l3 4 6 -8" stroke-width="2.2"/>
+        </g>
+      </svg>
+      <div class="exp-body">
+        <p class="exp-testing">Testing &rarr; <a href="#">Doing well, deciding well</a></p>
+        <h3 class="exp-title"><a href="#">Wake up at 6:30 a.m. for 15 days</a></h3>
+        <blockquote class="pledge">
+          I will wake up every day at 6:30 a.m. for the next 15 days or so.
+        </blockquote>
+        <div class="exp-meta">
+          <div class="exp-meta-left">
+            <span class="status-badge planned"><span class="dot">&#9679;</span> Planned</span>
+            <span class="exp-length">15 days, planned length</span>
+          </div>
+          <a href="#">Read the experiment &rarr;</a>
+        </div>
+      </div>
+    </article>
+
+    <div class="legend">
+      <span class="legend-label">Status vocabulary</span>
+      <span><span class="dot-planned">&#9679;</span> Planned</span>
+      <span><span class="dot-ongoing">&#9679;</span> Ongoing</span>
+      <span><span class="dot-paused">&#9679;</span> Paused</span>
+      <span><span class="dot-concluded">&#9679;</span> Concluded</span>
+      <span><span class="dot-abandoned">&#9679;</span> Abandoned</span>
+    </div>
+  </section>
+
+  <p class="footnote">Same page, as data: <a href="#">JSON</a> &middot; <a href="#">XML</a> &middot; <a href="#">everything</a></p>
+</main>
+
+<script>
+  // Entrance animation removed: it gated content behind an
+  // IntersectionObserver fade-in (opacity:0 until scrolled into view),
+  // which meant anything below the first screenful was invisible until
+  // manually scrolled to — a real risk for a static review file, not just
+  // a screenshot artifact. Content now renders immediately, always.
+</script>

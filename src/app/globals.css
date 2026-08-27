@@ -77,3 +77,16 @@
     outline-offset: 3px;
   }
 }
+
+/* Used by RevealMore's "see more" pill — a gentle invite to tap, not a
+   flourish. animate-nudge references this by name from Tailwind's arbitrary
+   animation syntax. */
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

@@ -1,0 +1,566 @@
+<title>Hypothesis — Progressive Disclosure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #f7f6f1;
+    --ink: #1a1917;
+    --quiet: #8b8a83;
+    --rule: #e2e1d9;
+    --pen: #1d3fe8;
+    --red-pen: #c93b2e;
+    --green-marker: #1e8a4c;
+    --marigold: #f0a81c;
+    --paper-raised: #f2f1ea;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1c1b18;
+      --ink: #ece9e0;
+      --quiet: #8f8d84;
+      --rule: #35332d;
+      --pen: #7d92ff;
+      --red-pen: #e06a5c;
+      --green-marker: #4fbf7f;
+      --marigold: #f0b545;
+      --paper-raised: #22211d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1c1b18;
+    --ink: #ece9e0;
+    --quiet: #8f8d84;
+    --rule: #35332d;
+    --pen: #7d92ff;
+    --red-pen: #e06a5c;
+    --green-marker: #4fbf7f;
+    --marigold: #f0b545;
+    --paper-raised: #22211d;
+  }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* ---- Mockup banner ---- */
+  .mock-banner {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 8px 16px;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--quiet);
+    text-align: center;
+  }
+
+  .page {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 48px 16px 120px;
+  }
+
+  /* ---- Mono eyebrow labels ---- */
+  .eyebrow {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    font-weight: 500;
+  }
+
+  /* ---- Breadcrumb ---- */
+  .crumb {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--quiet);
+  }
+  .crumb:hover { color: var(--pen); text-decoration: underline; }
+
+  /* ---- Cover ---- */
+  .cover { margin-top: 48px; }
+
+  .cover .meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .kind {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+  }
+  .date {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    color: var(--quiet);
+    letter-spacing: 0.04em;
+  }
+
+  .short-title {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--quiet);
+    margin: 16px 0 8px;
+  }
+
+  h1 {
+    font-family: "Young Serif", serif;
+    font-weight: 400;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 28px;
+  }
+
+  /* Description — full text, immediately visible; no longer folded */
+  .description p {
+    margin: 0 0 16px;
+    max-width: 62ch;
+  }
+  .description p:last-of-type { margin-bottom: 0; }
+
+  /* ---- Reveal: clipped text + bottom fade + centered "See more" pill ----
+     Tapping anywhere in the clipped area expands it; the pill nudges
+     gently to invite the tap. max-height is animated (not display), so
+     the fade + expand feels like one continuous motion. */
+  .reveal {
+    position: relative;
+    margin-top: 28px;
+  }
+  .reveal-clip {
+    max-height: 320px;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .reveal.is-open .reveal-clip {
+    max-height: 2000px;
+    cursor: default;
+  }
+  .reveal-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 96px;
+    background: linear-gradient(to bottom, transparent, var(--paper) 78%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .reveal.is-open .reveal-fade {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .see-more-btn {
+    pointer-events: auto;
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pen);
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 8px 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    animation: nudge 2.6s ease-in-out infinite;
+  }
+  .see-more-btn:hover { border-color: var(--pen); }
+  .see-more-btn .twist { font-weight: 700; }
+  @keyframes nudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .see-more-btn { animation: none; }
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+  .tag {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--rule);
+    color: var(--quiet);
+    padding: 2px 8px;
+  }
+
+  /* ---- Status line (always visible) ---- */
+  .status-line {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .status-line .eyebrow { display: block; margin-bottom: 8px; }
+  .experiment-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .experiment-row a {
+    color: var(--pen);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .experiment-row a:hover { text-decoration: underline; }
+  .status-badge {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    white-space: nowrap;
+  }
+  .status-badge .dot { color: var(--green-marker); }
+
+  /* ---- Disclosure sections ---- */
+  .folds { margin-top: 80px; }
+
+  details.fold {
+    border-top: 1px solid var(--rule);
+  }
+  details.fold:last-of-type {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  details.fold > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  details.fold > summary::-webkit-details-marker { display: none; }
+
+  details.fold > summary .twist {
+    font-family: "Spline Sans Mono", monospace;
+    font-weight: 600;
+    color: var(--pen);
+    font-size: 17px;
+    width: 1em;
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+    display: inline-block;
+    transform-origin: center;
+  }
+  details.fold[open] > summary .twist { transform: rotate(45deg); }
+
+  details.fold > summary .fold-title {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  details.fold > summary:hover .fold-title { color: var(--pen); }
+
+  details.fold > summary .fold-hint {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 12px;
+    color: var(--quiet);
+    letter-spacing: 0.04em;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .fold-body {
+    padding: 0 0 48px 28px;
+  }
+  .fold-body > :first-child { margin-top: 0; }
+  .fold-body p { margin: 0 0 16px; }
+  .fold-body p:last-child { margin-bottom: 0; }
+
+  /* + bullets */
+  ul.plus {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+  }
+  ul.plus li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 8px;
+  }
+  ul.plus li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    color: var(--pen);
+    font-weight: 700;
+    font-family: "Spline Sans Mono", monospace;
+  }
+
+  /* Core cross-reference blockquote */
+  blockquote.core {
+    margin: 16px 0 0;
+    padding: 0 0 0 28px;
+    border-left: 3px solid var(--marigold);
+  }
+  blockquote.core .core-principle {
+    font-family: "Young Serif", serif;
+    font-size: 22px;
+    line-height: 1.3;
+    margin: 0 0 8px;
+  }
+  blockquote.core p { color: var(--ink); }
+  .core-source {
+    margin-top: 16px;
+  }
+  .core-source a { color: var(--pen); text-decoration: none; }
+  .core-source a:hover { text-decoration: underline; }
+
+  a { color: var(--pen); }
+
+  /* Experiments table — same hairline/mono language as the experiments-index
+     and table-first alternates, so these mini-tables read as one family. */
+  .exp-table-wrap { overflow-x: auto; margin-top: 16px; }
+  table.exp-table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 480px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  table.exp-table th,
+  table.exp-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 16px 20px 16px 0;
+    border-top: 1px solid var(--rule);
+    font-weight: 400;
+  }
+  table.exp-table tr:first-child th,
+  table.exp-table tr:first-child td { border-top: 0; }
+  table.exp-table th {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--quiet);
+    font-weight: 500;
+  }
+  table.exp-table td.exp-name-cell {
+    font-family: "Young Serif", serif;
+    font-size: 18px;
+  }
+  table.exp-table td.exp-name-cell a { color: var(--ink); text-decoration: none; }
+  table.exp-table td.exp-name-cell a:hover { color: var(--pen); }
+  table.exp-table td.exp-brief { color: var(--quiet); max-width: 32ch; }
+  table.exp-table td:last-child { padding-right: 0; }
+
+  /* ---- Footer refs ---- */
+  .footer-refs {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  @media (max-width: 540px) {
+    .footer-refs { grid-template-columns: 1fr; }
+  }
+  .footer-refs .eyebrow { display: block; margin-bottom: 8px; }
+  .footer-refs ul { list-style: none; margin: 0; padding: 0; }
+  .footer-refs li { margin-bottom: 8px; font-size: 16px; }
+  .footer-refs a { color: var(--pen); text-decoration: none; }
+  .footer-refs a:hover { text-decoration: underline; }
+  .placeholder-item {
+    color: var(--quiet);
+    font-style: italic;
+  }
+  .placeholder-item .ph-date {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+  .unfinished-note {
+    font-family: "Spline Sans Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red-pen);
+    display: block;
+    margin-top: 8px;
+  }
+</style>
+
+<div class="mock-banner">Alternate A — Progressive disclosure (rev 3: fade + tap-to-expand, Core cross-ref hidden, experiments table)</div>
+
+<main class="page">
+  <a class="crumb" href="#">&larr; Experiments</a>
+
+  <!-- ================= HEADER: long title on top ================= -->
+  <section class="cover">
+    <div class="meta-row">
+      <span class="kind">Hypothesis</span>
+      <span class="date">25 Aug 2026</span>
+    </div>
+
+    <p class="short-title">Doing well, deciding well</p>
+    <h1>&ldquo;When I&rsquo;m doing well, I will make better decisions.&rdquo;</h1>
+
+    <!-- ============ DESCRIPTION: clipped, fades out, tap-to-expand ============ -->
+    <div class="reveal" id="reveal">
+      <div class="reveal-clip" id="revealClip">
+        <div class="description">
+          <p>There is no distinction between life and work or anything else. It's all a part of me, and a function of how well I handle the balancing act.</p>
+          <p>My emotional stability, my self perception, my energy levels, my sugar levels, everything cascades into my work through the quality of decisions I make.</p>
+          <ul class="plus">
+            <li>Did I fight with my girlfriend the day before?</li>
+            <li>Did I eat good food that keeps my energy stable?</li>
+            <li>Did I work my body so that my mind gets proper blood flow?</li>
+            <li>Did I work my mind to be ready to do the hard things?</li>
+          </ul>
+          <p>Every single aspect of my life trails into every other aspect.</p>
+          <p>We can't consciously control everything all the time, we have limited decisions we can make everyday.</p>
+          <p>The best way to then get to wherever we want is to design an life and environment where we're in the best position to win.</p>
+          <p>This hypothesis will be a home to a set of experiments that aim to modify and set good foundations for my environment, for all the prebaked decisions that I want to wake up with everyday and make minimal thinking effort on.</p>
+        </div>
+      </div>
+      <div class="reveal-fade" id="revealFade">
+        <button type="button" class="see-more-btn" id="revealBtn" aria-expanded="false" aria-controls="revealClip">
+          <span class="twist">+</span> See more
+        </button>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var wrap = document.getElementById('reveal');
+        var clip = document.getElementById('revealClip');
+        var fade = document.getElementById('revealFade');
+        var btn = document.getElementById('revealBtn');
+        function expand() {
+          if (wrap.classList.contains('is-open')) return;
+          wrap.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+        btn.addEventListener('click', function (e) { e.stopPropagation(); expand(); });
+        clip.addEventListener('click', function () {
+          if (!wrap.classList.contains('is-open')) expand();
+        });
+      })();
+    </script>
+  </section>
+
+  <!-- ================= EVERYTHING ELSE ================= -->
+  <section class="folds">
+    <div class="fold-body" style="padding-left:0; padding-top:28px; border-top:1px solid var(--rule); margin-top:80px;">
+      <div style="margin-top:0;">
+        <span class="eyebrow" style="display:block; margin-bottom:8px;">Tags</span>
+        <div class="tags" style="margin-top:0;">
+          <span class="tag">Personal</span>
+          <span class="tag">Self</span>
+        </div>
+      </div>
+
+      <div class="status-line" style="margin-top:28px;">
+        <span class="eyebrow">Experiments testing it</span>
+        <div class="exp-table-wrap">
+          <table class="exp-table">
+            <tr>
+              <th scope="col">Experiment</th>
+              <th scope="col">Status</th>
+              <th scope="col">Length</th>
+              <th scope="col">Brief</th>
+            </tr>
+            <tr>
+              <td class="exp-name-cell"><a href="#">Wake up at 6:30 a.m. for 15 days</a></td>
+              <td><span class="status-badge"><span class="dot">&#9679;</span> Planned</span></td>
+              <td class="status-badge">15 days</td>
+              <td class="exp-brief">&ldquo;I will wake up every day at 6:30 a.m. for the next 15 days or so.&rdquo;</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Descends-from / Core cross-reference — temporarily hidden per review.
+           Markup kept so it's a one-line uncomment to bring back, not a rebuild.
+      <div style="margin-top:28px;">
+        <span class="eyebrow" style="display:block; margin-bottom:8px;">Descends from &middot; core principle 5</span>
+        <blockquote class="core">
+          <p class="core-principle">5. Play with the power laws.</p>
+          <p>Find the power law and do the real work. Because time is limited, because we want to do audacious things, we want to give out disproportionate value. This is non-negotiable. Doing the real work is non-negotiable. Clarity comes from action. You will never know until you try.</p>
+        </blockquote>
+        <p class="core-source"><a href="#">Read the Core &rarr;</a></p>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ================= FOOTER REFS ================= -->
+  <footer class="footer-refs">
+    <div>
+      <span class="eyebrow">See also</span>
+      <ul>
+        <!-- Links to the specific piece this hypothesis is complementary to,
+             not the /awareness index. Real site note: "Limited Decision
+             Budget" is currently an H2 inside the single /awareness page
+             with no anchor id — this href assumes one gets added
+             (id="limited-decision-budget") so the link actually lands on
+             the piece, not just the top of the page. -->
+        <li><a href="/awareness#limited-decision-budget">Limited Decision Budget</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="eyebrow">Written about this</span>
+      <!-- This whole column only renders when at least one post references
+           this hypothesis — matches the real site's
+           `{posts.length > 0 ? (...) : null}` in
+           src/app/hypotheses/[slug]/page.tsx. Shown here because the
+           placeholder post genuinely does reference this hypothesis right
+           now (posts.length === 1); if it didn't, this entire <div>,
+           eyebrow included, would be absent — not shown empty. -->
+      <ul>
+        <li class="placeholder-item">
+          [Placeholder &mdash; Naman's first post] <span class="ph-date">25 Aug 2026</span>
+          <span class="unfinished-note">Unfinished</span>
+        </li>
+      </ul>
+    </div>
+  </footer>
+</main>
