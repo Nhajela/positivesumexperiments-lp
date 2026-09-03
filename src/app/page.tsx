@@ -94,7 +94,7 @@ export default function Home() {
           </p>
           <p>
             I shall document my learnings and journey here as a giveback for
-            the world
+            the world.
           </p>
           <p>
             I have a few core principles I want to build this on top of,
