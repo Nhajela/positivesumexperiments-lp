@@ -7,9 +7,9 @@ import { posts } from "./posts";
 // src/app/blog/ with its own page.tsx (its own design) and a post.ts (the
 // facts), listed in posts.ts. No tags, no pagination — nothing more.
 
-// Naman's line about the blog (writing/2026-09-03-blog-and-abandon-adulting-club.txt).
-const description =
-  "We're gonna make a simple blog setup on here where we'll keep writing findings, understandings and more.";
+// No intro on the index — the posts are the page. Metadata falls back to
+// the site's own description.
+const description = site.description;
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -60,12 +60,7 @@ export default function BlogPage() {
         </a>
       </div>
 
-      <p className="text-body-l max-w-[58ch] text-ink/80">{description}</p>
-      <p className="mt-s1 font-hand text-[22px] text-pen -rotate-1">
-        Nothing more. no more structure.
-      </p>
-
-      <ol className="mt-s5">
+      <ol>
         {posts.map((p) => (
           <li key={p.path} className="border-t border-rule py-s3">
             <Link href={p.path} className="group block">

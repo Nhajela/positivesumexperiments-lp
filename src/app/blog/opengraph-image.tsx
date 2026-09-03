@@ -5,12 +5,11 @@ export const alt = `Blog — ${site.name}`;
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-// Naman's one line about the blog (writing/2026-09-03-blog-and-abandon-adulting-club.txt).
 export default function Image() {
   return ogImage({
     eyebrow: "Blog",
-    title: "Findings, understandings and more.",
+    title: "For us to win, no one has to lose.",
     description:
-      "We're gonna make a simple blog setup on here where we'll keep writing findings, understandings and more.",
+      "Positive Sum Experiments is a venture by Naman Hajela, running experiments with fundamentals rooted in this positive sum philosophy.",
   });
 }
