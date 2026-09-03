@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { author, ids, site } from "@/lib/site";
@@ -81,9 +82,12 @@ function jsonLd(post: PostFacts) {
 
 export function PostFrame({
   post,
+  cover,
   children,
 }: {
   post: PostFacts;
+  /** A handmade cover, colocated with the post and statically imported. */
+  cover?: { src: StaticImageData; alt: string };
   children: ReactNode;
 }) {
   return (
@@ -94,7 +98,21 @@ export function PostFrame({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(post)) }}
       />
 
-      <header className="mt-s5 mb-s4 border-b border-rule pb-s3">
+      {cover ? (
+        // multiply lets the cover's own paper sink into the page's paper, so
+        // it reads as drawn on the sheet rather than pasted on it
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          priority
+          sizes="(max-width: 680px) 100vw, 680px"
+          className="mt-s4 h-auto w-full mix-blend-multiply"
+        />
+      ) : null}
+
+      <header
+        className={`${cover ? "mt-s4" : "mt-s5"} mb-s4 border-b border-rule pb-s3`}
+      >
         <div className="flex flex-wrap items-baseline justify-between gap-x-s2 font-mono text-[13px] text-quiet">
           <span>
             <Link href="/blog" className="hover:text-pen">

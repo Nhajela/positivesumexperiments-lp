@@ -1,10 +1,18 @@
 import { PostFrame, postMetadata } from "@/components/post-frame";
+import cover from "./cover.jpg";
 import { post } from "./post";
 
 export const metadata = postMetadata(post);
 
 export default function Layout({ children }) {
-  return <PostFrame post={post}>{children}</PostFrame>;
+  return (
+    <PostFrame
+      post={post}
+      cover={{ src: cover, alt: "Be a kid again — Abandon Adulting Club. Crayon doodles: stars, hearts, a spiral, a cloud." }}
+    >
+      {children}
+    </PostFrame>
+  );
 }
 
 {/* Experiment 1. Prose is Naman's, verbatim

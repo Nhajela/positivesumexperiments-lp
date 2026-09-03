@@ -50,7 +50,19 @@ hardcoded so every post can have its own design:
   to that post is inline JSX right there in the file.
 - `post.ts` — title, description, date (shared by the page, its OG card,
   the index and the feed)
-- `opengraph-image.tsx` — a few lines on top of `src/lib/og/card.tsx`
+- `opengraph-image.tsx` — a few lines on top of `src/lib/og/card.tsx`; or,
+  when Naman has made one, a static `opengraph-image.jpg` (1200×630) plus
+  `opengraph-image.alt.txt` in its place
+- `cover.jpg` — optional handmade cover, statically imported in `page.mdx`
+  and handed to `<PostFrame cover>` (`next/image` resizes and converts it)
+
+Every file about a post lives in that one folder — the tree grows one
+folder per post and nothing else has to know. Images are committed to the
+repo on purpose: compress to the display size first (the column is 680px,
+so ~1360px wide at 2×, JPEG quality ~80, ~100–200 KB), and keep them out of
+git only if they are video-sized or shared across sites (that's what the
+R2 bucket is for). If the folder count ever gets unwieldy, group by year
+(`src/app/blog/2026/<slug>/`) — the URLs are hardcoded, so nothing breaks.
 
 Then list it in `src/app/blog/posts.ts` — the index, the RSS feed, the
 sitemap and the blog JSON-LD all read that one list.
