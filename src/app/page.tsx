@@ -111,44 +111,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* the Core, as one drawn door: what's inside, then the way in */}
+      {/* the Core — same vocabulary as the Core page itself: its two-line
+          summary as the marigold-ruled quote, the seven headings, the way in */}
       <section className="mt-s5">
-        <Link
-          href="/core"
-          className="group relative block rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s2 -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen"
-        >
+        {/* the hand-ruled frame, tagged on its edge; the button is the link */}
+        <div className="relative rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s3 -rotate-[0.4deg]">
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
           </span>
-          {/* two columns from sm up: the invitation on the left, what's
-              inside on the right; one column below that */}
-          <span className="grid gap-s3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] sm:gap-s4">
-            <span className="flex flex-col">
-              <span className="font-display text-display-m block text-ink group-hover:text-pen">
-                The Core
-              </span>
-              <span className="mt-s2 block font-display text-[20px] leading-[1.35] text-ink">
-                It is a game, time is limited.
-                <br />
-                Give back to all audaciously.
-              </span>
-              <span className="mt-auto block pt-s3 text-[17px] font-medium text-ink group-hover:text-pen">
-                Read the Core
-                <span className="ml-2 font-bold text-pen">&rarr;</span>
-              </span>
-            </span>
-            <ol className="space-y-1 text-[15.5px] text-ink/85 sm:border-l sm:border-rule sm:pl-s3 sm:pt-1">
-              {corePrinciples.map((p, i) => (
-                <li key={p} className="flex gap-s2">
-                  <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
-                    {i + 1}
-                  </span>
-                  {p}
-                </li>
-              ))}
-            </ol>
-          </span>
-        </Link>
+          <h2 className="font-display text-display-m text-ink">The Core</h2>
+          {/* two lines, each unbroken from sm up; phones may still wrap */}
+          <blockquote className="my-s3 border-l-[3px] border-marigold pl-s3 font-display text-[22px] leading-[1.3] text-ink sm:whitespace-nowrap">
+            It is a game, time is limited.
+            <br />
+            Give back to all audaciously.
+          </blockquote>
+          <ol className="grid gap-x-s4 gap-y-1 text-[15.5px] text-ink/85 sm:grid-cols-2">
+            {corePrinciples.map((p, i) => (
+              <li key={p} className="flex gap-s2">
+                <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
+                  {i + 1}
+                </span>
+                {p}
+              </li>
+            ))}
+          </ol>
+          <div className="mt-s3">
+            <Link
+              href="/core"
+              className="inline-block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-[17px] font-medium -rotate-[0.6deg] transition-transform hover:-rotate-0 hover:border-pen hover:text-pen"
+            >
+              Read the Core
+              <span className="ml-2 font-bold text-pen">&rarr;</span>
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* the log — one row per experiment, newest first */}
