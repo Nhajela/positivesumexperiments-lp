@@ -1,6 +1,6 @@
 Naman's home page letter, 3 Sep 2026. Sent in chat while iterating on the
 home page; logged unedited. Three spellings were corrected on the page
-(My aiming → I'm aiming, experiements → experiments, transperently →
+(experiements → experiments, transperently →
 transparently) — everything else is verbatim.
 
 ----
@@ -24,3 +24,6 @@ Hi I'm Naman, and I'm running experiments with...
 (the sentence continues as before: fundamentals rooted in this positive sum philosophy.)
 
 Sign-off: ~ Nmn
+
+Second paragraph, his correction: "My aim is to enable..." (so the "My aiming" line was
+never a typo for "I'm aiming" — it is "My aim is to enable everyone involved...").
