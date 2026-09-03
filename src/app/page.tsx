@@ -84,17 +84,16 @@ export default function Home() {
             >
               Naman
             </a>
-            , and I&rsquo;m running experiments with fundamentals rooted in
-            this positive sum philosophy.
+            , and I&rsquo;m running experiments with fundamentals rooted in this
+            positive sum philosophy.
           </p>
           <p>
-            My goal is to enable everyone involved in each of my
-            initiatives, the customers of course, my team, myself, and the
-            wider world.
+            My goal is to enable everyone involved in each of my initiatives,
+            the customers of course, my team, myself, and the wider world.
           </p>
           <p>
-            I shall document my learnings and journey here as a giveback for
-            the world.
+            I shall document my learnings and journey here as a giveback for the
+            world.
           </p>
           <p>
             I have a few core principles I want to build this on top of,
@@ -146,15 +145,17 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* the log — one dated row per experiment, newest first */}
-      <section className="mt-s5 grid grid-cols-1 gap-s2 border-t border-rule pt-s4 sm:grid-cols-[11ch_1fr] sm:gap-s3">
-        <p className="font-mono text-[13px] uppercase tracking-[0.1em] text-quiet sm:pt-2">
-          Experiments
-          <span className="mt-1 block normal-case tracking-normal">
+      {/* the log — a titled section, one dated row per experiment, newest
+          first. Same header shape as the Core page: title left, mono right,
+          rule under. */}
+      <section className="mt-s6">
+        <div className="mb-s3 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
+          <h2 className="font-display text-display-l text-ink">Experiments</h2>
+          <span className="font-mono text-[13px] text-quiet">
             {posts.length} started
           </span>
-        </p>
-        <ol>
+        </div>
+        <ol className="space-y-s3">
           {posts.map((p) => (
             <li key={p.path} className="grid gap-s1">
               <div className="flex flex-wrap justify-between gap-x-s2 font-mono text-[13px] text-quiet">
