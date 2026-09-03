@@ -90,6 +90,33 @@ and say so, and never fill a gap with drafted prose. When a line of his is
 needed and missing, leave an in-style placeholder — same face and size as
 body text, quieter, in square brackets — never a boxed "DRAFT" flag.
 
+Two lessons from building the blog and home page (Sep 2026):
+
+- **Not everything he sends is copy.** A brief mixes page text with notes
+  to the builder — "Nothing more. no more structure." was an instruction
+  and briefly shipped as the blog intro. Anything in brackets or angle
+  brackets is an instruction; anything else that reads like a note about
+  the page rather than for the reader probably is one. Ask or leave it out.
+- **Ask for copy by slot.** "Three lines needed: 1 … 2 … 3 …" gets an
+  answer fast; "write something here" placeholders sit forever.
+
+## 6b. How iteration actually goes
+
+Naman reviews on a running dev server (`pnpm dev`, kept up in the
+background) and sends short notes as he looks. Each note is one edit, one
+lint/typecheck, one commit, one line back. Mockups (an artifact with a few
+versions side by side) are for choosing a direction; once chosen, build the
+real page and iterate there — don't keep polishing the mockup. Verify
+yourself with screenshots when he isn't looking (first build, a mobile
+pass), not on every step when he is.
+
+Design calls he has made that should hold: the rough hand-ruled frame works
+as a whole-card link that straightens and goes cobalt on hover; frames need
+internal rules and a step of indent; `+` bullets over numbers; no metadata
+noise on lists (counts, dates) unless it carries meaning; one column for
+lists of uneven-length items; typography-only is fine, and any illustration
+is his to draw — never hand-authored SVG.
+
 ## 7. Small, atomic commits, as you go.
 
 One logical change per commit, committed when it's verified, without
