@@ -27,7 +27,7 @@ pnpm build      # production build
 | `/` | `src/app/page.tsx` | The venture, in one assertion |
 | `/core` | `src/app/core/page.mdx` | The core — Naman's guiding principles |
 | `/blog` | `src/app/blog/page.tsx` | The blog index — a hardcoded list |
-| `/blog/<slug>` | `src/app/blog/<slug>/page.tsx` | One post, one bespoke page |
+| `/blog/<slug>` | `src/app/blog/<slug>/page.mdx` | One post, one bespoke page |
 
 Site identity (name, canonical URL, description) lives in `src/lib/site.ts` —
 metadata, sitemap, robots, and JSON-LD all read from it.
@@ -43,9 +43,13 @@ prose is Naman's, written by hand (sources logged in `writing/`); see
 Each post is its own folder under `src/app/blog/<slug>/`, deliberately
 hardcoded so every post can have its own design:
 
-- `page.tsx` — the post, prose and layout together
+- `page.mdx` — the writing, in markdown. It exports `postMetadata(post)`
+  and a default layout returning `<PostFrame post={post}>`
+  (`src/components/post-frame.tsx` — head, JSON-LD, foot). Markdown gets
+  the site's element mapping (`src/mdx-components.tsx`); anything bespoke
+  to that post is inline JSX right there in the file.
 - `post.ts` — title, description, date (shared by the page, its OG card,
-  and the index)
+  the index and the feed)
 - `opengraph-image.tsx` — a few lines on top of `src/lib/og/card.tsx`
 
 Then list it in `src/app/blog/posts.ts` — the index, the RSS feed, the

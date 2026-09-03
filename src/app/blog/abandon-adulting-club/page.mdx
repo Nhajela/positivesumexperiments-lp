@@ -1,0 +1,77 @@
+import { PostFrame, postMetadata } from "@/components/post-frame";
+import { post } from "./post";
+
+export const metadata = postMetadata(post);
+
+export default function Layout({ children }) {
+  return <PostFrame post={post}>{children}</PostFrame>;
+}
+
+{/* Experiment 1. Prose is Naman's, verbatim
+    (writing/2026-09-03-blog-and-abandon-adulting-club.txt). The JSX blocks
+    are this post's own design: the thesis set larger, the questions pulled
+    out in the print voice, red-pen crosses on the list of what to unlearn,
+    highlighter on the name. Keep a JSX element's text on the same line as
+    its tag — MDX turns multi-line JSX content into markdown paragraphs. */}
+
+## The Thesis:
+
+<p className="text-body-l max-w-[58ch] mb-s3 text-ink">When we were kids, we had a lot of fundamentals right. As we became adults, we lost touch of them.</p>
+
+<p className="text-body-l max-w-[58ch] mb-s3 text-ink">Connecting back to the same truth we intuitively knew as kids will help liberate us and lead us to more fulfilling lives.</p>
+
+## What kind of truths?
+
+Do you remember when you were a kid? What did you like the most about that?
+How did that feel like?
+
+<ul className="my-s4 space-y-s2 border-l-[3px] border-marigold pl-s3 [&>li]:font-display [&>li]:text-display-m [&>li]:max-w-[30ch] [&>li]:text-ink">
+  <li>Did you ever worry about the future?</li>
+  <li>Did you ever carry the weight of so called responsibilities?</li>
+  <li>Did you ever mind a breakup too much or fret over a friend as if it was the end of your life?</li>
+  <li>Did you even realize that life was finite? <span className="ml-1 inline-block whitespace-nowrap font-hand text-[21px] leading-none text-pen -rotate-2">(not saying it's true)</span></li>
+  <li>Did you do something because you were supposed to?</li>
+</ul>
+
+I'm sure you know the answer to these questions, I'm sure you feel them when
+you think about it.
+
+That's the truth I'm talking about.
+
+**They say kids are a representation of god,** I agree. And by learning from
+them, we can find god within ourselves too.
+
+---
+
+There are many things that the world and society feeded us that were of no
+use.
+
+<ul className="mb-s3 -mt-s2 space-y-s1 [&>li]:relative [&>li]:pl-s3 [&>li]:before:content-['×'] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:font-bold [&>li]:before:text-red-pen">
+  <li>That you have to care about what others think.</li>
+  <li>The concept of rushing to places.</li>
+  <li>That we're 'supposed' to do things.</li>
+  <li>That there's a 'success' to chase after which life will be 'set'</li>
+  <li>That worrying will help</li>
+  <li>That perfection is the goal</li>
+  <li>That people know what they're doing and talking about.</li>
+</ul>
+
+Most of these are questionable at best and dangerous at worst.
+
+Yes there are layers of logical patterns that emerge at a large scale when we
+observe the world. _Patterns that might say that hey good looking people are
+more likely to get the job, or that what your boss thinks of you deeply
+influences your promotion, or that being likable gets you girls and money. You
+get the point._
+
+But that data is deeply misinterpreted at the individual scale, where an
+individual has to decide within the abundance of infinite options, on how to
+lead their lives.
+
+<p className="text-body-l max-w-[58ch] mt-s4 mb-s3 text-ink">Which is why I'm starting <mark className="bg-[color-mix(in_srgb,var(--color-marigold)_38%,transparent)] px-1 text-ink">abandon adulting club</mark> with the goal to facilitate experiences online and offline that help individuals reconnect to the truths their kid selves knew all along!</p>
+
+Follow along to know how I'll be doing this.
+
+Already got the domain a while back - [abandonadulting.club](https://abandonadulting.club)
+
+<p className="mt-s4 font-hand text-[28px] text-pen -rotate-2">See ya!</p>
