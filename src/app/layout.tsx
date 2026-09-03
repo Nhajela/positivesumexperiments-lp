@@ -55,7 +55,10 @@ export const metadata: Metadata = {
   },
 };
 
-const navLinks = [{ href: "/core", label: "Core" }];
+const navLinks = [
+  { href: "/core", label: "Core" },
+  { href: "/blog", label: "Blog" },
+];
 
 export default function RootLayout({
   children,

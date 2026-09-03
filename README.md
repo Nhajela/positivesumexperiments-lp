@@ -26,6 +26,8 @@ pnpm build      # production build
 | --- | --- | --- |
 | `/` | `src/app/page.tsx` | The venture, in one assertion |
 | `/core` | `src/app/core/page.mdx` | The core — Naman's guiding principles |
+| `/blog` | `src/app/blog/page.tsx` | The blog index — a hardcoded list |
+| `/blog/<slug>` | `src/app/blog/<slug>/page.tsx` | One post, one bespoke page |
 
 Site identity (name, canonical URL, description) lives in `src/lib/site.ts` —
 metadata, sitemap, robots, and JSON-LD all read from it.
@@ -36,9 +38,23 @@ metadata, sitemap, robots, and JSON-LD all read from it.
 prose is Naman's, written by hand (sources logged in `writing/`); see
 `docs/ai-policy.md`.
 
+## Adding a blog post
+
+Each post is its own folder under `src/app/blog/<slug>/`, deliberately
+hardcoded so every post can have its own design:
+
+- `page.tsx` — the post, prose and layout together
+- `post.ts` — title, description, date (shared by the page, its OG card,
+  and the index)
+- `opengraph-image.tsx` — a few lines on top of `src/lib/og/card.tsx`
+
+Then list it in `src/app/blog/page.tsx` and add the route to
+`src/app/sitemap.ts`.
+
 ## SEO
 
 - Per-page `metadata` exports (title template + canonical set per page)
 - `src/app/robots.ts`, `src/app/sitemap.ts` (add new routes to the list there)
-- `src/app/opengraph-image.tsx` — generated OG image
-- JSON-LD (Organization + WebSite) on the home page
+- `opengraph-image.tsx` next to every route, all rendered through
+  `src/lib/og/card.tsx` (fonts vendored in `assets/fonts/` for Satori)
+- JSON-LD: Organization + WebSite on the home page, BlogPosting on each post

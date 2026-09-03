@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 
 // Static route list — update when a route is added. Small enough that keeping
 // it by hand beats introducing route discovery machinery.
-const routes = ["/", "/core"];
+const routes = ["/", "/core", "/blog", "/blog/abandon-adulting-club"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
