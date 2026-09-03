@@ -88,8 +88,13 @@ export default function Home() {
             this positive sum philosophy.
           </p>
           <p>
-            My aim is to enable everyone involved in each of my
-            initiatives, and document it all here as a giveback for the world.
+            I&rsquo;m aiming to enable everyone involved in each of my
+            initiatives, the customers of course, my team, myself, and the
+            wider world.
+          </p>
+          <p>
+            I shall document my learnings and journey here as a giveback for
+            the world
           </p>
           <p>
             I have a few core principles I want to build this on top of,
