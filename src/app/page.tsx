@@ -114,14 +114,18 @@ export default function Home() {
       {/* the Core — same vocabulary as the Core page itself: its two-line
           summary as the marigold-ruled quote, the seven headings, the way in */}
       <section className="mt-s5">
-        {/* the hand-ruled frame, tagged on its edge; the button is the link */}
-        <div className="relative rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s3 -rotate-[0.4deg]">
+        {/* the whole frame is the link: on hover it straightens, the frame
+            and title go cobalt, the button inside follows */}
+        <Link
+          href="/core"
+          className="group relative block rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s3 -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen"
+        >
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
           </span>
           {/* three parts, ruled apart: the title, the quote and the seven,
               the way in */}
-          <h2 className="border-b border-rule pb-s2 font-display text-display-m text-ink">
+          <h2 className="border-b border-rule pb-s2 font-display text-display-m text-ink group-hover:text-pen">
             The Core
           </h2>
           {/* two lines, each unbroken from sm up; phones may still wrap */}
@@ -140,14 +144,12 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/core"
-            className="mt-s3 block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-center text-[17px] font-medium -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen hover:text-pen"
-          >
+          {/* drawn like the button, but a span — the frame is already the link */}
+          <span className="mt-s3 block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-center text-[17px] font-medium text-ink -rotate-[0.4deg] transition-transform group-hover:-rotate-0 group-hover:border-pen group-hover:text-pen">
             Read the Core
             <span className="ml-2 font-bold text-pen">&rarr;</span>
-          </Link>
-        </div>
+          </span>
+        </Link>
       </section>
 
       {/* the log — one row per experiment, newest first */}
