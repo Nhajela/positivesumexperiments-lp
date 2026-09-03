@@ -101,8 +101,9 @@ export default function RootLayout({
       className={`${youngSerif.variable} ${instrumentSans.variable} ${splineMono.variable} ${akriti.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="mx-auto w-full max-w-[680px] px-6 pt-s4 pb-s5">
-          <div className="flex flex-wrap items-baseline justify-between gap-s2">
+        <header className="mx-auto w-full max-w-[680px] px-6 pt-s3 pb-s5">
+          {/* same hairline as the footer, so the sheet is bounded top and bottom */}
+          <div className="flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
             <Link
               href="/"
               className="font-display text-[22px] inline-flex items-center text-ink"
