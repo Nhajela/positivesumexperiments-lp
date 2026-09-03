@@ -77,15 +77,15 @@ export default function Home() {
             set as one column of print-voice prose, signed in his hand */}
         <div className="mt-s4 max-w-[58ch] space-y-s3 text-body-l text-ink">
           <p>
-            Positive Sum Experiments is a venture by Me,{" "}
+            Hi I&rsquo;m{" "}
             <a
               href="https://namanhajela.com"
               className="underline underline-offset-4 decoration-pen/50 hover:decoration-pen hover:text-pen"
             >
-              Naman Hajela
+              Naman
             </a>
-            , running experiments with fundamentals rooted in this positive sum
-            philosophy.
+            , and I&rsquo;m running experiments with fundamentals rooted in
+            this positive sum philosophy.
           </p>
           <p>
             I&rsquo;m aiming to enable everyone involved in each of my
@@ -102,7 +102,7 @@ export default function Home() {
             transparently.
           </p>
           <p className="font-hand text-[26px] leading-none text-pen -rotate-2">
-            &mdash; Nmn
+            ~ Nmn
           </p>
         </div>
       </section>
@@ -111,7 +111,7 @@ export default function Home() {
       <section className="mt-s5">
         <Link
           href="/core"
-          className="group relative block max-w-[540px] rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s2 -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen"
+          className="group relative block rounded-[18px_255px_18px_225px/225px_18px_255px_18px] border-[1.5px] border-ink px-s3 pt-s3 pb-s2 -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen"
         >
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
@@ -124,7 +124,7 @@ export default function Home() {
             <br />
             Give back to all audaciously.
           </span>
-          <ol className="mt-s2 space-y-1 text-[15.5px] text-ink/85">
+          <ol className="mt-s2 space-y-1 pl-s2 text-[15.5px] text-ink/85">
             {corePrinciples.map((p, i) => (
               <li key={p} className="flex gap-s2">
                 <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
