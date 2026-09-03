@@ -126,7 +126,9 @@ export default function Home() {
             <br />
             Give back to all audaciously.
           </blockquote>
-          <ol className="grid gap-x-s4 gap-y-1 text-[15.5px] text-ink/85 sm:grid-cols-2">
+          {/* fills down then across (1–4 left, 5–7 right) so no row is a
+              lone item at the bottom */}
+          <ol className="grid gap-x-s4 gap-y-1 text-[15.5px] text-ink/85 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-4">
             {corePrinciples.map((p, i) => (
               <li key={p} className="flex gap-s2">
                 <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
@@ -136,15 +138,13 @@ export default function Home() {
               </li>
             ))}
           </ol>
-          <div className="mt-s3">
-            <Link
-              href="/core"
-              className="inline-block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-[17px] font-medium -rotate-[0.6deg] transition-transform hover:-rotate-0 hover:border-pen hover:text-pen"
-            >
-              Read the Core
-              <span className="ml-2 font-bold text-pen">&rarr;</span>
-            </Link>
-          </div>
+          <Link
+            href="/core"
+            className="mt-s3 block rounded-[16px_225px_16px_255px/255px_16px_225px_16px] border-[1.5px] border-ink px-s3 py-s1 text-center text-[17px] font-medium -rotate-[0.4deg] transition-transform hover:-rotate-0 hover:border-pen hover:text-pen"
+          >
+            Read the Core
+            <span className="ml-2 font-bold text-pen">&rarr;</span>
+          </Link>
         </div>
       </section>
 
