@@ -23,13 +23,22 @@ export type PostFacts = {
   /** ISO date, YYYY-MM-DD. */
   date: string;
   dateLabel: string;
+  /** Free-form, lowercase. Unused by any page today; there for the day an
+   *  index by tag or by month is wanted — that's a filter over posts.ts. */
+  tags: readonly string[];
 };
 
 export function postMetadata(post: PostFacts): Metadata {
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: post.path },
+    alternates: {
+      canonical: post.path,
+      types: {
+        "text/markdown": `${site.url}${post.path}.md`,
+        "application/json": `${site.url}${post.path}.json`,
+      },
+    },
     openGraph: {
       type: "article",
       title: post.title,
@@ -140,13 +149,19 @@ export function PostFrame({
       {/* the writing; a post that opens on a heading sits flush to the rule */}
       <div className="[&>h2:first-child]:mt-0">{children}</div>
 
-      <footer className="mt-s6 border-t border-rule pt-s3">
-        <Link
-          href="/blog"
-          className="font-mono text-[13px] text-quiet hover:text-pen"
-        >
+      <footer className="mt-s6 flex flex-wrap justify-between gap-s2 border-t border-rule pt-s3 font-mono text-[13px] text-quiet">
+        <Link href="/blog" className="hover:text-pen">
           <span className="mr-1 font-bold text-pen">&larr;</span>All posts
         </Link>
+        {/* the same page, as data — every post has these two */}
+        <span className="flex gap-s2">
+          <a href={`${post.path}.md`} className="hover:text-pen">
+            <span className="mr-1 text-pen">+</span>.md
+          </a>
+          <a href={`${post.path}.json`} className="hover:text-pen">
+            <span className="mr-1 text-pen">+</span>.json
+          </a>
+        </span>
       </footer>
     </article>
   );

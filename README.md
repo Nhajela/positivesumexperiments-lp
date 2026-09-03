@@ -28,6 +28,7 @@ pnpm build      # production build
 | `/core` | `src/app/core/page.mdx` | The core — Naman's guiding principles |
 | `/blog` | `src/app/blog/page.tsx` | The blog index — a hardcoded list |
 | `/blog/<slug>` | `src/app/blog/<slug>/page.mdx` | One post, one bespoke page |
+| `/blog/<slug>.md`, `.json`, `/core.md` | `src/app/blog/[file]/route.ts`, `src/app/core.md/route.ts` | The same pages, as data |
 
 Site identity (name, canonical URL, description) lives in `src/lib/site.ts` —
 metadata, sitemap, robots, and JSON-LD all read from it.
@@ -55,6 +56,12 @@ hardcoded so every post can have its own design:
   `opengraph-image.alt.txt` in its place
 - `cover.jpg` — optional handmade cover, statically imported in `page.mdx`
   and handed to `<PostFrame cover>` (`next/image` resizes and converts it)
+
+Every post also exists as data, built from those same files: `/blog/<slug>.md`
+(the writing as plain markdown, with front matter) and `/blog/<slug>.json`
+(its `post.ts`). Both come from `src/app/blog/[file]/route.ts`; the Core has
+`/core.md` the same way. `tags` in `post.ts` are unused by any page — they
+are there so a tag or by-month index later is a filter over `posts.ts`.
 
 Every file about a post lives in that one folder — the tree grows one
 folder per post and nothing else has to know. Images are committed to the
