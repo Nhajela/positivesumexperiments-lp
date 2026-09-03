@@ -9,3 +9,7 @@ Commit author is always Nhajela. Claude may be credited as co-author when needed
 
 How we build — hardcode over structure, everything static, assets in the
 repo, small atomic commits: @docs/how-we-build.md
+
+After every session: backtrace from the result and add a dated entry to
+docs/learnings.md — what would have made it better, what went right, open
+threads — with concrete examples. Read the latest entry at session start.
