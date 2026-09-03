@@ -120,27 +120,33 @@ export default function Home() {
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
           </span>
-          <span className="font-display text-display-m block text-ink group-hover:text-pen">
-            The Core
-          </span>
-          <span className="mt-s2 block font-display text-[20px] leading-[1.35] text-ink">
-            It is a game, time is limited.
-            <br />
-            Give back to all audaciously.
-          </span>
-          <ol className="mt-s2 space-y-1 pl-s2 text-[15.5px] text-ink/85">
-            {corePrinciples.map((p, i) => (
-              <li key={p} className="flex gap-s2">
-                <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
-                  {i + 1}
-                </span>
-                {p}
-              </li>
-            ))}
-          </ol>
-          <span className="mt-s3 block text-[17px] font-medium text-ink group-hover:text-pen">
-            Read the Core
-            <span className="ml-2 font-bold text-pen">&rarr;</span>
+          {/* two columns from sm up: the invitation on the left, what's
+              inside on the right; one column below that */}
+          <span className="grid gap-s3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] sm:gap-s4">
+            <span className="flex flex-col">
+              <span className="font-display text-display-m block text-ink group-hover:text-pen">
+                The Core
+              </span>
+              <span className="mt-s2 block font-display text-[20px] leading-[1.35] text-ink">
+                It is a game, time is limited.
+                <br />
+                Give back to all audaciously.
+              </span>
+              <span className="mt-auto block pt-s3 text-[17px] font-medium text-ink group-hover:text-pen">
+                Read the Core
+                <span className="ml-2 font-bold text-pen">&rarr;</span>
+              </span>
+            </span>
+            <ol className="space-y-1 text-[15.5px] text-ink/85 sm:border-l sm:border-rule sm:pl-s3 sm:pt-1">
+              {corePrinciples.map((p, i) => (
+                <li key={p} className="flex gap-s2">
+                  <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
+                    {i + 1}
+                  </span>
+                  {p}
+                </li>
+              ))}
+            </ol>
           </span>
         </Link>
       </section>
