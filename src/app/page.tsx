@@ -130,9 +130,9 @@ export default function Home() {
             <br />
             Give back to all audaciously.
           </blockquote>
-          {/* the site's + bullets; fills down then across (four left,
-              three right) so no row is a lone item at the bottom */}
-          <ul className="grid gap-x-s4 gap-y-1 border-b border-rule pb-s3 pl-s2 text-[15.5px] text-ink/85 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-4">
+          {/* the site's + bullets, one line each — two columns made the
+              long ones wrap against the short ones */}
+          <ul className="space-y-1 border-b border-rule pb-s3 pl-s2 text-[15.5px] text-ink/85">
             {corePrinciples.map((p) => (
               <li key={p} className="relative pl-s3">
                 <span className="absolute left-0 font-bold text-pen">+</span>
