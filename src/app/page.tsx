@@ -145,29 +145,18 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* the log — a titled section, one dated row per experiment, newest
-          first. Same header shape as the Core page: title left, mono right,
-          rule under. */}
+      {/* the log — one row per experiment, newest first */}
       <section className="mt-s6">
-        <div className="mb-s3 flex flex-wrap items-baseline justify-between gap-s2 border-b border-rule pb-s2">
-          <h2 className="font-display text-display-l text-ink">Experiments</h2>
-          <span className="font-mono text-[13px] text-quiet">
-            {posts.length} started
-          </span>
-        </div>
+        <h2 className="mb-s3 border-b border-rule pb-s2 font-display text-display-l text-ink">
+          Experiments
+        </h2>
         <ol className="space-y-s3">
           {posts.map((p) => (
             <li key={p.path} className="grid gap-s1">
-              <div className="flex flex-wrap justify-between gap-x-s2 font-mono text-[13px] text-quiet">
-                <span>
-                  <span className="mr-1 font-bold text-pen">+</span>
-                  {p.eyebrow}
-                </span>
-                <span>
-                  <span className="mr-2 inline-block h-2 w-2 rounded-full bg-green-marker align-[1px]" />
-                  started {p.dateLabel}
-                </span>
-              </div>
+              <p className="font-mono text-[13px] text-quiet">
+                <span className="mr-1 font-bold text-pen">+</span>
+                {p.eyebrow}
+              </p>
               <Link
                 href={p.path}
                 className="font-display text-display-m text-ink hover:text-pen"
