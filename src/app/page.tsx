@@ -119,7 +119,11 @@ export default function Home() {
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
           </span>
-          <h2 className="font-display text-display-m text-ink">The Core</h2>
+          {/* three parts, ruled apart: the title, the quote and the seven,
+              the way in */}
+          <h2 className="border-b border-rule pb-s2 font-display text-display-m text-ink">
+            The Core
+          </h2>
           {/* two lines, each unbroken from sm up; phones may still wrap */}
           <blockquote className="my-s3 border-l-[3px] border-marigold pl-s3 font-display text-[22px] leading-[1.3] text-ink sm:whitespace-nowrap">
             It is a game, time is limited.
@@ -128,7 +132,7 @@ export default function Home() {
           </blockquote>
           {/* fills down then across (1–4 left, 5–7 right) so no row is a
               lone item at the bottom */}
-          <ol className="grid gap-x-s4 gap-y-1 text-[15.5px] text-ink/85 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-4">
+          <ol className="grid gap-x-s4 gap-y-1 border-b border-rule pb-s3 text-[15.5px] text-ink/85 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-4">
             {corePrinciples.map((p, i) => (
               <li key={p} className="flex gap-s2">
                 <span className="w-[1.4ch] shrink-0 font-mono text-[13px] text-pen">
