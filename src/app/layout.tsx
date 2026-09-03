@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Instrument_Sans,
   Spline_Sans_Mono,
@@ -7,7 +7,7 @@ import {
 import localFont from "next/font/local";
 import Link from "next/link";
 import { PlusDrawn } from "@/components/mark";
-import { site } from "@/lib/site";
+import { author, site } from "@/lib/site";
 import "./globals.css";
 
 // The decided type system (moodboards/01b-system.html): Young Serif is the
@@ -42,17 +42,47 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  authors: [{ name: author.name, url: author.url }],
+  creator: author.name,
+  publisher: site.name,
+  // Explicit rather than default so a preview deploy can flip it in one
+  // place; Google's own bot gets the full-preview allowances.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    types: { "application/rss+xml": `${site.url}/feed.xml` },
+  },
   openGraph: {
     type: "website",
     siteName: site.name,
+    locale: site.locale,
     title: site.name,
     description: site.description,
   },
   twitter: {
     card: "summary_large_image",
+    site: author.twitter,
+    creator: author.twitter,
     title: site.name,
     description: site.description,
   },
+  formatDetection: { telephone: false },
+};
+
+// Paper, in the browser chrome too (mobile address bars, PWA title bars).
+export const viewport: Viewport = {
+  themeColor: "#f7f6f1",
+  colorScheme: "light",
 };
 
 const navLinks = [

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { author, ids, site } from "@/lib/site";
 import { post } from "./post";
 
 // Experiment 1. Every post on this blog is hardcoded with its own design;
@@ -17,28 +17,47 @@ export const metadata: Metadata = {
     title: post.title,
     description: post.description,
     publishedTime: post.date,
-    authors: ["https://namanhajela.com"],
+    modifiedTime: post.date,
+    authors: [author.url],
   },
   twitter: { title: post.title, description: post.description },
 };
 
+const url = `${site.url}${post.path}`;
+
+// BlogPosting + the trail back to the index. Author/publisher point at the
+// nodes declared on the home page.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "@id": `${site.url}${post.path}#post`,
-  headline: post.title,
-  description: post.description,
-  datePublished: post.date,
-  url: `${site.url}${post.path}`,
-  image: `${site.url}${post.path}/opengraph-image`,
-  author: {
-    "@type": "Person",
-    name: "Naman Hajela",
-    url: "https://namanhajela.com",
-  },
-  publisher: { "@id": `${site.url}/#organization` },
-  isPartOf: { "@id": `${site.url}/#website` },
-  mainEntityOfPage: `${site.url}${post.path}`,
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${url}#post`,
+      headline: post.title,
+      description: post.description,
+      datePublished: post.date,
+      dateModified: post.date,
+      inLanguage: site.language,
+      url,
+      image: `${url}/opengraph-image`,
+      author: { "@id": ids.person },
+      publisher: { "@id": ids.organization },
+      isPartOf: { "@id": `${site.url}/blog#blog` },
+      mainEntityOfPage: url,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Blog",
+          item: `${site.url}/blog`,
+        },
+        { "@type": "ListItem", position: 2, name: post.title, item: url },
+      ],
+    },
+  ],
 };
 
 // Shared bits of this page's own vocabulary — local, not a design system.
@@ -168,11 +187,11 @@ export default function AbandonAdultingClub() {
       </p>
 
       <p className={p}>
-        Yes there are layers of logical patterns that emerge at a large
-        scale when we observe the world. Patterns that might say that hey good
-        looking people are more likely to get the job, or that what your boss
-        thinks of you deeply influences your promotion, or that being likable
-        gets you girls and money. You get the point.
+        Yes there are layers of logical patterns that emerge at a large scale
+        when we observe the world. Patterns that might say that hey good looking
+        people are more likely to get the job, or that what your boss thinks of
+        you deeply influences your promotion, or that being likable gets you
+        girls and money. You get the point.
       </p>
 
       <p className={p}>

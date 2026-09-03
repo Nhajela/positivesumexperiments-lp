@@ -48,8 +48,8 @@ hardcoded so every post can have its own design:
   and the index)
 - `opengraph-image.tsx` — a few lines on top of `src/lib/og/card.tsx`
 
-Then list it in `src/app/blog/page.tsx` and add the route to
-`src/app/sitemap.ts`.
+Then list it in `src/app/blog/posts.ts` — the index, the RSS feed, the
+sitemap and the blog JSON-LD all read that one list.
 
 ## SEO
 
@@ -57,4 +57,6 @@ Then list it in `src/app/blog/page.tsx` and add the route to
 - `src/app/robots.ts`, `src/app/sitemap.ts` (add new routes to the list there)
 - `opengraph-image.tsx` next to every route, all rendered through
   `src/lib/og/card.tsx` (fonts vendored in `assets/fonts/` for Satori)
-- JSON-LD: Organization + WebSite on the home page, BlogPosting on each post
+- JSON-LD: Organization + WebSite + Person on the home page, Blog on the index,
+  BlogPosting + BreadcrumbList on each post — all keyed on the @ids in `src/lib/site.ts`
+- `src/app/feed.xml/route.ts` — RSS for the blog

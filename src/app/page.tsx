@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { author, ids, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: {
@@ -8,29 +8,38 @@ export const metadata: Metadata = {
   },
 };
 
-// Organization + WebSite structured data for the umbrella brand. Rendered as
-// JSON-LD on the home page only — search engines pick it up site-wide from here.
+// Organization + WebSite + Person structured data for the umbrella brand.
+// Rendered as JSON-LD on the home page only — search engines pick it up
+// site-wide from here; other pages reference these nodes by @id.
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Organization",
-      "@id": `${site.url}/#organization`,
+      "@id": ids.organization,
       name: site.name,
       url: site.url,
       description: site.description,
-      founder: {
-        "@type": "Person",
-        name: "Naman Hajela",
-        url: "https://namanhajela.com",
-      },
+      email: author.email,
+      founder: { "@id": ids.person },
+      sameAs: ["https://x.com/crazyxnaman"],
     },
     {
       "@type": "WebSite",
-      "@id": `${site.url}/#website`,
+      "@id": ids.website,
       name: site.name,
       url: site.url,
-      publisher: { "@id": `${site.url}/#organization` },
+      inLanguage: site.language,
+      publisher: { "@id": ids.organization },
+    },
+    {
+      "@type": "Person",
+      "@id": ids.person,
+      name: author.name,
+      url: author.url,
+      email: author.email,
+      sameAs: author.sameAs,
+      worksFor: { "@id": ids.organization },
     },
   ],
 };
