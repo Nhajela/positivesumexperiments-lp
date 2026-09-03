@@ -32,7 +32,7 @@ Naman will send handwritten and handmade assets. When they arrive:
       returns when Naman wants it listed)
 - [ ] Per-experiment pages with live state (day X/30, alive/concluded)
 - [ ] Anchors/permalinks for each "what we know" entry
-- [ ] RSS feed once there's a stream of entries
+- [x] RSS feed (src/app/feed.xml/route.ts)
 - [ ] "Now" section or page (what's currently running)
 
 ## Ops
