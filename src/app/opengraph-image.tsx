@@ -5,11 +5,12 @@ export const alt = site.name;
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-// The home assertion, Naman's line (writing/2026-07-06-landing-and-core.txt).
+// The home assertion and the letter's first line, Naman's
+// (writing/2026-09-03-home-letter.txt).
 export default function Image() {
   return ogImage({
     title: "For us to win, no one has to lose.",
     description:
-      "Positive Sum Experiments is a venture by Naman Hajela running experiments with their fundamentals rooted in this philosophy.",
+      "Positive Sum Experiments is a venture by Naman Hajela, running experiments with fundamentals rooted in this positive sum philosophy.",
   });
 }

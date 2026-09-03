@@ -6,9 +6,9 @@ export const site = {
   // NEXT_PUBLIC_SITE_URL lets previews (e.g. Vercel branch deploys) override
   // the canonical host without touching code.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://positivesumexperiments.com",
-  // Assembled from Naman's own lines (writing/2026-07-06-landing-and-core.txt).
+  // Assembled from Naman's own lines (writing/2026-09-03-home-letter.txt).
   description:
-    "For us to win, no one has to lose. Positive Sum Experiments is a venture by Naman Hajela running experiments with their fundamentals rooted in this philosophy.",
+    "For us to win, no one has to lose. Positive Sum Experiments is a venture by Naman Hajela, running experiments with fundamentals rooted in this positive sum philosophy.",
   locale: "en_IN",
   language: "en",
 } as const;
