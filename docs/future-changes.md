@@ -19,8 +19,7 @@ Naman will send handwritten and handmade assets. When they arrive:
 
 ## Identity & meta
 
-- [ ] Real OG image designed from the final identity (currently a plain
-      wordmark placeholder in `src/app/opengraph-image.tsx`)
+- [x] OG cards for every route (src/lib/og/card.tsx) — restyle with the real mark once it exists
 - [ ] Favicon from the final mark
 
 ## Content & structure
