@@ -88,7 +88,7 @@ export default function Home() {
             this positive sum philosophy.
           </p>
           <p>
-            I&rsquo;m aiming to enable everyone involved in each of my
+            My goal is to enable everyone involved in each of my
             initiatives, the customers of course, my team, myself, and the
             wider world.
           </p>
