@@ -28,12 +28,17 @@ Naman will send handwritten and handmade assets. When they arrive:
       entries to publish
 - [ ] Reinstate the public /ai page (sive.rs/ai-shaped) once Naman writes it —
       the operating policy stays live in docs/ai-policy.md meanwhile
-- [ ] Experiments section on home (removed at launch; Happy Mornings Club
-      returns when Naman wants it listed)
-- [ ] Per-experiment pages with live state (day X/30, alive/concluded)
+- [x] Experiments section on home — reads src/app/blog/posts.ts (3 Sep 2026);
+      Happy Mornings Club returns when Naman wants it listed
+- [x] Blog: /blog + one bespoke page.mdx per post in a PostFrame, .md/.json
+      views, tags in post.ts for a future tag/month index (3 Sep 2026)
+- [ ] Per-experiment live state (day X/30, alive/concluded) — the post page
+      could carry it; nothing tracks it yet
 - [ ] Anchors/permalinks for each "what we know" entry
 - [x] RSS feed (src/app/feed.xml/route.ts)
 - [ ] "Now" section or page (what's currently running)
+- [ ] A handmade illustration for the Core frame on home, if Naman draws one
+      (the slot is the space beside the quote; multiply-blend like the cover)
 
 ## Ops
 
