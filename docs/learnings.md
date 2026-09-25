@@ -18,10 +18,10 @@ Core card and "seven" comments/docs updated to eight. 3 commits.
 1. **Fresh containers have no `node_modules`.** The first build/tsc run
    failed with `next: not found` and bogus JSX type errors. → Run
    `pnpm install --frozen-lockfile` before any check in a new session.
-2. **Numbering drift is already there.** `writing/2026-07-08-…` titles
-   Sincerity over Seriousness as "6"; the page has it as 7. Naman's
-   "Rule number 8" matches the page, so no change — but worth knowing if
-   he refers to rules by number from his own notes.
+2. **Numbering drift.** `writing/2026-07-08-…` titled Sincerity over
+   Seriousness "6" (Compounding already was 6); the page had it as 7.
+   Naman: "fix the numbering everywhere" — the log now reads 7, with a
+   note. → Flag drift like this when found; he's fine with it being fixed.
 
 ### What went right — keep doing
 
