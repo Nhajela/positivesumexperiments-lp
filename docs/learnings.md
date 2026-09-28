@@ -8,6 +8,37 @@ Opinions that harden into rules move to `docs/how-we-build.md`.
 
 ---
 
+## 2026-09-25 — Core rule 8, Love before all
+
+**Result:** rule 8 added to `/core` verbatim, logged in `writing/`, home
+Core card and "seven" comments/docs updated to eight. 3 commits.
+
+### What would have made it better
+
+1. **Fresh containers have no `node_modules`.** The first build/tsc run
+   failed with `next: not found` and bogus JSX type errors. → Run
+   `pnpm install --frozen-lockfile` before any check in a new session.
+2. **Numbering drift.** `writing/2026-07-08-…` titled Sincerity over
+   Seriousness "6" (Compounding already was 6); the page had it as 7.
+   Naman: "fix the numbering everywhere" — the log now reads 7, with a
+   note. → Flag drift like this when found; he's fine with it being fixed.
+
+### What went right — keep doing
+
+- **Arrange, don't reword.** His one-paragraph note was set as four
+  paragraphs with `\` line breaks at sentence ends to match rules 1–7;
+  every word unchanged, the original kept whole in `writing/`. "Rule
+  number 8:" became the heading's "8." — the label was structure, not copy.
+- **Grep for the count.** "seven" appeared in three comments and
+  `how-we-build.md` besides the array; all updated in the same commit.
+
+### Open threads
+
+- The Core OG image and description still summarise the page with the
+  opening two lines; unchanged, since rule 8 doesn't alter them.
+
+---
+
 ## 2026-09-03 — blog, SEO, pages-as-data, home page rebuild
 
 **Result:** blog with first post (Abandon Adulting Club) and handmade cover;

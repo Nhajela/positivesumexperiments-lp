@@ -23,7 +23,7 @@ Concretely:
   `archive/hypothesis-experiments-lifedesign` branch) and removed it:
   *"i don't like schemas, they tie us down."* The structure cost more to
   maintain than the three pages it served.
-- The seven Core headings on the home page are a plain array in
+- The eight Core headings on the home page are a plain array in
   `src/app/page.tsx`. When Naman adds a value, someone updates the array.
   That is fine. Two places, both obvious, beats a parser.
 

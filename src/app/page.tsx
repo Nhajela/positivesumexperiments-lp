@@ -3,7 +3,7 @@ import Link from "next/link";
 import { author, ids, site } from "@/lib/site";
 import { posts } from "./blog/posts";
 
-// The seven headings of src/app/core/page.mdx, so the door shows what's
+// The eight headings of src/app/core/page.mdx, so the door shows what's
 // inside. Update here when a value is added there.
 const corePrinciples = [
   "Play positive sum games.",
@@ -13,6 +13,7 @@ const corePrinciples = [
   "Play with the power laws.",
   "Compounding shall be your best friend.",
   "Sincerity over Seriousness",
+  "Love before all.",
 ];
 
 export const metadata: Metadata = {
@@ -112,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* the Core — same vocabulary as the Core page itself: its two-line
-          summary as the marigold-ruled quote, the seven headings, the way in */}
+          summary as the marigold-ruled quote, the eight headings, the way in */}
       <section className="mt-s5">
         {/* the whole frame is the link: on hover it straightens, the frame
             and title go cobalt, the button inside follows */}
@@ -123,7 +124,7 @@ export default function Home() {
           <span className="absolute -top-[11px] left-s3 bg-paper px-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-quiet">
             Read first
           </span>
-          {/* three parts, ruled apart: the title, the quote and the seven,
+          {/* three parts, ruled apart: the title, the quote and the eight,
               the way in */}
           <h2 className="border-b border-rule pb-s2 font-display text-display-m text-ink group-hover:text-pen">
             The Core
