@@ -144,6 +144,9 @@ export default function RootLayout({
               >
                 @crazyxnaman
               </a>
+              <a href="https://positivesumcompany.com" className="hover:text-pen">
+                positivesumcompany.com
+              </a>
               <a href="mailto:hey@namanhajela.com" className="hover:text-pen">
                 hey@namanhajela.com
               </a>
